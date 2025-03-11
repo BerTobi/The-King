@@ -1,0 +1,144 @@
+;Economic units
+
+    (defrule
+        (unit-type-count villager < MAX-VILLAGERS)
+        (can-train villager)
+    =>
+        (train villager)
+    )
+
+    (defrule
+        (unit-type-count villager >= MAX-VILLAGERS)
+        (player-in-game any-ally)
+        (unit-type-count trade-cart < 30)
+        (can-train trade-cart)
+    =>
+        (train trade-cart)
+    )
+
+;Military
+
+(defrule
+	(can-train scout-cavalry-line)
+	(population < 45)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(can-train archer-line)
+	(population < 45)
+=>
+	(train archer-line)
+)
+
+(defrule
+	(can-train skirmisher-line)
+	(population < 45)
+=>
+	(train skirmisher-line)
+)
+
+(defrule
+	(can-train militiaman-line)
+	(population < 45)
+=>
+	(train militiaman-line)
+)
+
+(defrule
+	(can-train spearman-line)
+	(population < 45)
+=>
+	(train spearman-line)
+)
+
+(defrule
+	(can-train knight-line)
+	(population < 45)
+=>
+	(train knight-line)
+)
+
+(defrule
+	(can-train cavalry-archer-line)
+	(population < 45)
+=>
+	(train cavalry-archer-line)
+)
+
+(defrule
+	(can-train camel-line)
+	(population < 45)
+=>
+	(train camel-line)
+)
+
+(defrule
+	(unit-type-count-total monk < 3)
+	(can-train monk)
+=>
+	(train monk)
+)
+
+(defrule
+	(can-train my-unique-unit-line)
+=>
+	(train my-unique-unit-line)
+)
+
+(defrule
+	(can-train berserk-line)
+=>
+	(train berserk-line)
+)	
+
+(defrule
+	(current-age >= castle-age)
+	(unit-type-count-total battering-ram-line < MAX-SIEGE)
+	(can-train battering-ram-line)
+=>
+	(train battering-ram-line)
+)
+
+(defrule
+	(current-age >= castle-age)
+	(unit-type-count-total mangonel-line < MAX-SIEGE)
+	(can-train mangonel-line)
+=>
+	(train mangonel-line)
+)
+
+(defrule
+	(current-age >= castle-age)
+	(unit-type-count-total scorpion-line < MAX-SIEGE)
+	(can-train scorpion-line)
+=>
+	(train scorpion-line)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < MAX-SIEGE)
+	(unit-type-count-total trebuchet < 2)
+	(can-train-with-escrow trebuchet)
+=>
+	(release-escrow wood)
+	(release-escrow gold)
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < MAX-SIEGE)
+	(can-train trebuchet)
+=>
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total bombard-cannon < MAX-SIEGE)
+	(can-train bombard-cannon)
+=>
+	(train bombard-cannon)
+)
+
+

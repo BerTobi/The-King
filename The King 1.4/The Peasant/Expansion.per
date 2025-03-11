@@ -1,0 +1,244 @@
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 0)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 1)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 20")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 1)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 2)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 25")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 2)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 3)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 30")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 3)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 4)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 35")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 4)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 5)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 40")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 5)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 6)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 50")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 6)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 7)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 75")
+	(disable-self)
+)
+
+(defrule
+	(goal EXPANSION-N 0)
+=>
+	(set-strategic-number sn-maximum-town-size 15)
+	(set-strategic-number sn-camp-max-distance 15)
+	(set-strategic-number sn-mill-max-distance 15)
+)
+
+(defrule
+	(goal EXPANSION-N 1)
+=>
+	(set-strategic-number sn-maximum-town-size 20)
+	(set-strategic-number sn-camp-max-distance 20)
+	(set-strategic-number sn-mill-max-distance 20)
+)
+
+(defrule
+	(goal EXPANSION-N 2)
+=>
+	(set-strategic-number sn-maximum-town-size 25)
+	(set-strategic-number sn-camp-max-distance 25)
+	(set-strategic-number sn-mill-max-distance 25)
+)
+
+(defrule
+	(goal EXPANSION-N 3)
+=>
+	(set-strategic-number sn-maximum-town-size 30)
+	(set-strategic-number sn-camp-max-distance 30)
+	(set-strategic-number sn-mill-max-distance 30)
+)
+
+(defrule
+	(goal EXPANSION-N 4)
+=>
+	(set-strategic-number sn-maximum-town-size 35)
+	(set-strategic-number sn-camp-max-distance 35)
+	(set-strategic-number sn-mill-max-distance 35)
+)
+
+(defrule
+	(goal EXPANSION-N 5)
+=>
+	(set-strategic-number sn-maximum-town-size 40)
+	(set-strategic-number sn-camp-max-distance 40)
+	(set-strategic-number sn-mill-max-distance 40)
+)
+
+(defrule
+	(goal EXPANSION-N 6)
+=>
+	(set-strategic-number sn-maximum-town-size 50)
+	(set-strategic-number sn-camp-max-distance 50)
+	(set-strategic-number sn-mill-max-distance 50)
+)
+
+(defrule
+	(goal EXPANSION-N 7)
+=>
+	(set-strategic-number sn-maximum-town-size 75)
+	(set-strategic-number sn-camp-max-distance 75)
+	(set-strategic-number sn-mill-max-distance 75)
+)
+
+(defrule
+    (can-build lumber-camp)
+    (building-type-count-total lumber-camp < 3)
+    (goal EXPANSION-N 3)
+=>
+    (build lumber-camp)
+)
+
+(defrule
+    (can-build lumber-camp)
+    (building-type-count-total lumber-camp < 4)
+    (goal EXPANSION-N 4)
+=>
+    (build lumber-camp)
+)
+
+(defrule
+    (can-build lumber-camp)
+    (building-type-count-total lumber-camp < 5)
+    (goal EXPANSION-N 5)
+=>
+    (build lumber-camp)
+)
+
+(defrule
+    (can-build lumber-camp)
+    (building-type-count-total lumber-camp < 6)
+    (goal EXPANSION-N 6)
+=>
+    (build lumber-camp)
+)
+
+(defrule
+    (can-build lumber-camp)
+    (building-type-count-total lumber-camp < 7)
+    (goal EXPANSION-N 7)
+=>
+    (build lumber-camp)
+)
+
+(defrule
+    (can-build mining-camp)
+    (building-type-count-total mining-camp < 2)
+    (goal EXPANSION-N 2)
+=>
+    (build mining-camp)
+)
+
+(defrule
+    (can-build mining-camp)
+    (building-type-count-total mining-camp < 3)
+    (goal EXPANSION-N 3)
+=>
+    (build mining-camp)
+)
+
+(defrule
+    (can-build mining-camp)
+    (building-type-count-total mining-camp < 4)
+    (goal EXPANSION-N 4)
+=>
+    (build mining-camp)
+)
+
+(defrule
+    (can-build mining-camp)
+    (building-type-count-total mining-camp < 5)
+    (goal EXPANSION-N 5)
+=>
+    (build mining-camp)
+)
+
+(defrule
+    (can-build mining-camp)
+    (building-type-count-total mining-camp < 6)
+    (goal EXPANSION-N 6)
+=>
+    (build mining-camp)
+)
+
+(defrule
+    (can-build mining-camp)
+    (building-type-count-total mining-camp < 7)
+    (goal EXPANSION-N 7)
+=>
+    (build mining-camp)
+)
+
+(defrule
+    (can-build town-center)
+    (building-type-count-total town-center < 2)
+    (goal EXPANSION-N 5)
+=>
+    (build town-center)
+)
+
+(defrule
+    (can-build town-center)
+    (building-type-count-total town-center < 3)
+    (goal EXPANSION-N 7)
+=>
+    (build town-center)
+)

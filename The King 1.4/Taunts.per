@@ -1,0 +1,152 @@
+(defrule
+	(civ-selected briton)
+	(current-age == castle-age)
+=>
+	(chat-to-all "The quality of our bows is unmatched in the entire world, and so is our cruelty with those who dare defy us.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected byzantine)
+	(building-type-count watch-tower-line > 0)
+=>
+	(chat-to-all "Isn't it a beautiful tower? Enjoy it while you're still alive.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected byzantine)
+	(building-type-count stone-wall-line > 0)
+=>
+	(chat-to-all "You'll never be able to break through these walls!")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected celtic)
+	(unit-type-count militiaman-line > 5)
+=>
+	(chat-to-all "Our infantry is already on the way, they will deal with you as quickly as possible.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected chinese)
+	(unit-type-count chu-ko-nu-line > 0)
+=>
+	(chat-to-all "The surprise on your face tells me you have never seen a crossbow shoot more than one arrow per volley.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected frankish)
+	(unit-type-count knight-line > 0)
+=>
+	(chat-to-all "Behold the strenght of our heavy cavalry! This would be a good time to resign.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected gothic)
+	(unit-type-count militiaman-line > 0)
+=>
+	(chat-to-all "It doesn't matter what kind of resistance you're preparing, through sheer numbers we'll take the victory.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected gothic)
+	(unit-type-count huskarl-line > 0)
+=>
+	(chat-to-all "No arrow is able to pierce these plates, and yet they are so light only a horse would be capable of escaping us.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected japanese)
+	(unit-type-count militiaman-line > 5)
+=>
+	(chat-to-all "You better be prepared to face the edge of our swords.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected japanese)
+	(unit-type-count samurai-line > 0)
+=>
+	(chat-to-all "Those you have fought till now were mere peasant, the pride of our nation will deal with you now.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected mongol)
+	(unit-type-count mangudai-line > 0)
+=>
+	(chat-to-all "The accuracy of our mounted warriors is something you'll quickly learn to fear.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected persian)
+	(unit-type-count war-elephant-line > 0)
+=>
+	(chat-to-all "We've already tamed these enormous beasts, it's won't be long before we tame you.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected saracen)
+	(or (unit-type-count camel-line > 0) (unit-type-count mameluke-line > 0))
+=>
+	(chat-to-all "Your horses are no match for our camels. The sand will take care of them before we even have to do something.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected teutonic)
+	(unit-type-count knight-line > 1)
+=>
+	(chat-to-all "You won't find a better armour than ours anywhere, your weapons won't even make a dent on it.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected teutonic)
+	(unit-type-count teutonic-knight-line > 1)
+=>
+	(chat-to-all "The order has decided that you are an enemy worthy of our best knights. Hope you won't disappoint them.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected turkish)
+	(unit-type-count scout-cavalry-line > 1)
+=>
+	(chat-to-all "So, you have chosen not to submit. You're going to regret this when our mighty light cavalry lays waste to your cities.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected turkish)
+	(current-age == castle-age)
+	(unit-type-count janissary-line > 0)
+=>
+	(chat-to-all "Have you ever seen this? This new weapon is able to pierce even the thickest armor.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected turkish)
+	(building-type-count bombard-tower > 0)
+=>
+	(chat-to-all "These fortified cannons will turn your city to ashes.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected viking)
+	(current-age == castle-age)
+=>
+	(chat-to-all "You should have surrendered when you had the opportunity, now you'll regret it.")
+	(disable-self)
+)

@@ -1,0 +1,243 @@
+;Feudal Age
+
+    ;Economy
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (building-type-count-total stable >= 1)
+        (can-research-with-escrow ri-double-bit-axe)
+    =>
+        (release-escrow food)
+        (release-escrow wood)
+        (research ri-double-bit-axe)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (building-type-count-total stable >= 1)
+        (can-research-with-escrow ri-horse-collar)
+    =>
+        (release-escrow food)
+        (release-escrow wood)
+        (research ri-horse-collar)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (or (goal TO-CASTLE YES) (current-age >= castle-age))
+        (goal TECH-PRIORITY NON-IMPORTANT)
+        (can-research ri-gold-mining)
+    =>
+        (research ri-gold-mining)
+    )
+
+    ;Blacksmith
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-forging)
+    =>
+        (release-escrow food)
+        (research ri-forging)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research ri-scale-barding)
+    =>
+        (release-escrow food)
+        (research ri-scale-barding)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (current-age == feudal-age)
+        (goal TECH-PRIORITY IMPORTANT)
+        (research-completed ri-double-bit-axe)
+        (research-completed ri-horse-collar)
+    =>
+        (set-goal TECH-PRIORITY SEMI-IMPORTANT)
+        (chat-to-player my-player-number "Priority: Semi-Important techs")
+        (disable-self)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (current-age == feudal-age)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (research-completed ri-forging)
+        (research-completed ri-scale-barding)
+    =>
+        (set-goal TECH-PRIORITY NON-IMPORTANT)
+        (set-goal PRIORITIZE-TECH NO)
+        (chat-to-player my-player-number "Allowing Non-Important techs")
+        (disable-self)
+    )
+
+;Castle Age
+
+    ;Economy
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-bow-saw)
+    =>
+        (release-escrow food)
+        (release-escrow wood)
+        (research ri-bow-saw)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-heavy-plow)
+    =>
+        (release-escrow food)
+        (release-escrow wood)
+        (research ri-heavy-plow)
+    )
+
+    ;Blacksmith
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-chain-barding)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-chain-barding)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-iron-casting)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-iron-casting)
+    )
+
+    ;Military
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (unit-type-count scout-cavalry-line > 5)
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-light-cavalry)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-light-cavalry)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-husbandry)
+    =>
+        (release-escrow food)
+        (research ri-husbandry)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (current-age == castle-age)
+        (goal TECH-PRIORITY IMPORTANT)
+        (research-completed ri-bow-saw)
+        (research-completed ri-chain-barding)
+    =>
+        (set-goal TECH-PRIORITY SEMI-IMPORTANT)
+        (chat-to-player my-player-number "Priority: Semi-Important techs")
+        (disable-self)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (current-age == castle-age)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (research-completed ri-iron-casting)
+        (research-completed ri-heavy-plow)
+    =>
+        (set-goal TECH-PRIORITY NON-IMPORTANT)
+        (set-goal PRIORITIZE-TECH NO)
+        (chat-to-player my-player-number "Allowing Non-Important techs")
+        (disable-self)
+    )
+
+;Imperial Age
+
+    ;Blacksmith
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-plate-barding)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-plate-barding)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-blast-furnace)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-blast-furnace)
+    )
+
+    ;Military
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-cavalier)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-cavalier)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-paladin)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-paladin)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (current-age == imperial-age)
+        (goal TECH-PRIORITY IMPORTANT)
+        (research-completed ri-plate-barding)
+        (research-completed ri-cavalier)
+    =>
+        (set-goal TECH-PRIORITY SEMI-IMPORTANT)
+        (chat-to-player my-player-number "Priority: Semi-Important techs")
+        (disable-self)
+    )
+
+    (defrule
+        (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+        (current-age == imperial-age)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (research-completed ri-blast-furnace)
+        (research-completed ri-paladin)
+    =>
+        (set-goal TECH-PRIORITY NON-IMPORTANT)
+        (set-goal PRIORITIZE-TECH NO)
+        (chat-to-player my-player-number "Allowing Non-Important techs")
+        (disable-self)
+    )

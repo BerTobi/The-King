@@ -1,0 +1,28 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count militiaman-line > 3)
+    (current-age == feudal-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count militiaman-line > 10)
+    (current-age == castle-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count militiaman-line > 15)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)

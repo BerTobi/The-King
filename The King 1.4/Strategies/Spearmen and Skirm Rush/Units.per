@@ -1,0 +1,226 @@
+;Economic units
+
+    (defrule
+        (unit-type-count villager < MAX-VILLAGERS)
+        (can-train villager)
+    =>
+        (train villager)
+    )
+
+    (defrule
+        (unit-type-count villager >= MAX-VILLAGERS)
+        (player-in-game any-ally)
+        (unit-type-count trade-cart < 30)
+        (can-train trade-cart)
+    =>
+        (train trade-cart)
+    )
+
+;Military
+
+(defrule
+	(unit-type-count-total spearman-line < MAX-MILITARY)
+	(building-type-count archery-range >= 1)
+	(building-type-count blacksmith >= 1)
+	(can-train spearman-line)
+=>
+	(train spearman-line)
+)
+
+(defrule
+	(unit-type-count-total skirmisher-line < MAX-MILITARY)
+	(building-type-count blacksmith >= 1)
+	(can-train skirmisher-line)
+=>
+	(train skirmisher-line)
+)
+
+(defrule
+	(unit-type-count-total monk < 3)
+	(can-train monk)
+=>
+	(train monk)
+)
+
+(defrule
+	(can-train my-unique-unit-line)
+=>
+	(train my-unique-unit-line)
+)
+
+(defrule
+	(can-train berserk-line)
+=>
+	(train berserk-line)
+)	
+
+(defrule
+	(current-age >= castle-age)
+	(unit-type-count-total mangonel-line < MAX-SIEGE)
+	(can-train mangonel-line)
+=>
+	(train mangonel-line)
+)
+
+(defrule
+	(current-age >= castle-age)
+	(unit-type-count-total battering-ram-line < MAX-SIEGE)
+	(unit-type-count-total mangonel-line >= 2)
+	(can-train battering-ram-line)
+=>
+	(train battering-ram-line)
+)
+
+(defrule
+	(current-age >= castle-age)
+	(unit-type-count-total mangonel-line < MAX-SIEGE)
+	(unit-type-count-total battering-ram-line >= 2)
+	(unit-type-count-total mangonel-line >= 2)
+	(can-train scorpion-line)
+=>
+	(train scorpion-line)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < MAX-SIEGE)
+	(unit-type-count-total trebuchet < 2)
+	(can-train-with-escrow trebuchet)
+=>
+	(release-escrow wood)
+	(release-escrow gold)
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < MAX-SIEGE)
+	(can-train trebuchet)
+=>
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total bombard-cannon < MAX-SIEGE)
+	(can-train bombard-cannon)
+=>
+	(train bombard-cannon)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(food-amount > 1500)
+	(can-train scout-cavalry-line)
+=>
+	(train scout-cavalry-line)
+)
+
+;Reactions Defined
+
+(defrule
+	(players-unit-type-count any-enemy skirmisher-line < 1) 
+	(players-unit-type-count any-enemy archer-line < 1)
+	(game-time > 1800)
+=>
+	(set-goal ARCHERS YES)
+)
+
+(defrule
+	(goal PIKEMEN YES)
+	(can-train spearman-line)
+	(current-age == feudal-age)
+	(unit-type-count spearman-line < 5)
+	(and (can-afford-unit villager) (not(can-train villager)))
+	(goal HALT-PRODUCTION NO)
+=>
+	(train spearman-line)
+)
+
+(defrule
+	(goal PIKEMEN YES)
+	(can-train spearman-line)
+	(current-age >= castle-age)
+	(and (can-afford-unit villager) (not(can-train villager)))
+	(goal HALT-PRODUCTION NO)
+=>
+	(train spearman-line)
+)
+
+(defrule
+	(goal MILITIA YES)
+	(can-train militiaman-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train militiaman-line)
+)
+
+(defrule
+	(goal SCOUTS YES)
+	(can-train scout-cavalry-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(goal KNIGHTS YES)
+	(can-train knight-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train knight-line)
+)
+
+(defrule
+	(goal CAMELS YES)
+	(can-train camel-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train camel-line)
+)
+
+(defrule
+	(goal SKIRMISHERS YES)
+	(can-train skirmisher-line)
+	(goal HALT-PRODUCTION NO)
+	(or (and (can-afford-unit villager) (not(can-train villager))) (unit-type-count villager >= 49))
+=>
+	(train skirmisher-line)
+)
+
+(defrule
+	(goal ARCHERS YES)
+	(can-train archer-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train archer-line)
+)
+
+(defrule
+	(goal CAV-ARCHERS YES)
+	(can-train cavalry-archer-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train cavalry-archer-line)
+)
+
+(defrule
+	(goal HAND-CANNONEER YES)
+	(can-train hand-cannoneer)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train hand-cannoneer)
+)
+
+(defrule
+	(goal MANGONEL YES)
+	(can-train mangonel-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train mangonel-line)
+)
+
+(defrule
+	(goal SCORPION YES)
+	(can-train scorpion-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train scorpion-line)
+)

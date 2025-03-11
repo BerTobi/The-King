@@ -1,0 +1,15 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count my-unique-unit-line > 20)
+    (game-time > 2100)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)
+
+(defrule
+    (current-age == imperial-age)
+=>
+    (set-strategic-number sn-total-number-explorers 0)
+)

@@ -1,0 +1,25 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 10)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (disable-self)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 15)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (disable-self)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 20)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)

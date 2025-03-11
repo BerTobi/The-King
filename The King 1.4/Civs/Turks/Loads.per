@@ -1,0 +1,70 @@
+#load-if-defined TURKISH-CIV
+    #load-if-defined ARABIA-MAP
+        (defrule
+        	(true)
+        =>
+        	(chat-to-player my-player-number "Strategy: FC into unique unit")
+        	(disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Maps/Arabia/Escrow")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Research")
+        (load "The King 1.4/Maps/Arabia/Units")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Market")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Buildings")
+        ;(load "The King 1.4/Strategies/FC into Unique Unit/Attack-now")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Turks/Reactions")
+    #end-if
+
+    #load-if-defined GOLD-RUSH-MAP
+        (defrule
+        	(true)
+        =>
+        	(chat-to-player my-player-number "Strategy: FC into unique unit")
+        	(disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Maps/Arabia/Escrow")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Research")
+        (load "The King 1.4/Maps/Arabia/Units")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Market")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Buildings")
+        ;(load "The King 1.4/Strategies/FC into Unique Unit/Attack-now")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Turks/Reactions")
+    #end-if
+
+    #load-if-not-defined ARABIA-MAP
+    #load-if-not-defined GOLD-RUSH-MAP
+        
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: Fast IMP into Bombard Cannon")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        
+        (load "The King 1.4/Strategies/Fast IMP into BBC/Research")
+        (load "The King 1.4/Strategies/Fast IMP into BBC/Units")
+        (load "The King 1.4/Strategies/Fast IMP into BBC/Market")
+        (load "The King 1.4/Strategies/Fast IMP into BBC/Buildings")
+        (load "The King 1.4/Strategies/Fast IMP into BBC/Attack-now")
+        ;(load "The King 1.4/Strategies/Fast IMP into BBC/Attack")
+        (load "The King 1.4/Strategies/Fast IMP into BBC/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Turks/Reactions")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+    #end-if
+    #end-if
+#end-if

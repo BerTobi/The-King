@@ -1,0 +1,66 @@
+#load-if-defined SARACEN-CIV
+    #load-if-defined ARABIA-MAP
+        (load "The King 1.4/Maps/Arabia/Villager Distribution")
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Maps/Arabia/Escrow")
+        (load "The King 1.4/Maps/Arabia/Research")
+        (load "The King 1.4/Maps/Arabia/Buildings")
+        (load "The King 1.4/Maps/Arabia/Units")
+        ;(load "The King 1.4/Maps/Arabia/Attack")
+        (load "The King 1.4/Maps/Arabia/Market")
+        
+        (load "The King 1.4/Civs/Saracens/Reactions")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+    #end-if
+
+    #load-if-defined GOLD-RUSH-MAP
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: FC into Crossbows")
+            (set-goal USES-ATTACK-NOW 1)
+            (chat-to-player my-player-number "Uses attack now")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        
+        (load "The King 1.4/Strategies/FC into Crossbows/Research")
+        (load "The King 1.4/Strategies/FC into Crossbows/Units")
+        (load "The King 1.4/Strategies/FC into Crossbows/Market")
+        (load "The King 1.4/Strategies/FC into Crossbows/Buildings")
+        (load "The King 1.4/Strategies/FC into Monks and Siege/Attack-now")
+        ;(load "The King 1.4/Strategies/FC into Monks and Siege/Attack")
+        (load "The King 1.4/Strategies/FC into Crossbows/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Saracens/Reactions")
+    #end-if
+
+    #load-if-not-defined ARABIA-MAP
+    #load-if-not-defined GOLD-RUSH-MAP
+        
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: FC into Monks and Siege")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        
+        (load "The King 1.4/Strategies/FC into Monks and Siege/Research")
+        (load "The King 1.4/Strategies/FC into Monks and Siege/Units")
+        (load "The King 1.4/Strategies/FC into Monks and Siege/Market")
+        (load "The King 1.4/Strategies/FC into Monks and Siege/Buildings")
+        (load "The King 1.4/Strategies/FC into Monks and Siege/Attack-now")
+        ;(load "The King 1.4/Strategies/FC into Monks and Siege/Attack")
+        (load "The King 1.4/Strategies/FC into Monks and Siege/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Saracens/Reactions")
+
+    #end-if
+    #end-if
+#end-if

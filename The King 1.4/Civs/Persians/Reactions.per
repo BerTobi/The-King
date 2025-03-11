@@ -1,0 +1,116 @@
+(defrule
+    (civ-selected persian)
+    (current-age >= feudal-age)
+    (players-unit-type-count any-enemy scout-cavalry-line > 1)
+    (goal PIKEMEN NO)
+=>
+    (set-goal PIKEMEN YES)
+    (chat-to-player my-player-number "Countering scouts: spearmen")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected persian)
+    (current-age >= feudal-age)
+    (players-unit-type-count any-enemy knight-line > 1)
+    (goal PIKEMEN NO)
+=>
+    (set-goal PIKEMEN YES)
+    (chat-to-player my-player-number "Countering knights: spearmen")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected persian)
+    (current-age >= imperial-age)
+    (players-unit-type-count any-enemy scout-cavalry-line > 5)
+    (goal PIKEMEN NO)
+=>
+    (set-goal PIKEMEN YES)
+    (chat-to-player my-player-number "Countering light cavalry: spearmen")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected persian)
+    (current-age >= castle-age)
+    (players-unit-type-count any-enemy scorpion-line > 1)
+    (goal MANGONEL NO)
+=>
+    (set-goal MANGONEL YES)
+    (chat-to-player my-player-number "Countering scorpions: mangonel")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected persian)
+    (current-age >= feudal-age)
+    (players-unit-type-count any-enemy spearman-line > 2)
+    (goal ARCHERS NO)
+=>
+    (set-goal ARCHERS YES)
+    (chat-to-player my-player-number "Countering spearmen: archers")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected persian)
+    (current-age >= castle-age)
+    (players-unit-type-count any-enemy spearman-line > 2)
+    (goal SCORPION NO)
+=>
+    (set-goal SCORPION YES)
+    (chat-to-player my-player-number "Countering spearmen: scorpions")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected persian)
+    (current-age >= feudal-age)
+    (players-unit-type-count any-enemy archer-line > 5)
+    (goal SKIRMISHERS NO)
+=>
+    (set-goal SKIRMISHERS YES)
+    (chat-to-player my-player-number "Countering archers: skirmishers")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected persian)
+    (current-age == castle-age)
+    (players-unit-type-count any-enemy archer-line > 5)
+    (goal MANGONEL NO)
+=>
+    (set-goal MANGONEL YES)
+    (chat-to-player my-player-number "Countering archers: mangonel")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy militiaman-line > 4)
+		(goal ARCHERS NO)
+	=>
+		(set-goal ARCHERS YES)
+		(chat-to-player my-player-number "Countering Militia line: archers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+(defrule
+	(timer-triggered DEACTIVATE-REACTION-TIMER)
+=>
+	(set-goal ARCHERS NO)
+	(set-goal SCOUTS NO)
+	(set-goal KNIGHTS NO)
+	(set-goal SKIRMISHERS NO)
+	(set-goal PIKEMEN NO)
+	(set-goal CAV-ARCHERS NO)
+	(set-goal CAMELS NO)
+	(set-goal HAND-CANNONEER NO)
+	(set-goal MILITIA NO)
+	(set-goal MANGONEL NO)
+	(set-goal SCORPION NO)
+	(chat-to-player my-player-number "Resuming default behaviour")
+	(enable-timer DEACTIVATE-REACTION-TIMER 300)
+)

@@ -1,0 +1,302 @@
+; Decider
+
+    ; Town Center rules
+
+        (defrule
+            (building-type-count-total town-center < 1)
+            (can-build-with-escrow town-center)
+        =>
+            (set-goal NEXT-BUILDING town-center)
+            (chat-to-player my-player-number "Want to build: Town Center")
+        )
+
+        (defrule
+            (building-type-count-total town-center < 1)
+            (building-type-count-total lumber-camp >= 1)
+            (stone-amount >= 100)
+        =>
+            (set-goal NEXT-BUILDING town-center)
+            (chat-to-player my-player-number "Want to build: Town Center")
+        )
+
+        (defrule
+            (building-type-count-total town-center < 1)
+            (building-type-count-total mining-camp >= 1)
+            (wood-amount >= 275)
+        =>
+            (set-goal NEXT-BUILDING town-center)
+            (chat-to-player my-player-number "Want to build: Town Center")
+        )
+
+        (defrule
+            (building-type-count-total town-center < 1)
+            (building-type-count-total mining-camp >= 1)
+            (building-type-count-total lumber-camp >= 1)
+        =>
+            (set-goal NEXT-BUILDING town-center)
+            (chat-to-player my-player-number "Want to build: Town Center")
+        )
+
+    ; Lumber camps rules
+        
+        (defrule
+            (goal NEXT-BUILDING 0)
+            (building-type-count-total lumber-camp == 0)
+			(unit-type-count villager > 6)
+			(resource-found wood)
+		=>
+			(set-goal NEXT-BUILDING lumber-camp)
+            (chat-to-player my-player-number "Want to build: Lumber camp")
+		)
+
+    ;Mills
+
+        (defrule
+            (goal NEXT-BUILDING 0)
+			(building-type-count-total town-center >= 1)
+            (building-type-count-total mill == 0)
+            (unit-type-count villager > 4)
+            (or (and (unit-type-count 594 < 2) (players-unit-type-count 0 594 < 2)) (building-type-count-total lumber-camp >= 1))
+			(resource-found food)
+		=>
+			(set-goal NEXT-BUILDING mill)
+            (chat-to-player my-player-number "Want to build: Mill")
+		)
+
+    ; Farms rules
+
+        (defrule
+            (goal NEXT-BUILDING 0)
+			(building-type-count-total town-center >= 1)
+            (building-type-count-total lumber-camp >= 1)
+            (unit-type-count 594 <= 1)
+            (idle-farm-count < 2)
+            (current-age == dark-age)
+            (unit-type-count villager <= 23)
+            (can-build farm)
+		=>
+			(set-goal NEXT-BUILDING farm)
+            (chat-to-player my-player-number "Want to build: Farm")
+		)
+
+    ; Housing rules
+
+        (defrule
+            (goal NEXT-BUILDING 0)
+            (building-type-count-total town-center >= 1)
+            (housing-headroom < 4)
+            (population-headroom > 3)
+        =>
+            (set-goal NEXT-BUILDING house)
+            (chat-to-player my-player-number "Want to build: House")
+        )
+
+; Builder
+
+    (defrule
+        (goal NEXT-BUILDING house)
+        (can-build house)
+    =>
+        (build house)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: House")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING town-center)
+        (can-build town-center)
+    =>
+        (build town-center)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Town Center")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING lumber-camp)
+        (can-build lumber-camp)
+    =>
+        (build lumber-camp)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Lumber camp")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING mining-camp)
+        (can-build mining-camp)
+    =>
+        (build mining-camp)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Mining camp")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING farm)
+        (can-build farm)
+    =>
+        (build farm)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Farm")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING mill)
+        (can-build mill)
+    =>
+        (build mill)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Mill")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING blacksmith)
+        (can-build blacksmith)
+    =>
+        (build blacksmith)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Blacksmith")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING market)
+        (can-build market)
+    =>
+        (build market)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Market")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING monastery)
+        (can-build monastery)
+    =>
+        (build monastery)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Monastery")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING dock)
+        (can-build dock)
+    =>
+        (build dock)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Dock")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING university)
+        (can-build university)
+    =>
+        (build university)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: University")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING barracks)
+        (can-build barracks)
+    =>
+        (build barracks)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Barracks")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING archery-range)
+        (can-build archery-range)
+    =>
+        (build archery-range)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Archery range")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING stable)
+        (can-build stable)
+    =>
+        (build stable)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Stable")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING siege-workshop)
+        (can-build siege-workshop)
+    =>
+        (build siege-workshop)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Siege workshop")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING castle)
+        (can-build castle)
+    =>
+        (build castle)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Castle")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING watch-tower-line)
+        (can-build watch-tower-line)
+    =>
+        (build watch-tower-line)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Watch tower")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING FORWARD-CASTLE)
+        (can-build castle)
+    =>
+        (build-forward castle)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Forward Castle")
+    )
+
+    (defrule
+        (goal NEXT-BUILDING FORWARD-TOWER)
+        (can-build watch-tower-line)
+    =>
+        (build-forward watch-tower-line)
+        (set-goal NEXT-BUILDING 0)
+        (chat-to-player my-player-number "Building: Forward Tower")
+    )
+
+    ;Walls
+
+        (defrule
+            (current-age >= castle-age)
+            (building-type-count-total castle >= 2)
+            (building-type-count-total town-center >= 2)
+        =>
+            (set-goal WALLS YES)
+        )
+        
+
+        (defrule
+            (goal WALLS YES)
+            (current-age >= castle-age)
+        =>
+            (enable-wall-placement 2)
+            (disable-self)
+        )
+
+        (defrule
+            (goal WALLS YES)
+            (current-age >= castle-age)
+            (can-build-wall 2 stone-wall-line)
+            (not (town-under-attack))
+        =>
+            (build-wall 2 stone-wall-line)
+        )
+
+        (defrule
+            (goal WALLS YES)
+            (current-age >= castle-age)
+            (can-build-gate 2)
+            (not (town-under-attack))
+        =>
+            (build-gate 2)
+        )

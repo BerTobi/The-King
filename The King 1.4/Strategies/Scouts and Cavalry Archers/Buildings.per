@@ -1,0 +1,133 @@
+;Economic Buildings
+
+		;Feudal Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(unit-type-count villager >= 28)
+			(resource-found gold)
+			(building-type-count-total lumber-camp >= 1)
+			(building-type-count-total mill >= 1)
+			(building-type-count-total stable >= 1)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total mining-camp == 0)
+			(can-build-with-escrow mining-camp)
+		=>
+			(release-escrow wood)
+			(build mining-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TO-FEUDAL YES)
+			(building-type-count-total lumber-camp < 2)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total blacksmith == 0)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total stable >= 1)
+			(can-build-with-escrow blacksmith)
+		=>
+			(release-escrow wood)
+			(build blacksmith)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total stable >= 1)
+			(building-type-count-total market == 0)
+			(can-build-with-escrow market)
+		=>
+			(release-escrow wood)
+			(build market)
+		)
+
+		;Castle Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age >= castle-age)
+			(building-type-count-total university == 0)
+			(can-build-with-escrow university)
+		=>
+			(release-escrow wood)
+			(build university)
+		)
+	
+;Military
+
+	;Dark Age
+
+		(defrule
+			(goal TO-FEUDAL YES)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total barracks == 0)
+			(can-build-with-escrow barracks)
+		=>
+			(release-escrow wood)
+			(build barracks)
+		)
+
+	;Feudal Age
+
+		(defrule
+			(current-age >= feudal-age)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable == 0)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+		(defrule
+			(current-age >= feudal-age)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable == 1)
+			(research-completed ri-forging)
+			(research-completed ri-scale-barding)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+	;Castle Age
+
+		(defrule
+			(current-age >= castle-age)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable < 3)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age >= castle-age)
+			(building-type-count-total archery-range < 3)
+			(can-build-with-escrow archery-range)
+		=>
+			(release-escrow wood)
+			(build archery-range)
+		)
+
+	;Imperial Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age >= imperial-age)
+			(building-type-count-total stable < 6)
+			(can-build stable)
+		=>
+			(build stable)
+		)

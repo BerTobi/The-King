@@ -1,0 +1,28 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (town-under-attack)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 20)
+    (current-age == castle-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 30)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)

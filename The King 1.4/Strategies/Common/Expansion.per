@@ -1,0 +1,231 @@
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 0)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 1)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 20")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 1)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 2)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 28")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 2)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 3)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 36")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 3)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 4)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 44")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 4)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 5)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 52")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 5)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 6)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 60")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 6)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 7)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 80")
+	(disable-self)
+)
+
+(defrule
+	(timer-triggered EXPANSION-TIMER)
+    (goal EXPANSION-N 7)
+=>
+	(enable-timer EXPANSION-TIMER 600)
+    (set-goal EXPANSION-N 8)
+    (chat-to-all "Expanding")
+    (chat-to-all "Town size: 100")
+	(disable-self)
+)
+
+(defrule
+	(goal EXPANSION-N 0)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 15)
+	(set-strategic-number sn-camp-max-distance 15)
+	(set-strategic-number sn-mill-max-distance 15)
+)
+
+(defrule
+	(goal EXPANSION-N 1)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 20)
+	(set-strategic-number sn-camp-max-distance 20)
+	(set-strategic-number sn-mill-max-distance 20)
+)
+
+(defrule
+	(goal EXPANSION-N 2)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 28)
+	(set-strategic-number sn-camp-max-distance 28)
+	(set-strategic-number sn-mill-max-distance 28)
+)
+
+(defrule
+	(goal EXPANSION-N 3)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 36)
+	(set-strategic-number sn-camp-max-distance 36)
+	(set-strategic-number sn-mill-max-distance 36)
+)
+
+(defrule
+	(goal EXPANSION-N 4)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 44)
+	(set-strategic-number sn-camp-max-distance 44)
+	(set-strategic-number sn-mill-max-distance 44)
+)
+
+(defrule
+	(goal EXPANSION-N 5)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 52)
+	(set-strategic-number sn-camp-max-distance 52)
+	(set-strategic-number sn-mill-max-distance 52)
+)
+
+(defrule
+	(goal EXPANSION-N 6)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 60)
+	(set-strategic-number sn-camp-max-distance 60)
+	(set-strategic-number sn-mill-max-distance 60)
+)
+
+(defrule
+	(goal EXPANSION-N 7)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 80)
+	(set-strategic-number sn-camp-max-distance 80)
+	(set-strategic-number sn-mill-max-distance 80)
+)
+
+(defrule
+	(goal EXPANSION-N 8)
+    (goal ACTIVATE-TSA 0)
+=>
+	(set-strategic-number sn-maximum-town-size 100)
+	(set-strategic-number sn-camp-max-distance 100)
+	(set-strategic-number sn-mill-max-distance 100)
+)
+
+(defrule
+    (goal NEXT-BUILDING 0)
+    (can-build lumber-camp)
+    (building-type-count-total town-center >= 1)
+    (dropsite-min-distance wood > 10)
+    (current-age >= feudal-age)
+=>
+    (set-goal NEXT-BUILDING lumber-camp)
+    (chat-to-player my-player-number "Want to build: Lumber camp")
+)
+
+(defrule
+    (goal NEXT-BUILDING 0)
+    (can-build mining-camp)
+    (building-type-count-total town-center >= 1)
+    (dropsite-min-distance gold > 10)
+    (current-age >= castle-age)
+=>
+    (set-goal NEXT-BUILDING mining-camp)
+    (chat-to-player my-player-number "Want to build: Mining camp")
+)
+
+(defrule
+    (goal NEXT-BUILDING 0)
+    (can-build mining-camp)
+    (building-type-count-total town-center >= 1)
+    (dropsite-min-distance stone > 10)
+    (current-age >= castle-age)
+=>
+    (set-goal NEXT-BUILDING mining-camp)
+    (chat-to-player my-player-number "Want to build: Mining camp")
+)
+
+(defrule
+    (goal NEXT-BUILDING 0)
+    (can-build town-center)
+    (building-type-count-total town-center < 2)
+    (goal EXPANSION-N 5)
+=>
+    (set-goal NEXT-BUILDING town-center)
+    (chat-to-player my-player-number "Want to build: Town center")
+)
+
+(defrule
+    (goal NEXT-BUILDING 0)
+    (can-build town-center)
+    (building-type-count-total town-center < 3)
+    (goal EXPANSION-N 7)
+=>
+    (set-goal NEXT-BUILDING town-center)
+    (chat-to-player my-player-number "Want to build: Town center")
+)
+
+(defrule
+    (goal NEXT-BUILDING 0)
+    (can-build town-center)
+    (building-type-count-total town-center < 5)
+    (goal EXPANSION-N 8)
+=>
+    (set-goal NEXT-BUILDING town-center)
+    (chat-to-player my-player-number "Want to build: Town center")
+)

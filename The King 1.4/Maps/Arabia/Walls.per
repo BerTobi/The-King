@@ -1,0 +1,33 @@
+(defrule
+    (current-age == imperial-age)
+    (building-type-count-total castle >= 2)
+=>
+    (set-goal WALLS YES)
+)
+
+
+(defrule
+    (goal WALLS YES)
+    (current-age >= castle-age)
+=>
+    (enable-wall-placement 2)
+    (disable-self)
+)
+
+(defrule
+    (goal WALLS YES)
+    (current-age >= castle-age)
+    (can-build-wall 2 stone-wall-line)
+    (not (town-under-attack))
+=>
+    (build-wall 2 stone-wall-line)
+)
+
+(defrule
+    (goal WALLS YES)
+    (current-age >= castle-age)
+    (can-build-gate 2)
+    (not (town-under-attack))
+=>
+    (build-gate 2)
+)

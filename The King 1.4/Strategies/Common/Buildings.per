@@ -1,0 +1,88 @@
+;Buildings
+
+	;Economic Buildings
+
+        ;Town Centers
+
+		(defrule
+			(building-type-count-total town-center < 1)
+            (can-build-with-escrow town-center)
+		=>
+            (release-escrow wood)
+            (release-escrow stone)
+			(build town-center)
+		)
+
+        (defrule
+			(building-type-count-total town-center < 3)
+            (building-type-count-total castle >= 1)
+            (can-build-with-escrow town-center)
+		=>
+            (release-escrow wood)
+            (release-escrow stone)
+			(build town-center)
+		)
+
+        ;Mills
+
+        (defrule
+			(building-type-count-total town-center >= 1)
+            (building-type-count-total mill == 0)
+            (unit-type-count villager > 4)
+            (or (unit-type-count 594 < 2) (building-type-count-total lumber-camp >= 1))
+			(resource-found food)
+            (can-build mill)
+		=>
+			(build mill)
+		)
+
+        ;Farms
+
+        (defrule
+			(current-age >= castle-age)
+            (building-type-count-total town-center >= 1)
+            (unit-type-count villager <= 20)
+            (idle-farm-count < 20)         
+            (can-build farm)
+		=>
+			(build farm)
+		)
+
+    ;Defensive Buildings
+
+        ;Walls
+
+        (defrule
+            (current-age >= castle-age)
+            (building-type-count-total castle >= 2)
+            (building-type-count-total town-center >= 2)
+        =>
+            (set-goal WALLS YES)
+        )
+        
+
+        (defrule
+            (goal WALLS YES)
+            (current-age >= castle-age)
+        =>
+            (enable-wall-placement 2)
+            (disable-self)
+        )
+
+        (defrule
+            (goal WALLS YES)
+            (current-age >= castle-age)
+            (can-build-wall 2 stone-wall-line)
+            (not (town-under-attack))
+        =>
+            (build-wall 2 stone-wall-line)
+        )
+
+        (defrule
+            (goal WALLS YES)
+            (current-age >= castle-age)
+            (can-build-gate 2)
+            (not (town-under-attack))
+        =>
+            (build-gate 2)
+        )

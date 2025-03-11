@@ -1,0 +1,55 @@
+#load-if-defined BRITON-CIV
+
+    #load-if-defined ARABIA-MAP
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+
+        (load "The King 1.4/Strategies/Straight Archers/Market")
+        (load "The King 1.4/Strategies/Straight Archers/Villager Distribution")
+        (load "The King 1.4/Strategies/Straight Archers/Escrow")
+        (load "The King 1.4/Strategies/Straight Archers/Research")
+        (load "The King 1.4/Strategies/Straight Archers/Buildings")
+        (load "The King 1.4/Strategies/Straight Archers/Units")
+        ;(load "The King 1.4/Strategies/Straight Archers/Attack-now")
+        (load "The King 1.4/Civs/Britons/Reactions")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+
+    #end-if
+
+    #load-if-defined GOLD-RUSH-MAP
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+
+        (load "The King 1.4/Strategies/Straight Archers/Market")
+        (load "The King 1.4/Strategies/Straight Archers/Villager Distribution")
+        (load "The King 1.4/Strategies/Straight Archers/Escrow")
+        (load "The King 1.4/Strategies/Straight Archers/Research")
+        (load "The King 1.4/Strategies/Straight Archers/Buildings")
+        (load "The King 1.4/Strategies/Straight Archers/Units")
+        ;(load "The King 1.4/Strategies/Straight Archers/Attack-now")
+        (load "The King 1.4/Civs/Britons/Reactions")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+
+    #end-if
+
+    #load-if-not-defined ARABIA-MAP
+    #load-if-not-defined GOLD-RUSH-MAP
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+
+        (load "The King 1.4/Strategies/Straight Archers/Market")
+        (load "The King 1.4/Strategies/Straight Archers/Villager Distribution")
+        (load "The King 1.4/Strategies/Straight Archers/Escrow")
+        (load "The King 1.4/Strategies/Straight Archers/Research")
+        (load "The King 1.4/Strategies/Straight Archers/Buildings")
+        (load "The King 1.4/Strategies/Straight Archers/Units")
+        (load "The King 1.4/Strategies/Straight Archers/Attack-now")
+        (load "The King 1.4/Civs/Britons/Reactions")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+
+    #end-if
+    #end-if
+
+#end-if

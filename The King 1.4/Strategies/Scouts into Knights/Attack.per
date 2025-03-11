@@ -1,0 +1,46 @@
+(defrule
+	(unit-type-count scout-cavalry-line <= 5)
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+=>
+	(set-strategic-number sn-number-attack-groups 0)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(unit-type-count scout-cavalry-line > 5)
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(timer-triggered ATTACK-TIMER)
+	(goal MILITIA NO)
+	(goal PIKEMEN NO)
+	(goal TO-CASTLE NO)
+=>
+	(attack-now)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(unit-type-count scout-cavalry-line > 10)
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(unit-type-count knight-line > 10)
+	(players-building-count any-enemy >= 1)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(unit-type-count knight-line > MIN-IMPERIAL-ATTACK-SIZE)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)

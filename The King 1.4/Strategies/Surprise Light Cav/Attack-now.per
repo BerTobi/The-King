@@ -1,0 +1,9 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count scout-cavalry-line > 100)
+    (game-time > 2100)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)

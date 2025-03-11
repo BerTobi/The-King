@@ -1,0 +1,78 @@
+#load-if-defined PERSIAN-CIV
+    #load-if-defined ARABIA-MAP
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: FC into Knights")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        
+        (load "The King 1.4/Strategies/FC into Knights/Research")
+        (load "The King 1.4/Strategies/FC into Knights/Units")
+        (load "The King 1.4/Strategies/FC into Knights/Market")
+        (load "The King 1.4/Strategies/FC into Knights/Buildings")
+        ;(load "The King 1.4/Strategies/FC into Knights/Attack-now")
+        ;(load "The King 1.4/Strategies/FC into Knights/Attack")
+        (load "The King 1.4/Strategies/FC into Knights/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        ;(load "The King 1.4/Civs/Generic/Reaction Buildings")
+        ;(load "The King 1.4/Civs/Persians/Reactions")
+    #end-if
+
+    #load-if-defined GOLD-RUSH-MAP
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: Persian Steamroll")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Strategies/Persian Steamroll/Villager Distribution")
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Strategies/Persian Steamroll/Research")
+        (load "The King 1.4/Strategies/Persian Steamroll/Buildings")
+        (load "The King 1.4/Strategies/Persian Steamroll/Units")
+        ;(load "The King 1.4/Strategies/Persian Steamroll/Attack-now")
+        (load "The King 1.4/Strategies/Persian Steamroll/Market")
+        (load "The King 1.4/Civs/Persians/Reactions")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+    #end-if
+
+    #load-if-not-defined ARABIA-MAP
+    #load-if-not-defined GOLD-RUSH-MAP
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: FC into Knights")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        
+        (load "The King 1.4/Strategies/FC into Knights/Research")
+        (load "The King 1.4/Strategies/FC into Knights/Units")
+        (load "The King 1.4/Strategies/FC into Knights/Market")
+        (load "The King 1.4/Strategies/FC into Knights/Buildings")
+        ;(load "The King 1.4/Strategies/FC into Knights/Attack-now")
+        ;(load "The King 1.4/Strategies/FC into Knights/Attack")
+        (load "The King 1.4/Strategies/FC into Knights/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        ;(load "The King 1.4/Civs/Generic/Reaction Buildings")
+        ;(load "The King 1.4/Civs/Persians/Reactions")
+
+        ;(load "The King 1.4/Strategies/Persian Steamroll/Villager Distribution")
+        ;(load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        ;(load "The King 1.4/Strategies/Persian Steamroll/Research")
+        ;(load "The King 1.4/Strategies/Persian Steamroll/Buildings")
+        ;(load "The King 1.4/Strategies/Persian Steamroll/Units")
+        ;(load "The King 1.4/Strategies/Persian Steamroll/Attack-now")
+        ;(load "The King 1.4/Strategies/Persian Steamroll/Market")
+        ;(load "The King 1.4/Civs/Persians/Reactions")
+        ;(load "The King 1.4/Civs/Generic/Reaction Buildings")
+        ;(load "The King 1.4/Civs/Generic/Reactive Research")
+    #end-if
+    #end-if
+#end-if

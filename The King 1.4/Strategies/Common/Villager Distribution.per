@@ -1,0 +1,57 @@
+(defrule
+    (unit-type-count villager <= 6)
+=>
+    (set-strategic-number sn-food-gatherer-percentage 100)
+    (set-strategic-number sn-wood-gatherer-percentage 0)
+    (set-strategic-number sn-gold-gatherer-percentage 0)
+    (set-strategic-number sn-stone-gatherer-percentage 0)
+)
+
+(defrule
+    (unit-type-count villager == 7)
+=>
+    (set-strategic-number sn-food-gatherer-percentage 86)
+    (set-strategic-number sn-wood-gatherer-percentage 14)
+    (set-strategic-number sn-gold-gatherer-percentage 0)
+    (set-strategic-number sn-stone-gatherer-percentage 0)
+)
+
+(defrule
+    (unit-type-count villager == 8)
+=>
+    (set-strategic-number sn-food-gatherer-percentage 75)
+    (set-strategic-number sn-wood-gatherer-percentage 25)
+    (set-strategic-number sn-gold-gatherer-percentage 0)
+    (set-strategic-number sn-stone-gatherer-percentage 0)
+)
+
+(defrule
+    (unit-type-count villager == 9)
+
+=>
+    (set-strategic-number sn-food-gatherer-percentage 67)
+    (set-strategic-number sn-wood-gatherer-percentage 33)
+    (set-strategic-number sn-gold-gatherer-percentage 0)
+    (set-strategic-number sn-stone-gatherer-percentage 0)
+)
+
+(defrule
+    (unit-type-count villager == 10)
+=>
+    (set-strategic-number sn-food-gatherer-percentage 60)
+    (set-strategic-number sn-wood-gatherer-percentage 40)
+    (set-strategic-number sn-gold-gatherer-percentage 0)
+    (set-strategic-number sn-stone-gatherer-percentage 0)
+)
+
+;Rebuild TC
+
+(defrule
+    (building-type-count town-center == 0)
+=>
+    (set-strategic-number sn-food-gatherer-percentage 0)
+    (set-strategic-number sn-wood-gatherer-percentage 50)
+    (set-strategic-number sn-gold-gatherer-percentage 0)
+    (set-strategic-number sn-stone-gatherer-percentage 50)
+)
+

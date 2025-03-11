@@ -1,0 +1,209 @@
+Date : 2024-10-30 15:16:17
+Directory : e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4
+Total : 150 files,  31442 codes, 847 comments, 4646 blanks, all 36935 lines
+
+Languages
++---------------+------------+------------+------------+------------+------------+
+| language      | files      | code       | comment    | blank      | total      |
++---------------+------------+------------+------------+------------+------------+
+| Aoe2 AiScript |        150 |     31,442 |        847 |      4,646 |     36,935 |
++---------------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                                                                      | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                                                                         |        150 |     31,442 |        847 |      4,646 |     36,935 |
+| . (Files)                                                                                                                                 |          3 |      6,022 |        143 |        846 |      7,011 |
+| Civs                                                                                                                                      |         30 |      2,914 |         38 |        356 |      3,308 |
+| Civs\Britons                                                                                                                              |          2 |        138 |          2 |         20 |        160 |
+| Civs\Byzantines                                                                                                                           |          2 |        229 |          2 |         30 |        261 |
+| Civs\Celts                                                                                                                                |          2 |        189 |          2 |         22 |        213 |
+| Civs\Chinese                                                                                                                              |          2 |        212 |          2 |         32 |        246 |
+| Civs\Franks                                                                                                                               |          2 |        164 |          4 |         19 |        187 |
+| Civs\Generic                                                                                                                              |          4 |        493 |          3 |         60 |        556 |
+| Civs\Goths                                                                                                                                |          2 |        213 |          6 |         24 |        243 |
+| Civs\Japanese                                                                                                                             |          2 |        195 |          4 |         26 |        225 |
+| Civs\Mongols                                                                                                                              |          2 |        194 |          2 |         28 |        224 |
+| Civs\Persians                                                                                                                             |          2 |        147 |          3 |         13 |        163 |
+| Civs\Saracens                                                                                                                             |          2 |        233 |          4 |         27 |        264 |
+| Civs\Teutons                                                                                                                              |          2 |        153 |          1 |         17 |        171 |
+| Civs\Turks                                                                                                                                |          2 |        164 |          1 |         17 |        182 |
+| Civs\Vikings                                                                                                                              |          2 |        190 |          2 |         21 |        213 |
+| Maps                                                                                                                                      |         10 |      1,891 |         43 |        269 |      2,203 |
+| Maps\Arabia                                                                                                                               |         10 |      1,891 |         43 |        269 |      2,203 |
+| Strategies                                                                                                                                |         99 |     19,103 |        578 |      2,930 |     22,611 |
+| Strategies\Common                                                                                                                         |          4 |        520 |          6 |         60 |        586 |
+| Strategies\FC into Crossbows                                                                                                              |          7 |      1,480 |         47 |        235 |      1,762 |
+| Strategies\FC into Infantry                                                                                                               |          7 |      1,552 |         48 |        244 |      1,844 |
+| Strategies\FC into Knights                                                                                                                |          7 |      1,541 |         50 |        245 |      1,836 |
+| Strategies\FC into Monks and Siege                                                                                                        |          7 |      1,455 |         43 |        228 |      1,726 |
+| Strategies\FC into Trash and Siege                                                                                                        |          7 |      1,559 |         48 |        244 |      1,851 |
+| Strategies\FC into Unique Unit                                                                                                            |          6 |      1,334 |         37 |        200 |      1,571 |
+| Strategies\Fast IMP into BBC                                                                                                              |          7 |      1,483 |         46 |        235 |      1,764 |
+| Strategies\MAA and Towers                                                                                                                 |          8 |      1,621 |         52 |        247 |      1,920 |
+| Strategies\Persian Steamroll                                                                                                              |          6 |      1,400 |         43 |        222 |      1,665 |
+| Strategies\Scouts and Cavalry Archers                                                                                                     |          6 |        623 |         18 |         77 |        718 |
+| Strategies\Scouts into Knights                                                                                                            |          6 |        543 |         18 |         70 |        631 |
+| Strategies\Spearmen and Skirm Rush                                                                                                        |          7 |      1,581 |         47 |        245 |      1,873 |
+| Strategies\Straight Archers                                                                                                               |          8 |      1,032 |         33 |        161 |      1,226 |
+| Strategies\Surprise Light Cav                                                                                                             |          6 |      1,379 |         42 |        217 |      1,638 |
+| The Peasant                                                                                                                               |          8 |      1,512 |         45 |        245 |      1,802 |
++-------------------------------------------------------------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------------------------------------------------------------------+---------------+------------+------------+------------+------------+
+| filename                                                                                                                                  | language      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------------------------------------------------------------------+---------------+------------+------------+------------+------------+
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Britons\Loads.per                                          | Aoe2 AiScript |         41 |          2 |         12 |         55 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Britons\Reactions.per                                      | Aoe2 AiScript |         97 |          0 |          8 |        105 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Byzantines\Loads.per                                       | Aoe2 AiScript |         59 |          2 |         14 |         75 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Byzantines\Reactions.per                                   | Aoe2 AiScript |        170 |          0 |         16 |        186 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Celts\Loads.per                                            | Aoe2 AiScript |         58 |          2 |         10 |         70 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Celts\Reactions.per                                        | Aoe2 AiScript |        131 |          0 |         12 |        143 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Chinese\Loads.per                                          | Aoe2 AiScript |         59 |          2 |         17 |         78 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Chinese\Reactions.per                                      | Aoe2 AiScript |        153 |          0 |         15 |        168 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Franks\Loads.per                                           | Aoe2 AiScript |         57 |          4 |         10 |         71 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Franks\Reactions.per                                       | Aoe2 AiScript |        107 |          0 |          9 |        116 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Generic\Loads.per                                          | Aoe2 AiScript |         11 |          0 |          3 |         14 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Generic\Reaction Buildings.per                             | Aoe2 AiScript |         54 |          1 |          6 |         61 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Generic\Reactions.per                                      | Aoe2 AiScript |        154 |          0 |         16 |        170 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Generic\Reactive Research.per                              | Aoe2 AiScript |        274 |          2 |         35 |        311 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Goths\Loads.per                                            | Aoe2 AiScript |         61 |          6 |         10 |         77 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Goths\Reactions.per                                        | Aoe2 AiScript |        152 |          0 |         14 |        166 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Japanese\Loads.per                                         | Aoe2 AiScript |         53 |          4 |         13 |         70 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Japanese\Reactions.per                                     | Aoe2 AiScript |        142 |          0 |         13 |        155 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Mongols\Loads.per                                          | Aoe2 AiScript |         58 |          2 |         15 |         75 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Mongols\Reactions.per                                      | Aoe2 AiScript |        136 |          0 |         13 |        149 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Persians\Loads.per                                         | Aoe2 AiScript |         50 |          3 |          5 |         58 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Persians\Reactions.per                                     | Aoe2 AiScript |         97 |          0 |          8 |        105 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Saracens\Loads.per                                         | Aoe2 AiScript |         53 |          4 |          9 |         66 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Saracens\Reactions.per                                     | Aoe2 AiScript |        180 |          0 |         18 |        198 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Teutons\Loads.per                                          | Aoe2 AiScript |         31 |          1 |          6 |         38 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Teutons\Reactions.per                                      | Aoe2 AiScript |        122 |          0 |         11 |        133 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Turks\Loads.per                                            | Aoe2 AiScript |         50 |          1 |          7 |         58 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Turks\Reactions.per                                        | Aoe2 AiScript |        114 |          0 |         10 |        124 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Vikings\Loads.per                                          | Aoe2 AiScript |         38 |          2 |          7 |         47 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Civs\Vikings\Reactions.per                                      | Aoe2 AiScript |        152 |          0 |         14 |        166 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Attack.per                                          | Aoe2 AiScript |         23 |          0 |          2 |         25 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Buildings.per                                       | Aoe2 AiScript |        164 |         13 |         34 |        211 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Escrow.per                                          | Aoe2 AiScript |         99 |          0 |          8 |        107 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Expansion.per                                       | Aoe2 AiScript |        217 |          0 |         28 |        245 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Market.per                                          | Aoe2 AiScript |         83 |          1 |         11 |         95 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Research.per                                        | Aoe2 AiScript |        761 |         22 |        116 |        899 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Strategic Numbers.per                               | Aoe2 AiScript |         73 |          3 |          8 |         84 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Units.per                                           | Aoe2 AiScript |        155 |          3 |         24 |        182 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Villager Distribution.per                           | Aoe2 AiScript |        287 |          1 |         34 |        322 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Maps\Arabia\Walls.per                                           | Aoe2 AiScript |         29 |          0 |          4 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Old Code.per                                                    | Aoe2 AiScript |      5,878 |        143 |        827 |      6,848 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Resign.per                                                      | Aoe2 AiScript |         10 |          0 |          1 |         11 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Common\Buildings.per                                 | Aoe2 AiScript |         47 |          6 |         12 |         65 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Common\Expansion.per                                 | Aoe2 AiScript |        225 |          0 |         28 |        253 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Common\TSA.per                                       | Aoe2 AiScript |        240 |          0 |         20 |        260 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Common\Villager Distribution.per                     | Aoe2 AiScript |          8 |          0 |          0 |          8 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Crossbows\Attack-now.per                     | Aoe2 AiScript |         26 |          0 |          2 |         28 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Crossbows\Attack.per                         | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Crossbows\Buildings.per                      | Aoe2 AiScript |        198 |         16 |         38 |        252 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Crossbows\Market.per                         | Aoe2 AiScript |         58 |          1 |         11 |         70 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Crossbows\Research.per                       | Aoe2 AiScript |        768 |         27 |        126 |        921 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Crossbows\Units.per                          | Aoe2 AiScript |        187 |          3 |         28 |        218 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Crossbows\Villager Distribution.per          | Aoe2 AiScript |        213 |          0 |         27 |        240 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Infantry\Attack-now.per                      | Aoe2 AiScript |         27 |          0 |          2 |         29 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Infantry\Attack.per                          | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Infantry\Buildings.per                       | Aoe2 AiScript |        199 |         15 |         37 |        251 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Infantry\Market.per                          | Aoe2 AiScript |         59 |          1 |         11 |         71 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Infantry\Research.per                        | Aoe2 AiScript |        837 |         29 |        136 |      1,002 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Infantry\Units.per                           | Aoe2 AiScript |        187 |          3 |         28 |        218 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Infantry\Villager Distribution.per           | Aoe2 AiScript |        213 |          0 |         27 |        240 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Knights\Attack-now.per                       | Aoe2 AiScript |         27 |          0 |          2 |         29 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Knights\Attack.per                           | Aoe2 AiScript |         24 |          0 |          2 |         26 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Knights\Buildings.per                        | Aoe2 AiScript |        238 |         16 |         42 |        296 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Knights\Market.per                           | Aoe2 AiScript |         59 |          1 |         11 |         71 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Knights\Research.per                         | Aoe2 AiScript |        789 |         30 |        132 |        951 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Knights\Units.per                            | Aoe2 AiScript |        191 |          3 |         29 |        223 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Knights\Villager Distribution.per            | Aoe2 AiScript |        213 |          0 |         27 |        240 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Monks and Siege\Attack-now.per               | Aoe2 AiScript |         35 |          0 |          3 |         38 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Monks and Siege\Attack.per                   | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Monks and Siege\Buildings.per                | Aoe2 AiScript |        194 |         14 |         35 |        243 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Monks and Siege\Market.per                   | Aoe2 AiScript |         74 |          1 |         13 |         88 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Monks and Siege\Research.per                 | Aoe2 AiScript |        721 |         25 |        119 |        865 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Monks and Siege\Units.per                    | Aoe2 AiScript |        188 |          3 |         28 |        219 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Monks and Siege\Villager Distribution.per    | Aoe2 AiScript |        213 |          0 |         27 |        240 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Trash and Siege\Attack-now.per               | Aoe2 AiScript |         27 |          0 |          2 |         29 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Trash and Siege\Attack.per                   | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Trash and Siege\Buildings.per                | Aoe2 AiScript |        220 |         16 |         40 |        276 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Trash and Siege\Market.per                   | Aoe2 AiScript |         59 |          1 |         11 |         71 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Trash and Siege\Research.per                 | Aoe2 AiScript |        818 |         28 |        132 |        978 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Trash and Siege\Units.per                    | Aoe2 AiScript |        192 |          3 |         29 |        224 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Trash and Siege\Villager Distribution.per    | Aoe2 AiScript |        213 |          0 |         27 |        240 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Unique Unit\Attack-now.per                   | Aoe2 AiScript |         60 |          0 |          5 |         65 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Unique Unit\Attack.per                       | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Unique Unit\Buildings.per                    | Aoe2 AiScript |        222 |         14 |         39 |        275 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Unique Unit\Market.per                       | Aoe2 AiScript |         48 |          1 |          9 |         58 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Unique Unit\Research.per                     | Aoe2 AiScript |        742 |         22 |        116 |        880 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\FC into Unique Unit\Villager Distribution.per        | Aoe2 AiScript |        232 |          0 |         28 |        260 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Fast IMP into BBC\Attack-now.per                     | Aoe2 AiScript |         36 |          0 |          3 |         39 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Fast IMP into BBC\Attack.per                         | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Fast IMP into BBC\Buildings.per                      | Aoe2 AiScript |        203 |         17 |         39 |        259 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Fast IMP into BBC\Market.per                         | Aoe2 AiScript |         73 |          1 |         13 |         87 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Fast IMP into BBC\Research.per                       | Aoe2 AiScript |        732 |         25 |        121 |        878 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Fast IMP into BBC\Units.per                          | Aoe2 AiScript |        187 |          3 |         28 |        218 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Fast IMP into BBC\Villager Distribution.per          | Aoe2 AiScript |        222 |          0 |         28 |        250 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Attack-now.per                        | Aoe2 AiScript |         27 |          0 |          1 |         28 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Attack.per                            | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Buildings.per                         | Aoe2 AiScript |        265 |         18 |         48 |        331 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Reactions.per                         | Aoe2 AiScript |         78 |          0 |          7 |         85 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Research.per                          | Aoe2 AiScript |        782 |         28 |        125 |        935 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Strategic Numbers.per                 | Aoe2 AiScript |         73 |          3 |          8 |         84 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Units.per                             | Aoe2 AiScript |        181 |          3 |         31 |        215 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\MAA and Towers\Villager Distribution.per             | Aoe2 AiScript |        185 |          0 |         24 |        209 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Persian Steamroll\Attack-now.per                     | Aoe2 AiScript |         14 |          0 |          1 |         15 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Persian Steamroll\Buildings.per                      | Aoe2 AiScript |        259 |         17 |         47 |        323 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Persian Steamroll\Market.per                         | Aoe2 AiScript |         66 |          1 |         12 |         79 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Persian Steamroll\Research.per                       | Aoe2 AiScript |        686 |         22 |        110 |        818 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Persian Steamroll\Units.per                          | Aoe2 AiScript |        156 |          3 |         24 |        183 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Persian Steamroll\Villager Distribution.per          | Aoe2 AiScript |        219 |          0 |         28 |        247 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts and Cavalry Archers\Attack.per                | Aoe2 AiScript |         34 |          0 |          3 |         37 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts and Cavalry Archers\Buildings.per             | Aoe2 AiScript |        107 |          8 |         18 |        133 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts and Cavalry Archers\Escrow.per                | Aoe2 AiScript |         14 |          0 |          1 |         15 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts and Cavalry Archers\Research.per              | Aoe2 AiScript |        273 |         10 |         37 |        320 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts and Cavalry Archers\Units.per                 | Aoe2 AiScript |         16 |          0 |          1 |         17 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts and Cavalry Archers\Villager Distribution.per | Aoe2 AiScript |        179 |          0 |         17 |        196 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts into Knights\Attack.per                       | Aoe2 AiScript |         42 |          0 |          4 |         46 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts into Knights\Buildings.per                    | Aoe2 AiScript |         87 |          8 |         16 |        111 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts into Knights\Escrow.per                       | Aoe2 AiScript |         14 |          0 |          1 |         15 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts into Knights\Research.per                     | Aoe2 AiScript |        203 |         10 |         30 |        243 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts into Knights\Units.per                        | Aoe2 AiScript |         22 |          0 |          2 |         24 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Scouts into Knights\Villager Distribution.per        | Aoe2 AiScript |        175 |          0 |         17 |        192 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Spearmen and Skirm Rush\Attack-now.per               | Aoe2 AiScript |         27 |          0 |          2 |         29 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Spearmen and Skirm Rush\Attack.per                   | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Spearmen and Skirm Rush\Buildings.per                | Aoe2 AiScript |        212 |         15 |         38 |        265 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Spearmen and Skirm Rush\Market.per                   | Aoe2 AiScript |         59 |          1 |         11 |         71 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Spearmen and Skirm Rush\Research.per                 | Aoe2 AiScript |        846 |         28 |        135 |      1,009 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Spearmen and Skirm Rush\Units.per                    | Aoe2 AiScript |        194 |          3 |         29 |        226 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Spearmen and Skirm Rush\Villager Distribution.per    | Aoe2 AiScript |        213 |          0 |         27 |        240 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Attack-now.per                      | Aoe2 AiScript |         41 |          0 |          4 |         45 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Attack.per                          | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Buildings.per                       | Aoe2 AiScript |        208 |         16 |         38 |        262 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Escrow.per                          | Aoe2 AiScript |         18 |          0 |          2 |         20 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Market.per                          | Aoe2 AiScript |         43 |          1 |          9 |         53 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Research.per                        | Aoe2 AiScript |        308 |         13 |         51 |        372 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Units.per                           | Aoe2 AiScript |        188 |          3 |         31 |        222 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Straight Archers\Villager Distribution.per           | Aoe2 AiScript |        196 |          0 |         23 |        219 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Surprise Light Cav\Attack-now.per                    | Aoe2 AiScript |          9 |          0 |          0 |          9 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Surprise Light Cav\Buildings.per                     | Aoe2 AiScript |        247 |         16 |         43 |        306 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Surprise Light Cav\Market.per                        | Aoe2 AiScript |         65 |          1 |         12 |         78 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Surprise Light Cav\Research.per                      | Aoe2 AiScript |        687 |         22 |        110 |        819 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Surprise Light Cav\Units.per                         | Aoe2 AiScript |        152 |          3 |         24 |        179 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Strategies\Surprise Light Cav\Villager Distribution.per         | Aoe2 AiScript |        219 |          0 |         28 |        247 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\Taunts.per                                                      | Aoe2 AiScript |        134 |          0 |         18 |        152 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Attack.per                                          | Aoe2 AiScript |         30 |          0 |          3 |         33 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Buildings.per                                       | Aoe2 AiScript |        198 |         15 |         39 |        252 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Expansion.per                                       | Aoe2 AiScript |        217 |          0 |         28 |        245 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Loads.per                                           | Aoe2 AiScript |          7 |          0 |          1 |          8 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Market.per                                          | Aoe2 AiScript |         14 |          1 |          7 |         22 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Research.per                                        | Aoe2 AiScript |        862 |         27 |        136 |      1,025 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Units.per                                           | Aoe2 AiScript |        120 |          2 |         23 |        145 |
+| e:\SteamLibrary\steamapps\common\AoE2DE\resources\_common\ai\The King 1.4\The Peasant\Villager Distribution.per                           | Aoe2 AiScript |         64 |          0 |          8 |         72 |
+| Total                                                                                                                                     |               |     31,442 |        847 |      4,646 |     36,935 |
++-------------------------------------------------------------------------------------------------------------------------------------------+---------------+------------+------------+------------+------------+

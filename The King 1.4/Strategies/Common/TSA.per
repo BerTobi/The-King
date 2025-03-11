@@ -1,0 +1,72 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 10)
+    (current-age == feudal-age)
+    (not(civ-selected briton))
+=>
+    (set-strategic-number sn-number-defend-groups 0)
+	(set-strategic-number sn-number-attack-groups 5)			
+	(set-strategic-number sn-minimum-attack-group-size 5)			
+	(set-strategic-number sn-maximum-attack-group-size 5)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 25)
+    (current-age == castle-age)
+    (not(civ-selected briton))
+=>
+    (set-strategic-number sn-number-defend-groups 0)
+	(set-strategic-number sn-number-attack-groups 8)			
+	(set-strategic-number sn-minimum-attack-group-size 5)			
+	(set-strategic-number sn-maximum-attack-group-size 5)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population > 40)
+    (current-age == imperial-age)
+    (not(civ-selected briton))
+=>
+    (set-strategic-number sn-number-defend-groups 0)
+	(set-strategic-number sn-number-attack-groups 40)			
+	(set-strategic-number sn-minimum-attack-group-size 5)			
+	(set-strategic-number sn-maximum-attack-group-size 5)
+)
+
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population < 5)
+    (current-age == feudal-age)
+    (not(civ-selected briton))
+=>
+    (set-strategic-number sn-number-defend-groups 40)
+	(set-strategic-number sn-number-attack-groups 0)			
+	(set-strategic-number sn-minimum-attack-group-size 1)			
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population < 15)
+    (current-age == castle-age)
+    (not(civ-selected briton))
+=>
+    (set-strategic-number sn-number-defend-groups 40)
+	(set-strategic-number sn-number-attack-groups 0)			
+	(set-strategic-number sn-minimum-attack-group-size 1)			
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (military-population < 25)
+    (current-age == imperial-age)
+    (not(civ-selected briton))
+=>
+    (set-strategic-number sn-number-defend-groups 40)
+	(set-strategic-number sn-number-attack-groups 0)			
+	(set-strategic-number sn-minimum-attack-group-size 1)			
+	(set-strategic-number sn-maximum-attack-group-size 1)
+)

@@ -1,0 +1,29 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count-total knight-line > 5)
+    (current-age <= castle-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count-total mangonel-line > 2)
+    (current-age == castle-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count-total knight-line > 10)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)

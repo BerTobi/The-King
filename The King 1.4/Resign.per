@@ -1,0 +1,10 @@
+(defrule
+	(building-type-count-total town-center == 0)
+	(unit-type-count villager == 0)
+	(not(can-build town-center))
+	(unit-type-count monk == 0)
+	(not(can-train monk))
+=>
+	(chat-to-all "Your land wasn't as good as I thought. We'll establish our kingdom in another place.")
+	(resign)
+)

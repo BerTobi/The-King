@@ -1,0 +1,86 @@
+;Market
+
+(defrule
+	(current-age == feudal-age)
+    (gold-amount > 300)
+    (food-amount < 800)
+	(goal TO-CASTLE NO)
+    (building-type-count market >= 1)
+=>
+    (buy-commodity food)
+)
+
+(defrule
+	(current-age == feudal-age)
+    (gold-amount < 300)
+	(goal TO-CASTLE NO)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity stone)
+)
+
+(defrule
+	(current-age == castle-age)
+    (gold-amount < 800)
+	(goal TO-IMPERIAL NO)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity stone)
+)
+
+(defrule
+	(current-age == castle-age)
+    (gold-amount < 800)
+	(goal TO-IMPERIAL NO)
+    (building-type-count-total siege-workshop >= 1)
+    (building-type-count-total monastery >= 1)
+=>
+    (sell-commodity wood)
+)
+
+(defrule
+	(current-age == castle-age)
+    (gold-amount > 900)
+    (food-amount < 1000)
+	(goal TO-IMPERIAL NO)
+    (building-type-count market >= 1)
+=>
+    (buy-commodity food)
+)
+
+(defrule
+	(current-age == imperial-age)
+    (unit-type-count-total bombard-cannon < 1)
+    (building-type-count market >= 1)
+=>
+    (buy-commodity wood)
+)
+
+(defrule
+    (gold-amount > 1000)
+    (food-amount < 500)
+    (building-type-count market >= 1)
+=>
+    (buy-commodity food)
+)
+
+(defrule
+    (food-amount > 1500)
+    (gold-amount < 1000)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity food)
+    (chat-to-player my-player-number "Selling excess food")
+)
+
+(defrule
+    (wood-amount > 800)
+    (gold-amount < 1000)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity wood)
+    (chat-to-player my-player-number "Selling excess wood")
+)
+
+
+

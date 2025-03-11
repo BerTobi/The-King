@@ -1,0 +1,371 @@
+;Age up
+
+(defrule
+	(can-research-with-escrow feudal-age)
+	(unit-type-count villager >= 20)
+=>
+	(release-escrow food)
+	(research feudal-age)
+	(set-goal TO-FEUDAL YES)
+)
+
+(defrule
+	(current-age == feudal-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow castle-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research castle-age)
+	(set-goal TO-CASTLE YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == castle-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow imperial-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research imperial-age)
+	(set-goal TO-IMPERIAL YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == imperial-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(set-goal PRIORITIZE-AGE-UP NO)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(or (not(can-train villager)) (unit-type-count villager >= 24))
+	(can-research ri-loom)
+=>
+	(research ri-loom)
+)
+
+(defrule
+	(unit-type-count villager > 35)
+	(can-research-with-escrow ri-wheel-barrow)
+	(current-age >= feudal-age)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-wheel-barrow)
+)
+
+(defrule
+	(unit-type-count villager >= MAX-VILLAGERS)
+	(can-research-with-escrow ri-hand-cart)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-hand-cart)
+);Age up
+
+(defrule
+	(can-research-with-escrow feudal-age)
+	(unit-type-count villager >= 20)
+=>
+	(release-escrow food)
+	(research feudal-age)
+	(set-goal TO-FEUDAL YES)
+)
+
+(defrule
+	(current-age == feudal-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow castle-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research castle-age)
+	(set-goal TO-CASTLE YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == castle-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow imperial-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research imperial-age)
+	(set-goal TO-IMPERIAL YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == imperial-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(set-goal PRIORITIZE-AGE-UP NO)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(or (not(can-train villager)) (unit-type-count villager >= 20))
+	(can-research ri-loom)
+=>
+	(research ri-loom)
+)
+
+(defrule
+	(unit-type-count villager > 35)
+	(can-research-with-escrow ri-wheel-barrow)
+	(current-age >= feudal-age)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-wheel-barrow)
+)
+
+(defrule
+	(unit-type-count villager >= MAX-VILLAGERS)
+	(can-research-with-escrow ri-hand-cart)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-hand-cart)
+)
+
+;Priorities
+
+    ;Feudal Age
+
+    (defrule
+        (current-age == feudal-age)
+        (goal TECH-PRIORITY IMPORTANT)
+        (research-completed ri-double-bit-axe)
+        (research-completed ri-fletching)
+    =>
+        (set-goal TECH-PRIORITY SEMI-IMPORTANT)
+        (chat-to-player my-player-number "Priority: Semi-Important techs")
+        (disable-self)
+    )
+
+    (defrule
+        (current-age == feudal-age)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (research-completed ri-gold-mining)
+        (research-completed ri-padded-archer-armor)
+    =>
+        (set-goal TECH-PRIORITY NON-IMPORTANT)
+        (set-goal PRIORITIZE-TECH NO)
+        (chat-to-player my-player-number "Allowing Non-Important techs")
+        (disable-self)
+    )
+
+    ;Castle Age
+
+    (defrule
+        (current-age == castle-age)
+        (goal TECH-PRIORITY IMPORTANT)
+        (research-completed ri-crossbow)
+        (research-completed ri-bodkin-arrow)
+    =>
+        (set-goal TECH-PRIORITY SEMI-IMPORTANT)
+        (chat-to-player my-player-number "Priority: Semi-Important techs")
+        (disable-self)
+    )
+
+    (defrule
+        (current-age == castle-age)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (research-completed ri-ballistics)
+        (research-completed ri-leather-archer-armor)
+    =>
+        (set-goal TECH-PRIORITY NON-IMPORTANT)
+        (set-goal PRIORITIZE-TECH NO)
+        (chat-to-player my-player-number "Allowing Non-Important techs")
+        (disable-self)
+    )
+
+    ;Imperial Age
+
+    (defrule
+        (current-age == imperial-age)
+        (goal TECH-PRIORITY IMPORTANT)
+        (research-completed ri-arbalest)
+        (research-completed ri-bracer)
+    =>
+        (set-goal TECH-PRIORITY SEMI-IMPORTANT)
+        (chat-to-player my-player-number "Priority: Semi-Important techs")
+        (disable-self)
+    )
+
+    (defrule
+        (current-age == imperial-age)
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (research-completed ri-chemistry)
+        (research-completed ri-ring-archer-armor)
+        (research-completed ri-capped-ram)
+    =>
+        (set-goal TECH-PRIORITY NON-IMPORTANT)
+        (set-goal PRIORITIZE-TECH NO)
+        (chat-to-player my-player-number "Allowing Non-Important techs")
+        (disable-self)
+    )   
+
+;Feudal Age
+
+    ;Economy
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (building-type-count-total archery-range >= 1)
+        (can-research-with-escrow ri-double-bit-axe)
+    =>
+        (release-escrow wood)
+        (release-escrow food)
+        (research ri-double-bit-axe)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research ri-gold-mining)
+    =>
+        (research ri-gold-mining)
+    )
+
+    ;Military
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-fletching)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-fletching)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-padded-archer-armor)
+    =>
+        (release-escrow food)
+        (research ri-padded-archer-armor)
+    )
+
+;Castle Age
+
+    ;Military
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-crossbow)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-crossbow)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-bodkin-arrow)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-bodkin-arrow)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-leather-archer-armor)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-leather-archer-armor)
+    )
+
+    (defrule
+        (or (and (goal TECH-PRIORITY SEMI-IMPORTANT) (current-age == castle-age))
+            (current-age == imperial-age))
+        (can-research-with-escrow ri-ballistics)
+    =>
+        (release-escrow wood)
+        (release-escrow gold)
+        (research ri-ballistics)
+    )
+
+;Imperial Age
+
+    ;Military
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-arbalest)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-arbalest)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-capped-ram)
+    =>
+        (release-escrow food)
+        (research ri-capped-ram)
+    )
+
+    ;Defense
+
+    (defrule
+        (goal TECH-PRIORITY IMPORTANT)
+        (can-research-with-escrow ri-bracer)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-bracer)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-ring-archer-armor)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-ring-archer-armor)
+    )
+
+    (defrule
+        (goal TECH-PRIORITY SEMI-IMPORTANT)
+        (can-research-with-escrow ri-chemistry)
+    =>
+        (release-escrow food)
+        (release-escrow gold)
+        (research ri-chemistry)
+    )
+

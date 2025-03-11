@@ -1,0 +1,210 @@
+;Buildings
+
+	;Economic Buildings
+
+		(defrule
+			(building-type-count-total town-center < 1)
+            (can-build-with-escrow town-center)
+		=>
+            (release-escrow wood)
+            (release-escrow stone)
+			(build town-center)
+		)
+
+        ;Houses
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (housing-headroom < 4)
+            (population-headroom > 3)
+            (can-build house)
+        =>
+            (build house)
+        )
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (current-age >= feudal-age)
+            (housing-headroom < 10)
+            (population-headroom > 3)
+            (can-build house)
+        =>
+            (build house)
+        )
+
+        ;Lumber camps
+        
+        (defrule
+            (building-type-count-total lumber-camp == 0)
+			(unit-type-count villager > 6)
+			(resource-found wood)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total lumber-camp < 2)
+			(current-age >= feudal-age)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total lumber-camp < 4)
+			(current-age >= castle-age)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total lumber-camp < 6)
+			(current-age >= imperial-age)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+        ;Mining camps
+
+        (defrule
+			(building-type-count-total town-center >= 1)
+            (building-type-count-total lumber-camp >= 1)
+            (building-type-count-total mining-camp < 1)
+            (unit-type-count villager > 24)
+			(resource-found gold)
+            (can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+        (defrule
+			(building-type-count-total town-center >= 1)
+            (building-type-count-total market >= 1)
+            (building-type-count-total mining-camp < 2)
+            (current-age == feudal-age)
+			(resource-found stone)
+            (can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+        (defrule
+			(building-type-count-total town-center >= 1)
+            (building-type-count-total siege-workshop >= 1)
+            (building-type-count-total mining-camp < 4)
+            (current-age >= castle-age)
+            (can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+        ;Farms
+
+        (defrule
+			(building-type-count-total town-center >= 1)
+            (unit-type-count 594 <= 1)
+            (idle-farm-count < 2)
+            (can-build farm)
+		=>
+			(build farm)
+		)
+
+        ;Blacksmiths
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total archery-range >= 1)
+            (building-type-count-total blacksmith < 1)
+            (can-build blacksmith)
+        =>
+            (build blacksmith)
+            (chat-to-all "Building blacksmith")
+        )
+
+        ;Markets
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total blacksmith >= 1)
+            (building-type-count-total market < 1)
+            (can-build market)
+        =>
+            (build market)
+            (chat-to-all "Building market")
+        )
+
+        ;Universities
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total market >= 1)
+            (building-type-count-total university < 1)
+            (can-build university)
+        =>
+            (build university)
+            (chat-to-all "Building university")
+        )
+
+    ;Military Buildings
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total barracks < 1)
+            (goal TO-FEUDAL YES)
+            (can-build barracks)
+        =>
+            (build barracks)
+        )
+
+        ;Archery Ranges
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total archery-range < 2)
+            (can-build archery-range)
+        =>
+            (build archery-range)
+            (chat-to-all "Building archery range")
+        )
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total archery-range < 3)
+            (building-type-count-total market >= 1)
+            (can-build archery-range)
+        =>
+            (build archery-range)
+            (chat-to-all "Building archery range")
+        )
+
+        ;Siege Workshop
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total university >= 1)
+            (building-type-count-total siege-workshop < 1)
+            (can-build siege-workshop)
+        =>
+            (build siege-workshop)
+            (chat-to-all "Building siege workshop")
+        )
+
+        ;Monastery
+
+        (defrule
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total siege-workshop >= 1)
+            (building-type-count-total monastery < 1)
+            (can-build monastery)
+        =>
+            (build monastery)
+            (chat-to-all "Building monastery")
+        )
+
+

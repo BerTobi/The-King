@@ -1,0 +1,61 @@
+;Reaction Buildings
+
+(defrule
+	(current-age >= feudal-age)
+	(goal SCOUTS YES)
+	(building-type-count-total stable < 2)
+	(can-build-with-escrow stable)
+=>
+	(release-escrow wood)
+	(build stable)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(or (or (goal SCOUTS YES) (goal KNIGHTS YES) )(goal CAMELS YES))
+	(building-type-count-total stable < 3)
+	(can-build-with-escrow stable)
+=>
+	(release-escrow wood)
+	(build stable)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(or (goal PIKEMEN YES) (goal MILITIA YES))
+	(building-type-count-total barracks == 0)
+	(can-build-with-escrow barracks)
+=>
+	(release-escrow wood)
+	(build barracks)
+)
+
+(defrule
+	(current-age >= castle-age)
+	(or (goal PIKEMEN YES) (goal MILITIA YES))
+	(building-type-count-total barracks < 3)
+	(can-build-with-escrow barracks)
+=>
+	(release-escrow wood)
+	(build barracks)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES) )(goal CAV-ARCHER YES))
+	(building-type-count-total archery-range == 0)
+	(can-build-with-escrow archery-range)
+=>
+	(release-escrow wood)
+	(build archery-range)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES) )(goal CAV-ARCHER YES))
+	(building-type-count-total archery-range < 3)
+	(can-build-with-escrow archery-range)
+=>
+	(release-escrow wood)
+	(build archery-range)
+)

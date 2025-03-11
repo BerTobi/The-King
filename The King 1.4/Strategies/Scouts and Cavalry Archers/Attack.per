@@ -1,0 +1,37 @@
+(defrule
+	(unit-type-count scout-cavalry-line <= 5)
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+=>
+	(set-strategic-number sn-number-attack-groups 0)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(unit-type-count scout-cavalry-line > 5)
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(timer-triggered ATTACK-TIMER)
+	(goal MILITIA NO)
+	(goal PIKEMEN NO)
+	(goal TO-CASTLE NO)
+=>
+	(attack-now)
+	(disable-self)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(unit-type-count scout-cavalry-line > 10)
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(timer-triggered ATTACK-TIMER)
+	(goal TO-CASTLE NO)
+=>
+	(attack-now)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age >= castle-age)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)

@@ -1,0 +1,75 @@
+#load-if-defined BYZANTINE-CIV
+
+    #load-if-defined ARABIA-MAP
+
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: Spearmen and Skirm Rush")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Maps/Arabia/Escrow")
+
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Research")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Units")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Market")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Buildings")
+        ;(load "The King 1.4/Strategies/Spearmen and Skirm Rush/Attack")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Byzantines/Reactions")
+    #end-if
+
+    #load-if-defined GOLD-RUSH-MAP
+
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: Spearmen and Skirm Rush")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Maps/Arabia/Escrow")
+
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Research")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Units")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Market")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Buildings")
+        ;(load "The King 1.4/Strategies/Spearmen and Skirm Rush/Attack")
+        (load "The King 1.4/Strategies/Spearmen and Skirm Rush/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Byzantines/Reactions")
+    #end-if
+
+    #load-if-not-defined ARABIA-MAP
+    #load-if-not-defined GOLD-RUSH-MAP
+        
+        (defrule
+        	(true)
+        =>
+        	(chat-to-player my-player-number "Strategy: FC into unique unit")
+        	(disable-self)
+        )
+        
+
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Maps/Arabia/Escrow")
+
+        (load "The King 1.4/Strategies/FC into Unique Unit/Research")
+        (load "The King 1.4/Maps/Arabia/Units")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Market")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Buildings")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Attack-now")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Villager Distribution")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Byzantines/Reactions")
+
+    #end-if
+    #end-if
+#end-if

@@ -1,0 +1,6848 @@
+;My AI for AoK
+;King v1.1
+
+;Info
+
+(defrule
+	(unit-type-count-total villager > 0)
+=>
+	(chat-to-all "My kingdom is in need of more land, and yours looks like it would suit our needs.")
+	(disable-self)
+)
+
+;Constants
+
+(defconst NO 0)
+(defconst YES 1)
+(defconst PRIORITIZE-TECH 2)
+(defconst PRIORITIZE-AGE-UP 3)
+(defconst ARCHERS 4)
+(defconst KNIGHTS 5)
+(defconst MILITIA 6)
+(defconst SKIRMISHERS 7)
+(defconst PIKEMEN 8)
+(defconst CAV-ARCHERS 9)
+(defconst CAMELS 10)
+(defconst HAND-CANNONEER 11)
+(defconst SCOUTS 12)
+(defconst DEFAULT-BEHAVIOUR 13)
+(defconst TOWER-RUSH 14)
+(defconst BOMBARD-TOWERS 15)
+(defconst WALLS 16)
+(defconst STRATEGY-STRAIGHT-ARCHERS 17)
+(defconst STRATEGY-SCOUTS-INTO-KNIGHTS 18)
+(defconst STRATEGY-INFANTRY 19) 
+(defconst NO-STRATEGY 20) 
+(defconst TECH-PRIORITY 21)
+(defconst UNIQUE-UNIT-CLASS 22)
+(defconst MANGONEL 23)
+(defconst SCORPION 24)
+(defconst HALT-PRODUCTION 25)
+(defconst STRATEGY-SCOUTS-AND-CA 26)
+
+
+(defconst TO-FEUDAL 38)
+(defconst TO-CASTLE 39)
+(defconst TO-IMPERIAL 40)
+
+(defconst ATTACK-TIMER 41)
+(defconst REACTION-TIMER 42)
+(defconst DEACTIVATE-REACTION-TIMER 43)
+
+(defconst ARCHER 180)
+(defconst CAV-ARCHER 181)
+(defconst INFANTRY 182)
+(defconst CAVALRY 183)
+(defconst GUNPOWDER 184)
+
+(defconst IMPORTANT 200)
+(defconst SEMI-IMPORTANT 199)
+(defconst NON-IMPORTANT 198)
+
+(defrule
+	(true)
+=>
+	(enable-timer ATTACK-TIMER 60)
+	(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	(set-goal HALT-PRODUCTION NO)
+	(disable-self)
+)
+
+#load-if-defined POPULATION-CAP-75
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-MILITARY 20)
+	(defconst MAX-SIEGE 3)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 15)
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 25)			
+#end-if
+
+#load-if-defined POPULATION-CAP-100
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-MILITARY 40)
+	(defconst MAX-SIEGE 4)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 20)
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 30)			
+#end-if
+
+#load-if-defined POPULATION-CAP-125
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-MILITARY 65)
+	(defconst MAX-SIEGE 5)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 20)
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 40)			
+#end-if
+
+#load-if-defined POPULATION-CAP-200
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-MILITARY 140)
+	(defconst MAX-SIEGE 10)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 25)		
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 60)	
+#end-if
+
+;Goals
+
+(defrule
+	(true)
+=>
+	(set-goal TO-FEUDAL NO)
+	(set-goal TO-CASTLE NO)
+	(set-goal TO-IMPERIAL NO)
+	(set-goal PRIORITIZE-TECH NO)
+	(set-goal PRIORITIZE-AGE-UP NO)
+	(set-goal DEFAULT-BEHAVIOUR YES)
+	(set-goal TOWER-RUSH NO)
+	(set-goal BOMBARD-TOWERS NO)
+	(disable-self)
+)
+
+#load-if-defined BRITON-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(set-goal UNIQUE-UNIT-CLASS ARCHER)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined BYZANTINE-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(set-goal UNIQUE-UNIT-CLASS CAVALRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined CELTIC-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined CHINESE-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(set-goal UNIQUE-UNIT-CLASS ARCHER)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined FRANKISH-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined GOTHIC-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY YES)
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined JAPANESE-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined MONGOL-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY YES)
+	(set-goal UNIQUE-UNIT-CLASS CAV-ARCHER)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined PERSIAN-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(set-goal UNIQUE-UNIT-CLASS CAVALRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined SARACEN-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(set-goal UNIQUE-UNIT-CLASS CAVALRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined TEUTONIC-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined TURKISH-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-SCOUTS-AND-CA YES)
+	(set-goal UNIQUE-UNIT-CLASS GUNPOWDER)
+	(disable-self)
+)
+
+#end-if
+
+#load-if-defined VIKING-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal NO-STRATEGY NO)
+	(set-goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+#end-if
+
+(defrule
+	(not (goal STRATEGY-STRAIGHT-ARCHERS YES))
+	(not (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES))
+	(not (goal STRATEGY-SCOUTS-AND-CA YES))
+=>
+	(set-goal NO-STRATEGY YES)
+)
+
+(defrule
+	(map-type land-nomad)
+=>
+	(set-goal NO-STRATEGY YES)
+	(set-goal STRATEGY-STRAIGHT-ARCHERS NO)
+	(set-goal STRATEGY-SCOUTS-AND-CA NO)
+	(set-goal STRATEGY-SCOUTS-INTO-KNIGHTS NO)
+)
+
+(defrule
+	(goal NO-STRATEGY YES)
+=>
+	(chat-to-player my-player-number "Strategy: FC into unique unit")
+	(disable-self)
+)
+
+(defrule
+	(goal STRATEGY-STRAIGHT-ARCHERS YES)
+=>
+	(chat-to-player my-player-number "Strategy: Archers")
+	(disable-self)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+=>
+	(chat-to-player my-player-number "Strategy: Scouts into Knights")
+	(disable-self)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+=>
+	(chat-to-player my-player-number "Strategy: Scouts and Cavalry Archers")
+	(disable-self)
+)
+
+
+;Per civ reactions
+
+	;Britons
+
+	(defrule
+		(civ-selected briton)
+		(current-age == feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering skirmishers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering skirmishers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering skirmishers: scorpion")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 2)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-pikeman))
+	=>	
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(research-completed ri-pikeman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(goal SKIRMISHERS YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-elite-skirmisher))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected briton)
+		(goal SKIRMISHERS YES)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Byzantines
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(players-unit-type-count any-enemy spearman-line < 1)
+		(goal CAMELS NO)
+	=>
+		(set-goal CAMELS YES)
+		(chat-to-player my-player-number "Countering knights: camels")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering skirmishers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering skirmishers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering skirmishers: scorpion")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 2)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-pikeman))
+	=>	
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(research-completed ri-pikeman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(goal SKIRMISHERS YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-elite-skirmisher))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(goal SKIRMISHERS YES)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(goal CAMELS YES)
+		(current-age >= imperial-age)
+		(not (research-completed ri-heavy-camel))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected byzantine)
+		(goal CAMELS YES)
+		(research-completed ri-heavy-camel)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Celts
+
+	(defrule
+		(civ-selected celtic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal MILITIA NO)
+	=>
+		(set-goal MILITIA YES)
+		(chat-to-player my-player-number "Countering spearmen: militia")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering spearmen: scorpions")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(goal MILITIA YES)
+		(current-age == feudal-age)
+		(not (research-completed ri-man-at-arms))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(goal MILITIA YES)
+		(research-completed ri-man-at-arms)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(goal MILITIA YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-long-swordsman))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected celtic)
+		(goal MILITIA YES)
+		(research-completed ri-long-swordsman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Chinese
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(players-unit-type-count any-enemy spearman-line < 1)
+		(goal CAMELS NO)
+	=>
+		(set-goal CAMELS YES)
+		(chat-to-player my-player-number "Countering knights: camels")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering skirmishers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering skirmishers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering skirmishers: scorpion")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 2)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-pikeman))
+	=>	
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(research-completed ri-pikeman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(goal SKIRMISHERS YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-elite-skirmisher))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(goal SKIRMISHERS YES)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(goal CAMELS YES)
+		(current-age >= imperial-age)
+		(not (research-completed ri-heavy-camel))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected chinese)
+		(goal CAMELS YES)
+		(research-completed ri-heavy-camel)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Franks
+
+	(defrule
+		(civ-selected frankish)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected frankish)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected frankish)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected frankish)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected frankish)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(unit-type-count-total throwing-axeman-line < 1)
+		(goal ARCHERS NO)
+	=>
+		(set-goal ARCHERS YES)
+		(chat-to-player my-player-number "Countering spearmen: archers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected frankish)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering spearmen: scorpions")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected frankish)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected frankish)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	;Goths
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal MILITIA NO)
+	=>
+		(set-goal MILITIA YES)
+		(chat-to-player my-player-number "Countering spearmen: militia")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy militiaman-line > 2)
+		(goal MILITIA NO)
+	=>
+		(set-goal MILITIA YES)
+		(chat-to-player my-player-number "Countering militia: militia")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy militiaman-line > 2)
+		(goal HAND-CANNONEER NO)
+	=>
+		(set-goal HAND-CANNONEER YES)
+		(chat-to-player my-player-number "Countering militia: hand cannoneer")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering spearmen: scorpions")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(unit-type-count huskarl-line < 1)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(goal MILITIA YES)
+		(current-age == feudal-age)
+		(not (research-completed ri-man-at-arms))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(goal MILITIA YES)
+		(research-completed ri-man-at-arms)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(goal MILITIA YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-long-swordsman))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected gothic)
+		(goal MILITIA YES)
+		(research-completed ri-long-swordsman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Japanese
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering skirmishers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering skirmishers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering skirmishers: scorpion")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 2)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-pikeman))
+	=>	
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(research-completed ri-pikeman)
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(goal SKIRMISHERS YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-elite-skirmisher))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected japanese)
+		(goal SKIRMISHERS YES)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Mongols
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(players-unit-type-count any-enemy spearman-line < 1)
+		(goal CAMELS NO)
+	=>
+		(set-goal CAMELS YES)
+		(chat-to-player my-player-number "Countering knights: camels")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering skirmishers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering skirmishers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering skirmishers: scorpion")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 2)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-pikeman))
+	=>	
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(research-completed ri-pikeman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(goal SKIRMISHERS YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-elite-skirmisher))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected mongol)
+		(goal SKIRMISHERS YES)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Persian
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal ARCHERS NO)
+	=>
+		(set-goal ARCHERS YES)
+		(chat-to-player my-player-number "Countering spearmen: archers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering spearmen: scorpions")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected persian)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected persian)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	;Saracens
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(players-unit-type-count any-enemy spearman-line < 5)
+		(goal CAMELS NO)
+	=>
+		(set-goal CAMELS YES)
+		(chat-to-player my-player-number "Countering knights: camels")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering skirmishers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering skirmishers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering skirmishers: scorpion")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 2)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-pikeman))
+	=>	
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(research-completed ri-pikeman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(goal SKIRMISHERS YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-elite-skirmisher))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(goal SKIRMISHERS YES)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(goal CAMELS YES)
+		(current-age >= imperial-age)
+		(not (research-completed ri-heavy-camel))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected saracen)
+		(goal CAMELS YES)
+		(research-completed ri-heavy-camel)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Teutons
+
+	(defrule
+		(civ-selected teutonic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(unit-type-count-total teutonic-knight-line < 1)
+		(goal MILITIA NO)
+	=>
+		(set-goal MILITIA YES)
+		(chat-to-player my-player-number "Countering spearmen: militia")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering spearmen: scorpions")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(goal MILITIA YES)
+		(current-age == feudal-age)
+		(not (research-completed ri-man-at-arms))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(goal MILITIA YES)
+		(research-completed ri-man-at-arms)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(goal MILITIA YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-long-swordsman))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected teutonic)
+		(goal MILITIA YES)
+		(research-completed ri-long-swordsman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Turks
+
+	(defrule
+		(civ-selected turkish)
+		(current-age == feudal-age)
+		(or (players-unit-type-count any-enemy scout-cavalry-line > 1) (players-unit-type-count any-enemy knight-line > 1))
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal CAMELS NO)
+	=>
+		(set-goal CAMELS YES)
+		(chat-to-player my-player-number "Countering knights: camels")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal CAMELS NO)
+	=>
+		(set-goal CAMELS YES)
+		(chat-to-player my-player-number "Countering light cavalry: camels")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal CAV-ARCHERS NO)
+	=>
+		(set-goal CAV-ARCHERS YES)
+		(chat-to-player my-player-number "Countering spearmen: cav-archers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy spearman-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering spearmen: scorpions")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering archers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(goal CAMELS YES)
+		(current-age >= imperial-age)
+		(not (research-completed ri-heavy-camel))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected turkish)
+		(goal CAMELS YES)
+		(research-completed ri-heavy-camel)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	;Vikings
+
+	(defrule
+		(civ-selected viking)
+		(current-age == feudal-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering scouts: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy knight-line > 1)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering knights: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age >= imperial-age)
+		(players-unit-type-count any-enemy scout-cavalry-line > 5)
+		(goal PIKEMEN NO)
+	=>
+		(set-goal PIKEMEN YES)
+		(chat-to-player my-player-number "Countering light cavalry: spearmen")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy scorpion-line > 1)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering scorpions: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCOUTS NO)
+	=>
+		(set-goal SCOUTS YES)
+		(chat-to-player my-player-number "Countering skirmishers: scouts")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age == imperial-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MILITIA NO)
+	=>
+		(set-goal MILITIA YES)
+		(chat-to-player my-player-number "Countering skirmishers: militia")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering skirmishers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age >= castle-age)
+		(players-unit-type-count any-enemy skirmisher-line > 2)
+		(goal SCORPION NO)
+	=>
+		(set-goal SCORPION YES)
+		(chat-to-player my-player-number "Countering skirmishers: scorpion")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age >= feudal-age)
+		(players-unit-type-count any-enemy archer-line > 2)
+		(goal SKIRMISHERS NO)
+	=>
+		(set-goal SKIRMISHERS YES)
+		(chat-to-player my-player-number "Countering archers: skirmishers")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(current-age == castle-age)
+		(players-unit-type-count any-enemy archer-line > 5)
+		(goal MANGONEL NO)
+	=>
+		(set-goal MANGONEL YES)
+		(chat-to-player my-player-number "Countering archers: mangonel")
+		(enable-timer DEACTIVATE-REACTION-TIMER 120)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-pikeman))
+	=>	
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(goal PIKEMEN YES)
+		(current-age >= castle-age)
+		(research-completed ri-pikeman)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(goal SKIRMISHERS YES)
+		(current-age >= castle-age)
+		(not (research-completed ri-elite-skirmisher))
+	=>
+		(set-goal HALT-PRODUCTION YES)
+		(disable-self)
+	)
+
+	(defrule
+		(civ-selected viking)
+		(goal SKIRMISHERS YES)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal HALT-PRODUCTION NO)
+		(disable-self)
+	)
+
+;Deactivate reactions
+
+(defrule
+	(timer-triggered DEACTIVATE-REACTION-TIMER)
+=>
+	(set-goal ARCHERS NO)
+	(set-goal SCOUTS NO)
+	(set-goal KNIGHTS NO)
+	(set-goal SKIRMISHERS NO)
+	(set-goal PIKEMEN NO)
+	(set-goal CAV-ARCHERS NO)
+	(set-goal CAMELS NO)
+	(set-goal HAND-CANNONEER NO)
+	(set-goal MILITIA NO)
+	(set-goal MANGONEL NO)
+	(set-goal SCORPION NO)
+	(chat-to-player my-player-number "Resuming default behaviour")
+	(enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+;Strategic numbers
+
+;Civilian
+
+(defrule
+	(true)
+=>
+	(set-strategic-number sn-percent-civilian-builders 50)
+	(set-strategic-number sn-percent-civilian-gatherers 100)
+	(set-strategic-number sn-cap-civilian-builders 200)
+	(set-strategic-number sn-cap-civilian-explorers 0)
+	(set-strategic-number sn-total-number-explorers 1)
+	(set-strategic-number sn-number-explore-groups 1)
+	(set-strategic-number sn-minimum-civilian-explorers 0)
+	(set-strategic-number sn-initial-exploration-required 0)
+	(set-strategic-number sn-consecutive-idle-unit-limit 0)
+	(set-strategic-number sn-do-not-scale-for-difficulty-level 1)
+	(disable-self)
+)
+
+(defrule
+	(true)
+=>
+	(set-strategic-number sn-zero-priority-distance 255)
+	(set-strategic-number sn-percent-attack-soldiers 100)
+	(set-strategic-number sn-maximum-hunt-drop-distance 20)
+	(set-strategic-number sn-maximum-food-drop-distance 20)
+	(set-strategic-number sn-maximum-gold-drop-distance 5)
+	(set-strategic-number sn-maximum-stone-drop-distance 7)
+	(set-strategic-number sn-maximum-wood-drop-distance 5)
+	(disable-self)
+)
+
+;Town
+
+(defrule
+	(map-type land-nomad)
+	(building-type-count town-center < 1)
+	(military-population < 1)
+	(current-age == dark-age)
+=>
+	(set-strategic-number sn-minimum-town-size 30)
+	(set-strategic-number sn-safe-town-size 20)
+	(set-strategic-number sn-maximum-town-size 50)
+	(set-strategic-number sn-cap-civilian-explorers 2)
+	(set-strategic-number sn-total-number-explorers 2)
+	(set-strategic-number sn-number-explore-groups 2)
+	(set-strategic-number sn-minimum-civilian-explorers 2)
+	(set-strategic-number sn-number-civilian-militia 0)
+)
+
+(defrule
+	(map-type land-nomad)
+	(military-population < 1)
+	(building-type-count town-center >= 1)
+	(current-age == dark-age)
+=>
+	(set-strategic-number sn-minimum-town-size 30)
+	(set-strategic-number sn-maximum-town-size 50)
+	(set-strategic-number sn-cap-civilian-explorers 1)
+	(set-strategic-number sn-total-number-explorers 1)
+	(set-strategic-number sn-number-explore-groups 1)
+	(set-strategic-number sn-minimum-civilian-explorers 1)
+	(set-strategic-number sn-maximum-food-drop-distance 30)
+	(set-strategic-number sn-maximum-gold-drop-distance 30)
+	(set-strategic-number sn-maximum-stone-drop-distance 30)
+	(set-strategic-number sn-maximum-wood-drop-distance 30)
+)
+
+(defrule
+	(map-type land-nomad)
+	(military-population > 1)
+	(building-type-count town-center >= 1)
+	(current-age <= castle-age)
+=>
+	(set-strategic-number sn-minimum-town-size 30)
+	(set-strategic-number sn-maximum-town-size 50)
+	(set-strategic-number sn-cap-civilian-explorers 0)
+	(set-strategic-number sn-total-number-explorers 1)
+	(set-strategic-number sn-number-explore-groups 1)
+	(set-strategic-number sn-minimum-civilian-explorers 0)
+	(set-strategic-number sn-lumber-camp-max-distance 50)
+	(set-strategic-number sn-mining-camp-max-distance 50)
+	(set-strategic-number sn-camp-max-distance 50)
+	(set-strategic-number sn-mill-max-distance 50)
+)
+
+(defrule
+	(map-type land-nomad)
+	(current-age == imperial-age)
+=>
+	(set-strategic-number sn-lumber-camp-max-distance 200)
+	(set-strategic-number sn-mining-camp-max-distance 200)
+	(set-strategic-number sn-camp-max-distance 200)
+	(set-strategic-number sn-mill-max-distance 200)
+)
+
+(defrule
+	(current-age == dark-age)
+=>
+	(set-strategic-number sn-maximum-town-size 15)
+	(set-strategic-number sn-lumber-camp-max-distance 15)
+	(set-strategic-number sn-mining-camp-max-distance 15)
+	(set-strategic-number sn-camp-max-distance 15)
+	(set-strategic-number sn-mill-max-distance 20)
+	(disable-self)
+)
+
+(defrule
+	(current-age == feudal-age)
+=>
+	(set-strategic-number sn-minimum-town-size 15)
+	(set-strategic-number sn-maximum-town-size 20)
+	(set-strategic-number sn-lumber-camp-max-distance 18)
+	(set-strategic-number sn-mining-camp-max-distance 18)
+	(set-strategic-number sn-camp-max-distance 18)
+	(disable-self)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(game-time > 2400)
+=>
+	(set-strategic-number sn-minimum-town-size 20)
+	(set-strategic-number sn-maximum-town-size 25)
+	(disable-self)
+)
+
+(defrule
+	(current-age == castle-age)
+=>
+	(set-strategic-number sn-maximum-town-size 30)
+	(set-strategic-number sn-lumber-camp-max-distance 30)
+	(set-strategic-number sn-mining-camp-max-distance 40)
+	(set-strategic-number sn-camp-max-distance 40)
+	(set-strategic-number sn-maximum-wood-drop-distance 10)
+	(disable-self)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(game-time > 3000)
+=>
+	(set-strategic-number sn-maximum-town-size 25)
+	(set-strategic-number sn-mining-camp-max-distance 50)
+	(set-strategic-number sn-camp-max-distance 50)
+	(disable-self)
+)
+
+(defrule
+	(current-age == imperial-age)
+=>
+	(set-strategic-number sn-maximum-town-size 50)
+	(set-strategic-number sn-lumber-camp-max-distance 30)
+	(set-strategic-number sn-mining-camp-max-distance 50)
+	(set-strategic-number sn-camp-max-distance 50)
+	(disable-self)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(game-time > 3600)
+=>
+	(set-strategic-number sn-lumber-camp-max-distance 50)
+	(set-strategic-number sn-mining-camp-max-distance 80)
+	(set-strategic-number sn-camp-max-distance 80)
+	(disable-self)
+)
+
+;Military
+
+(defrule
+	(true)
+=>
+	(set-strategic-number sn-percent-attack-soldiers 100)
+	(set-strategic-number sn-attack-group-gather-spacing 1)
+	(set-strategic-number sn-group-form-distance 30)
+	(set-strategic-number sn-scale-minimum-attack-group-size 0)
+	(set-strategic-number sn-scale-maximum-attack-group-size 0)
+	(set-strategic-number sn-attack-intelligence 1)
+	(set-strategic-number sn-number-defend-groups 5)
+	(set-strategic-number sn-minimum-defend-group-size 40)
+	(set-strategic-number sn-maximum-defend-group-size 40)
+	(set-strategic-number sn-task-ungrouped-soldiers 0)
+	(set-strategic-number sn-group-form-distance 1000)
+	(set-difficulty-parameter ability-to-dodge-missiles 100)
+	(set-difficulty-parameter ability-to-maintain-distance 100)
+	(disable-self)
+)
+
+;Default Rules
+
+(defrule
+	(military-population <= 5)
+	(goal NO-STRATEGY YES)
+=>
+	(set-strategic-number sn-number-attack-groups 0)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(military-population > 10)
+	(goal NO-STRATEGY YES)
+=>
+	(set-strategic-number sn-number-attack-groups 1)
+	(set-strategic-number sn-minimum-attack-group-size 10)
+	(set-strategic-number sn-maximum-attack-group-size 20)
+)
+
+(defrule
+	(current-age <= castle-age)
+	(military-population >= 20)
+	(goal NO-STRATEGY YES)
+=>
+	(set-strategic-number sn-number-attack-groups 2)
+	(set-strategic-number sn-minimum-attack-group-size 20)
+	(set-strategic-number sn-maximum-attack-group-size 30)
+)
+
+(defrule
+	(current-age <= imperial-age)
+	(military-population >= MIN-IMPERIAL-ATTACK-SIZE)
+	(goal NO-STRATEGY YES)
+=>
+	(set-strategic-number sn-number-attack-groups 5)
+	(set-strategic-number sn-minimum-attack-group-size 15)
+	(set-strategic-number sn-maximum-attack-group-size 30)
+)
+
+	(defrule
+		(unit-type-count villager <= 6)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 100)
+		(set-strategic-number sn-wood-gatherer-percentage 0)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 7)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 86)
+		(set-strategic-number sn-wood-gatherer-percentage 14)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 8)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 75)
+		(set-strategic-number sn-wood-gatherer-percentage 25)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 9)
+
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 67)
+		(set-strategic-number sn-wood-gatherer-percentage 33)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 10)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 60)
+		(set-strategic-number sn-wood-gatherer-percentage 40)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 11)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 64)
+		(set-strategic-number sn-wood-gatherer-percentage 36)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 12)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 67)
+		(set-strategic-number sn-wood-gatherer-percentage 33)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 13)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 70)
+		(set-strategic-number sn-wood-gatherer-percentage 30)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 14)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 71)
+		(set-strategic-number sn-wood-gatherer-percentage 29)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 15)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 16)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 62)
+		(set-strategic-number sn-wood-gatherer-percentage 38)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 17)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 64)
+		(set-strategic-number sn-wood-gatherer-percentage 36)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 18)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 19)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 68)
+		(set-strategic-number sn-wood-gatherer-percentage 32)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 20)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 70)
+		(set-strategic-number sn-wood-gatherer-percentage 30)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 21)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 71)
+		(set-strategic-number sn-wood-gatherer-percentage 29)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 22)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 72)
+		(set-strategic-number sn-wood-gatherer-percentage 28)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 23)
+		(goal NO-STRATEGY YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 74)
+		(set-strategic-number sn-wood-gatherer-percentage 26)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 24)
+		(goal NO-STRATEGY YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 75)
+		(set-strategic-number sn-wood-gatherer-percentage 25)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 25)
+		(goal NO-STRATEGY YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 72)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 4)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 26)
+		(goal NO-STRATEGY YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 73)
+		(set-strategic-number sn-wood-gatherer-percentage 23)
+		(set-strategic-number sn-gold-gatherer-percentage 4)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 24)
+		(goal NO-STRATEGY YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 48)
+		(set-strategic-number sn-wood-gatherer-percentage 40)
+		(set-strategic-number sn-gold-gatherer-percentage 12)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 28)
+		(unit-type-count villager < 32)
+		(goal NO-STRATEGY YES)
+		(goal TO-CASTLE YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 39)
+		(set-strategic-number sn-wood-gatherer-percentage 36)
+		(set-strategic-number sn-gold-gatherer-percentage 25)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 32)
+		(building-type-count-total castle == 0)
+		(goal NO-STRATEGY YES)
+		(goal TO-CASTLE YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 30)
+		(set-strategic-number sn-wood-gatherer-percentage 25)
+		(set-strategic-number sn-gold-gatherer-percentage 25)
+		(set-strategic-number sn-stone-gatherer-percentage 20)
+	)
+
+	(defrule
+		(unit-type-count villager >= 32)
+		(building-type-count-total castle >= 1)
+		(goal NO-STRATEGY YES)
+		(goal TO-CASTLE YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 40)
+		(set-strategic-number sn-wood-gatherer-percentage 27)
+		(set-strategic-number sn-gold-gatherer-percentage 23)
+		(set-strategic-number sn-stone-gatherer-percentage 10)
+	)
+
+;Age up
+
+(defrule
+	(can-research-with-escrow feudal-age)
+=>
+	(release-escrow food)
+	(research feudal-age)
+	(set-escrow-percentage wood 75)
+	(set-goal TO-FEUDAL YES)
+)
+
+(defrule
+	(current-age == feudal-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow castle-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research castle-age)
+	(set-goal TO-CASTLE YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == castle-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow imperial-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research imperial-age)
+	(set-goal TO-IMPERIAL YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == imperial-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(set-goal PRIORITIZE-AGE-UP NO)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+;Buildings
+
+	;Economic Buildings
+
+		;Dark Age
+
+		(defrule
+			(building-type-count-total town-center < 1)
+		=>
+			(build town-center)
+		)
+		
+		(defrule
+			(building-type-count-total town-center >= 1)
+			(current-age <= feudal-age)
+			(population-headroom > 3)
+			(housing-headroom < 4)
+			(can-build house)
+		=>
+			(build house)
+		)
+
+		(defrule
+			(unit-type-count villager > 6)
+			(resource-found wood)
+			(building-type-count-total lumber-camp == 0)
+			(can-build-with-escrow lumber-camp)
+		=>
+			(release-escrow wood)
+			(build lumber-camp)
+		)
+
+		(defrule
+			(building-type-count-total town-center >= 1)
+			(or (resource-found food) (unit-type-count villager >= 8))
+			(building-type-count-total mill == 0)
+			(can-build-with-escrow mill)
+		=>
+			(release-escrow wood)
+			(build mill)
+		)
+
+		(defrule
+			(goal NO-STRATEGY YES)
+			(unit-type-count villager >= 20)
+			(resource-found gold)
+			(building-type-count-total lumber-camp >= 1)
+			(building-type-count-total mill >= 1)
+			(building-type-count-total mining-camp == 0)
+			(can-build-with-escrow mining-camp)
+		=>
+			(release-escrow wood)
+			(build mining-camp)
+		)
+
+		(defrule
+			(current-age == dark-age)
+			(unit-type-count villager > 6)
+			(building-type-count-total lumber-camp > 0)
+			(idle-farm-count < 2)
+			(can-build farm)
+		=>
+			(build farm)
+		)
+
+		;Feudal Age
+
+		(defrule
+			(current-age >= feudal-age)
+			(building-type-count-total lumber-camp < 2)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total market >= 1)
+			(building-type-count-total farm >= 6)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+		(defrule
+			(goal NO-STRATEGY YES)
+			(building-type-count-total blacksmith == 0)
+			(can-build-with-escrow blacksmith)
+		=>
+			(release-escrow wood)
+			(build blacksmith)
+		)
+
+		(defrule
+			(goal TO-FEUDAL YES)
+			(unit-type-count villager > 12)
+			(idle-farm-count < 2)
+			(building-type-count-total farm < 6)
+			(can-build-with-escrow farm)
+		=>
+			(release-escrow wood)
+			(build farm)
+		)
+
+		(defrule
+			(current-age >= feudal-age)
+			(idle-farm-count < 2)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total market >= 1)
+			(can-build farm)
+		=>
+			(build farm)
+		)
+
+		(defrule
+			(goal NO-STRATEGY YES)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total market == 0)
+			(can-build-with-escrow market)
+		=>
+			(release-escrow wood)
+			(build market)
+		)
+
+		(defrule
+			(goal NO-STRATEGY YES)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total market >= 1)
+			(building-type-count-total mining-camp < 2)
+			(can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+		(defrule
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total market >= 1)
+			(building-type-count-total mining-camp < 2)
+			(wood-amount > 200)
+			(can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+		(defrule
+			(goal TO-CASTLE YES)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total market >= 1)
+			(building-type-count-total barracks == 0)
+			(can-build-with-escrow barracks)
+		=>
+			(release-escrow wood)
+			(build barracks)
+		)
+
+		;Castle Age
+
+		(defrule
+			(current-age <= castle-age)
+			(population-headroom > 3)
+			(housing-headroom < 8)
+			(can-build house)
+		=>
+			(build house)
+		)
+
+		(defrule
+			(current-age >= castle-age)
+			(building-type-count-total monastery == 0)
+			(can-build monastery)
+		=>
+			(build monastery)
+		)
+
+		(defrule
+			(goal NO-STRATEGY YES)
+			(current-age >= castle-age)
+			(building-type-count-total university == 0)
+			(can-build-with-escrow university)
+		=>
+			(release-escrow wood)
+			(build university)
+		)
+
+		(defrule
+			(building-type-count-total siege-workshop == 0)
+			(can-build-with-escrow siege-workshop)
+		=>
+			(release-escrow wood)
+			(build siege-workshop)
+		)
+
+		(defrule
+			(current-age >= castle-age)
+			(resource-found wood)
+			(building-type-count-total lumber-camp < 4)
+			(wood-amount > 150)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+		(defrule
+			(goal NO-STRATEGY YES)
+			(current-age >= castle-age)
+			(resource-found wood)
+			(building-type-count-total lumber-camp < 4)
+			(can-build-with-escrow lumber-camp)
+		=>
+			(release-escrow wood)
+			(build lumber-camp)
+		)
+
+		(defrule
+			(current-age >= castle-age)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total market >= 1)
+			(building-type-count-total mining-camp < 4)
+			(wood-amount > 250)
+			(can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+		(defrule
+			(current-age >= castle-age)
+			(building-type-count-total town-center < 3)
+			(building-type-count-total castle >= 1)
+			(can-build town-center)
+		=>
+			(build town-center)
+		)
+
+		;Imperial Age
+
+		(defrule
+			(current-age >= imperial-age)
+			(wood-amount > 300)
+			(building-type-count-total mining-camp < 10)
+			(can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+		(defrule
+			(current-age >= imperial-age)
+			(wood-amount > 300)
+			(building-type-count-total lumber-camp < 10)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+		(defrule
+			(current-age >= imperial-age)
+			(building-type-count-total stable < 6)
+			(can-build stable)
+		=>
+			(build stable)
+		)
+	
+	;Defensive
+
+		(defrule
+			(or (enemy-buildings-in-town) (players-unit-type-count any-enemy archer-line > 2))
+			(current-age == feudal-age)
+			(building-type-count-total watch-tower < 3)
+		=>
+			(build watch-tower)
+		)
+
+		(defrule
+			(building-type-count castle == 0)
+			(or (stone-amount > 600) (can-build castle))
+		=>
+			(set-strategic-number sn-maximum-town-size 15)
+			(disable-self)
+		)
+
+		(defrule
+			(building-type-count castle == 1)
+		=>
+			(set-strategic-number sn-maximum-town-size 50)
+			(disable-self)
+		)
+
+		(defrule
+			(building-type-count castle == 1)
+			(or (stone-amount > 600) (can-build castle))
+		=>
+			(set-strategic-number sn-maximum-town-size 18)
+			(disable-self)
+		)
+
+		(defrule
+			(building-type-count castle == 2)
+		=>
+			(set-strategic-number sn-maximum-town-size 50)
+			(disable-self)
+		)
+
+		(defrule
+			(building-type-count-total castle < 2)
+			(can-build castle)
+		=>
+			(build castle)
+		)
+
+		(defrule
+			(building-type-count-total castle >= 2)
+			(can-build castle)
+		=>
+			(build-forward castle)
+		)
+
+;Economy
+
+(defrule
+	(unit-type-count villager < MAX-VILLAGERS)
+	(can-train villager)
+=>
+	(train villager)
+)
+
+(defrule
+	(unit-type-count villager >= MAX-VILLAGERS)
+	(player-in-game any-ally)
+	(unit-type-count trade-cart < 30)
+	(can-train trade-cart)
+=>
+	(train trade-cart)
+)
+
+(defrule
+	(or (not(can-train villager)) (unit-type-count villager >= 24))
+	(can-research ri-loom)
+=>
+	(research ri-loom)
+)
+
+(defrule
+	(unit-type-count villager > 35)
+	(can-research-with-escrow ri-wheel-barrow)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-wheel-barrow)
+)
+
+(defrule
+	(unit-type-count villager == MAX-VILLAGERS)
+	(can-research-with-escrow ri-hand-cart)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-hand-cart)
+)
+
+;Research
+
+;Priorities
+
+	(defrule
+		(current-age == castle-age)
+	=>
+		(set-goal PRIORITIZE-TECH YES)
+		(chat-to-player my-player-number "Prioriticing techs")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == imperial-age)
+	=>
+		(set-goal PRIORITIZE-TECH YES)
+		(chat-to-player my-player-number "Prioriticing techs")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == castle-age)
+		(escrow-amount food > 500)
+		(escrow-amount gold > 300)
+	=>
+		(set-goal PRIORITIZE-TECH NO)
+		(chat-to-player my-player-number "Stopped prioriticing techs")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == imperial-age)
+		(escrow-amount food > 800)
+		(escrow-amount gold > 500)
+	=>
+		(set-goal PRIORITIZE-TECH NO)
+		(chat-to-player my-player-number "Stopped prioriticing techs")
+		(disable-self)
+	)
+
+	(defrule
+		(goal NO-STRATEGY YES)
+		(current-age <= castle-age)
+		(goal TO-CASTLE YES)
+	=>
+		(set-goal TECH-PRIORITY NON-IMPORTANT)
+	)
+
+	;Feudal Age
+
+		;Economy
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-double-bit-axe)
+		=>
+			(research ri-double-bit-axe)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-horse-collar)
+		=>
+			(research ri-horse-collar)
+		)
+
+		(defrule
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-gold-mining)
+		=>
+			(research ri-gold-mining)
+		)
+
+		;Utility
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-town-watch)
+		=>
+			(research ri-town-watch)
+		)
+
+		;Team games
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(players-stance any-ally ally)
+			(can-research ri-cartography)
+		=>
+			(research ri-cartography)
+		)
+
+	;Castle Age
+
+		;Economy
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-bow-saw)
+		=>
+			(research ri-bow-saw)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-heavy-plow)
+		=>
+			(research ri-heavy-plow)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(or (goal TO-IMPERIAL YES) (current-age == imperial-age))
+			(can-research ri-gold-shaft-mining)
+		=>
+			(research ri-gold-shaft-mining)
+		)
+
+		
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(or (goal TO-IMPERIAL YES) (current-age >= imperial-age))
+			(unit-type-count villager >= MAX-VILLAGERS)
+			(can-research ri-stone-mining)
+		=>
+			(research ri-stone-mining)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(or (goal TO-IMPERIAL YES) (current-age >= imperial-age))
+			(unit-type-count villager >= MAX-VILLAGERS)
+			(can-research ri-stone-shaft-mining)
+		=>
+			(research ri-stone-shaft-mining)
+		)
+
+		;Military
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-squires)
+		=>
+			(release-escrow food)
+			(research ri-squires)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-tracking)
+		=>
+			(release-escrow food)
+			(research ri-tracking)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-husbandry)
+		=>
+			(release-escrow food)
+			(research ri-husbandry)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-forging)
+		=>
+			(release-escrow food)
+			(research ri-forging)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-iron-casting)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-iron-casting)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-scale-mail)
+		=>
+			(release-escrow food)
+			(research ri-scale-mail)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-chain-mail)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chain-mail)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-scale-barding)
+		=>
+			(release-escrow food)
+			(research ri-scale-barding)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-chain-barding)
+		=>
+			(release-escrow food)
+			(research ri-chain-barding)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-ballistics)
+		=>
+			(release-escrow wood)
+			(release-escrow gold)
+			(research ri-ballistics)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-fletching)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-fletching)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-bodkin-arrow)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-bodkin-arrow)
+		)
+
+		(defrule
+			(or (or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER)) (goal UNIQUE-UNIT-CLASS GUNPOWDER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-padded-archer-armor)
+		=>
+			(release-escrow food)
+			(research ri-padded-archer-armor)
+		)
+
+		(defrule
+			(or (or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER)) (goal UNIQUE-UNIT-CLASS GUNPOWDER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-leather-archer-armor)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-leather-archer-armor)
+		)
+
+		;Defense
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(can-research ri-fletching)
+		=>
+			(research ri-fletching)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(can-research ri-bodkin-arrow)
+		=>
+			(research ri-bodkin-arrow)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(can-research ri-ballistics)
+		=>
+			(research ri-ballistics)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(can-research ri-murder-holes)
+		=>
+			(research ri-murder-holes)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(can-research ri-masonry)
+		=>
+			(research ri-masonry)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count-total watch-tower-line >= 1)
+			(can-research ri-guard-tower)
+		=>
+			(research ri-guard-tower)
+		)
+
+		;Utility
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-town-patrol)
+		=>
+			(research ri-town-patrol)
+		)
+
+	;Imperial Age
+
+		;Economy
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-two-man-saw)
+		=>
+			(research ri-two-man-saw)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-crop-rotation)
+		=>
+			(research ri-crop-rotation)
+		)
+
+		
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-guilds)
+			(goal PRIORITIZE-TECH NO)
+		=>
+			(research ri-guilds)
+		)
+
+		;Siege
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-capped-ram)
+		=>
+			(research ri-capped-ram)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-siege-ram)
+		=>
+			(research ri-siege-ram)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-bombard-cannon)
+		=>
+			(research ri-bombard-cannon)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-siege-engineers)
+		=>
+			(research ri-siege-engineers)
+		)
+
+		;Military
+
+		(defrule
+			(goal NO-STRATEGY YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow my-unique-unit-upgrade)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(release-escrow wood)
+			(research my-unique-unit-upgrade)
+		)
+
+		(defrule
+			(research-completed my-unique-unit-upgrade)
+			(goal NO-STRATEGY YES)
+			(goal TECH-PRIORITY IMPORTANT)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research-with-escrow my-unique-unit-upgrade)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(release-escrow wood)
+			(research my-unique-unit-upgrade)
+		)
+
+		(defrule
+			(goal PRIORITIZE-TECH NO)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-conscription)
+		=>
+			(research ri-conscription)
+		)
+
+		(defrule
+			(goal PRIORITIZE-TECH NO)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-sappers)
+		=>
+			(research ri-sappers)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-blast-furnace)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-blast-furnace)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-plate-mail)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-plate-mail)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-plate-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-plate-barding)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-chemistry)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chemistry)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-bracer)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-bracer)
+		)
+
+		(defrule
+			(or (or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER)) (goal UNIQUE-UNIT-CLASS GUNPOWDER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-ring-archer-armor)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-ring-archer-armor)
+		)
+
+		;Defense
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-bracer)
+		=>
+			(research ri-bracer)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-chemistry)
+		=>
+			(research ri-chemistry)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-hoardings)
+		=>
+			(research ri-hoardings)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-architecture)
+		=>
+			(research ri-architecture)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count watch-tower-line >= 1)
+			(can-research ri-keep)
+		=>
+			(research ri-keep)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count stone-wall-line >= 1)
+			(can-research ri-fortified-wall)
+		=>
+			(research ri-fortified-wall)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-heated-shot)
+		=>
+			(research ri-heated-shot)
+		)
+	
+		;Team games
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(players-stance any-ally ally)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-coinage)
+		=>
+			(research ri-coinage)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(players-stance any-ally ally)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-banking)
+		=>
+			(research ri-banking)
+		)
+
+		;Monks
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-atonement)
+		=>
+			(research ri-atonement)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-block-printing)
+		=>
+			(research ri-block-printing)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-fervor)
+		=>
+			(research ri-fervor)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-redemption)
+		=>
+			(research ri-redemption)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-sanctity)
+		=>
+			(research ri-sanctity)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-faith)
+		=>
+			(research ri-faith)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-illumination)
+		=>
+			(research ri-illumination)
+		)
+
+		;Utility
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-stonecutting)
+		=>
+			(research ri-stonecutting)
+		)
+
+		;Blacksmith
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-forging)
+		=>
+			(research ri-forging)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-scale-mail)
+		=>
+			(research ri-scale-mail)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-scale-barding)
+		=>
+			(research ri-scale-barding)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-padded-archer-armor)
+		=>
+			(research ri-padded-archer-armor)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-iron-casting)
+		=>
+			(research ri-iron-casting)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-chain-mail)
+		=>
+			(research ri-chain-mail)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-chain-barding)
+		=>
+			(research ri-chain-barding)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-leather-archer-armor)
+		=>
+			(research ri-leather-archer-armor)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-blast-furnace)
+		=>
+			(research ri-blast-furnace)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-plate-mail)
+		=>
+			(research ri-plate-mail)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-plate-barding)
+		=>
+			(research ri-plate-barding)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-ring-archer-armor)
+		=>
+			(research ri-ring-archer-armor)
+		)
+
+		;Barracks
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-tracking)
+		=>
+			(research ri-tracking)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-squires)
+		=>
+			(research ri-squires)
+		)
+
+		;Stable
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-light-cavalry)
+		=>
+			(research ri-light-cavalry)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-husbandry)
+		=>
+			(research ri-husbandry)
+		)
+
+;Military
+
+(defrule
+	(unit-type-count-total monk < 2)
+	(can-train monk)
+=>
+	(train monk)
+)
+
+(defrule
+	(military-population < MAX-MILITARY)
+	(can-train my-unique-unit-line)
+=>
+	(train my-unique-unit-line)
+)
+
+(defrule
+	(military-population < MAX-MILITARY)
+	(can-train berserk-line)
+=>
+	(train berserk-line)
+)	
+
+(defrule
+	(current-age >= castle-age)
+	(unit-type-count-total battering-ram-line < MAX-SIEGE)
+	(can-train battering-ram-line)
+=>
+	(train battering-ram-line)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < MAX-SIEGE)
+	(unit-type-count-total trebuchet < 2)
+	(military-population > 15)
+	(can-train-with-escrow trebuchet)
+=>
+	(release-escrow wood)
+	(release-escrow gold)
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total trebuchet < MAX-SIEGE)
+	(can-train trebuchet)
+=>
+	(train trebuchet)
+)
+
+(defrule
+	(unit-type-count-total bombard-cannon < MAX-SIEGE)
+	(can-train bombard-cannon)
+=>
+	(train bombard-cannon)
+)
+
+(defrule
+	(current-age >= imperial-age)
+	(military-population < MAX-MILITARY)
+	(food-amount > 1500)
+	(can-train scout-cavalry-line)
+=>
+	(train scout-cavalry-line)
+)
+
+;Reactions Defined
+
+(defrule
+	(goal PIKEMEN YES)
+	(can-train spearman-line)
+	(military-population < MAX-MILITARY)
+	(current-age == feudal-age)
+	(unit-type-count spearman-line < 5)
+	(and (can-afford-unit villager) (not(can-train villager)))
+	(goal HALT-PRODUCTION NO)
+=>
+	(train spearman-line)
+)
+
+(defrule
+	(goal PIKEMEN YES)
+	(can-train spearman-line)
+	(military-population < MAX-MILITARY)
+	(current-age >= castle-age)
+	(and (can-afford-unit villager) (not(can-train villager)))
+	(goal HALT-PRODUCTION NO)
+=>
+	(train spearman-line)
+)
+
+(defrule
+	(goal MILITIA YES)
+	(can-train militiaman-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train militiaman-line)
+)
+
+(defrule
+	(goal SCOUTS YES)
+	(can-train scout-cavalry-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(goal KNIGHTS YES)
+	(can-train knight-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train knight-line)
+)
+
+(defrule
+	(goal CAMELS YES)
+	(can-train camel-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train camel-line)
+)
+
+(defrule
+	(goal SKIRMISHERS YES)
+	(can-train skirmisher-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+	(or (and (can-afford-unit villager) (not(can-train villager))) (unit-type-count villager >= 49))
+=>
+	(train skirmisher-line)
+)
+
+(defrule
+	(goal ARCHERS YES)
+	(can-train archer-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train archer-line)
+)
+
+(defrule
+	(goal CAV-ARCHERS YES)
+	(can-train cavalry-archer-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train cavalry-archer-line)
+)
+
+(defrule
+	(goal HAND-CANNONEER YES)
+	(can-train hand-cannoneer)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train hand-cannoneer)
+)
+
+(defrule
+	(goal MANGONEL YES)
+	(can-train mangonel-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train mangonel-line)
+)
+
+(defrule
+	(goal SCORPION YES)
+	(can-train scorpion-line)
+	(military-population < MAX-MILITARY)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train scorpion-line)
+)
+
+;Reactive research
+
+	;Unit upgrades
+
+	(defrule
+		(goal PIKEMEN YES)
+		(can-research-with-escrow ri-pikeman)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-pikeman)
+	)
+
+	(defrule
+		(goal MILITIA YES)
+		(can-research-with-escrow ri-man-at-arms)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-man-at-arms)
+	)
+
+	(defrule
+		(goal MILITIA YES)
+		(can-research-with-escrow ri-long-swordsman)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-long-swordsman)
+	)
+
+	(defrule
+		(goal MILITIA YES)
+		(can-research-with-escrow ri-two-handed-swordsman)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-two-handed-swordsman)
+	)
+
+	(defrule
+		(goal MILITIA YES)
+		(can-research-with-escrow ri-champion)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-champion)
+	)
+
+	(defrule
+		(goal SKIRMISHERS YES)
+		(can-research-with-escrow ri-elite-skirmisher)
+	=>
+		(release-escrow wood)
+		(release-escrow gold)
+		(research ri-elite-skirmisher)
+	)
+
+	(defrule
+		(goal ARCHERS YES)
+		(can-research-with-escrow ri-crossbow)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-crossbow)
+	)
+
+	(defrule
+		(goal ARCHERS YES)
+		(can-research-with-escrow ri-arbalest)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-arbalest)
+	)
+
+	(defrule
+		(goal SCOUTS YES)
+		(can-research-with-escrow ri-light-cavalry)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-light-cavalry)
+	)
+
+	(defrule
+		(goal KNIGHTS YES)
+		(can-research-with-escrow ri-cavalier)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-cavalier)
+	)
+
+	(defrule
+		(goal KNIGHTS YES)
+		(can-research-with-escrow ri-paladin)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-paladin)
+	)
+
+	(defrule
+		(goal CAMELS YES)
+		(can-research-with-escrow ri-heavy-camel)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-heavy-camel)
+	)
+
+	(defrule
+		(goal HAND-CANNONEER YES)
+		(can-research-with-escrow ri-hand-cannon)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-hand-cannon)
+	)
+
+	(defrule
+		(goal CAV-ARCHER YES)
+		(can-research-with-escrow ri-heavy-cavalry-archer)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-heavy-cavalry-archer)
+	)
+
+	(defrule
+		(goal MANGONEL YES)
+		(can-research-with-escrow ri-onager)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-onager)
+	)
+
+	(defrule
+		(goal MANGONEL YES)
+		(can-research-with-escrow ri-siege-onager)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-siege-onager)
+	)
+
+	(defrule
+		(goal SCORPION YES)
+		(can-research-with-escrow ri-heavy-scorpion)
+	=>
+		(release-escrow food)
+		(release-escrow wood)
+		(research ri-heavy-scorpion)
+	)
+
+	;Blacksmith upgrades
+
+	(defrule
+		(or (goal MILITIA YES) (goal PIKEMEN YES))
+		(can-research-with-escrow ri-scale-mail)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(release-escrow food)
+		(research ri-scale-mail)
+	)
+
+	(defrule
+		(or (goal MILITIA YES) (goal PIKEMEN YES))
+		(can-research-with-escrow ri-chain-mail)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-chain-mail)
+	)
+
+	(defrule
+		(or (goal MILITIA YES) (goal PIKEMEN YES))
+		(can-research-with-escrow ri-plate-mail)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-plate-mail)
+	)
+
+	(defrule
+		(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
+		(can-research-with-escrow ri-scale-barding)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(release-escrow food)
+		(research ri-scale-barding)
+	)
+
+	(defrule
+		(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
+		(can-research-with-escrow ri-chain-barding)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-chain-barding)
+	)
+
+	(defrule
+		(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
+		(can-research-with-escrow ri-plate-barding)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-plate-barding)
+	)
+
+	(defrule
+		(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
+		(can-research-with-escrow ri-forging)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(release-escrow food)
+		(research ri-forging)
+	)
+
+	(defrule
+		(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
+		(can-research-with-escrow ri-iron-casting)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-iron-casting)
+	)
+
+	(defrule
+		(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
+		(can-research-with-escrow ri-blast-furnace)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-blast-furnace)
+	)
+
+	(defrule
+		(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+		(can-research-with-escrow ri-fletching)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-fletching)
+	)
+
+	(defrule
+		(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+		(can-research-with-escrow ri-bodkin-arrow)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-bodkin-arrow)
+	)
+
+	(defrule
+		(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+		(can-research-with-escrow ri-bracer)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-bracer)
+	)
+
+	(defrule
+		(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+		(can-research-with-escrow ri-ballistics)
+	=>
+		(release-escrow wood)
+		(release-escrow gold)
+		(research ri-ballistics)
+	)
+
+	(defrule
+		(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+		(can-research-with-escrow ri-chemistry)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-chemistry)
+	)
+
+	(defrule
+		(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
+		(can-research-with-escrow ri-padded-archer-armor)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(release-escrow food)
+		(research ri-padded-archer-armor)
+	)
+
+	(defrule
+		(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
+		(can-research-with-escrow ri-leather-archer-armor)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-leather-archer-armor)
+	)
+
+	(defrule
+		(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
+		(can-research-with-escrow ri-ring-archer-armor)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-ring-archer-armor)
+	)
+
+;Reaction Buildings
+
+(defrule
+	(current-age >= feudal-age)
+	(goal SCOUTS YES)
+	(building-type-count-total stable == 0)
+	(can-build-with-escrow stable)
+=>
+	(release-escrow wood)
+	(build stable)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(or (or (goal SCOUTS YES) (goal KNIGHTS YES) )(goal CAMELS YES))
+	(building-type-count-total stable < 3)
+	(can-build-with-escrow stable)
+=>
+	(release-escrow wood)
+	(build stable)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(or (goal PIKEMEN YES) (goal MILITIA YES))
+	(building-type-count-total barracks == 0)
+	(can-build-with-escrow barracks)
+=>
+	(release-escrow wood)
+	(build barracks)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(or (goal PIKEMEN YES) (goal MILITIA YES))
+	(building-type-count-total barracks < 3)
+	(can-build-with-escrow barracks)
+=>
+	(release-escrow wood)
+	(build barracks)
+)
+
+(defrule
+	(current-age >= feudal-age)
+	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES) )(goal CAV-ARCHER YES))
+	(building-type-count-total archery-range == 0)
+	(can-build-with-escrow archery-range)
+=>
+	(release-escrow wood)
+	(build archery-range)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES) )(goal CAV-ARCHER YES))
+	(building-type-count-total archery-range < 3)
+	(can-build-with-escrow archery-range)
+=>
+	(release-escrow wood)
+	(build archery-range)
+)
+
+
+
+;====================================
+
+;Straight Archers
+
+	;Strategic Numbers
+
+	(defrule
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-gather-defense-units 1)
+		(set-strategic-number sn-gather-idle-soldiers-at-center 0)
+	)
+
+	(defrule
+		(military-population <= 5)
+	=>
+		(set-strategic-number sn-number-attack-groups 0)
+	)
+
+	(defrule
+		(current-age <= feudal-age)
+		(military-population > 5)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(not (goal TECH-PRIORITY IMPORTANT))
+		(timer-triggered ATTACK-TIMER)
+	=>
+		(attack-now)
+		(disable-self)
+	)
+
+	(defrule
+		(players-score any-enemy < current-score)
+		(players-military-population any-enemy < military-population)
+		(players-building-count any-enemy >= 1)
+		(timer-triggered ATTACK-TIMER)
+	=>
+		(attack-now)
+	)
+
+	(defrule
+		(current-age == castle-age)
+		(military-population >= 20)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TECH-PRIORITY SEMI-IMPORTANT)
+	=>
+		(set-strategic-number sn-number-attack-groups 10)
+		(set-strategic-number sn-minimum-attack-group-size MIN-IMPERIAL-ATTACK-SIZE)
+		(set-strategic-number sn-maximum-attack-group-size 30)
+	)
+
+	(defrule
+		(current-age == imperial-age)
+		(military-population >= MIN-IMPERIAL-ATTACK-SIZE)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TECH-PRIORITY SEMI-IMPORTANT)
+	=>
+		(set-strategic-number sn-number-attack-groups 10)
+		(set-strategic-number sn-minimum-attack-group-size MIN-IMPERIAL-ATTACK-SIZE)
+		(set-strategic-number sn-maximum-attack-group-size 30)
+	)
+
+	;Build Order
+
+	(defrule
+		(unit-type-count villager == 15)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 16)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 62)
+		(set-strategic-number sn-wood-gatherer-percentage 38)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 17)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 64)
+		(set-strategic-number sn-wood-gatherer-percentage 36)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 18)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 19)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 68)
+		(set-strategic-number sn-wood-gatherer-percentage 32)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 20)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 70)
+		(set-strategic-number sn-wood-gatherer-percentage 30)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 21)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 71)
+		(set-strategic-number sn-wood-gatherer-percentage 29)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 22)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 72)
+		(set-strategic-number sn-wood-gatherer-percentage 28)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 23)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 74)
+		(set-strategic-number sn-wood-gatherer-percentage 26)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 24)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 75)
+		(set-strategic-number sn-wood-gatherer-percentage 25)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 25)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 72)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 4)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 26)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 73)
+		(set-strategic-number sn-wood-gatherer-percentage 23)
+		(set-strategic-number sn-gold-gatherer-percentage 4)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 22)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 30)
+		(set-strategic-number sn-wood-gatherer-percentage 58)
+		(set-strategic-number sn-gold-gatherer-percentage 12)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 23)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 30)
+		(set-strategic-number sn-wood-gatherer-percentage 58)
+		(set-strategic-number sn-gold-gatherer-percentage 12)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 24)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 30)
+		(set-strategic-number sn-wood-gatherer-percentage 58)
+		(set-strategic-number sn-gold-gatherer-percentage 12)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 25)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 28)
+		(set-strategic-number sn-wood-gatherer-percentage 56)
+		(set-strategic-number sn-gold-gatherer-percentage 16)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 26)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 27)
+		(set-strategic-number sn-wood-gatherer-percentage 54)
+		(set-strategic-number sn-gold-gatherer-percentage 19)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 27)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 26)
+		(set-strategic-number sn-wood-gatherer-percentage 52)
+		(set-strategic-number sn-gold-gatherer-percentage 22)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 28)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 25)
+		(set-strategic-number sn-wood-gatherer-percentage 50)
+		(set-strategic-number sn-gold-gatherer-percentage 25)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 29)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 24)
+		(set-strategic-number sn-wood-gatherer-percentage 48)
+		(set-strategic-number sn-gold-gatherer-percentage 28)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 30)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 26)
+		(set-strategic-number sn-wood-gatherer-percentage 44)
+		(set-strategic-number sn-gold-gatherer-percentage 30)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 31)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 25)
+		(set-strategic-number sn-wood-gatherer-percentage 45)
+		(set-strategic-number sn-gold-gatherer-percentage 30)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 32)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 25)
+		(set-strategic-number sn-wood-gatherer-percentage 44)
+		(set-strategic-number sn-gold-gatherer-percentage 31)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 32)
+		(goal STRATEGY-STRAIGHT-ARCHERS YES)
+		(goal TO-CASTLE YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 25)
+		(set-strategic-number sn-wood-gatherer-percentage 38)
+		(set-strategic-number sn-gold-gatherer-percentage 27)
+		(set-strategic-number sn-stone-gatherer-percentage 10)
+	)
+
+;Buildings
+
+	;Economic Buildings
+
+		;Dark Age
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(unit-type-count villager >= 20)
+			(resource-found gold)
+			(building-type-count-total lumber-camp >= 1)
+			(building-type-count-total mill >= 1)
+			(building-type-count-total mining-camp == 0)
+			(can-build-with-escrow mining-camp)
+		=>
+			(release-escrow wood)
+			(build mining-camp)
+		)
+
+		;Feudal Age
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TO-FEUDAL YES)
+			(building-type-count-total lumber-camp < 2)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total farm >= 2)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(building-type-count-total archery-range >= 1)
+			(building-type-count-total blacksmith == 0)
+			(can-build-with-escrow blacksmith)
+		=>
+			(release-escrow wood)
+			(build blacksmith)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total archery-range >= 3)
+			(building-type-count-total market == 0)
+			(can-build-with-escrow market)
+		=>
+			(release-escrow wood)
+			(build market)
+		)
+
+		;Castle Age
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age >= castle-age)
+			(building-type-count-total university >= 1)
+			(building-type-count-total mining-camp < 4)
+			(can-build mining-camp)
+		=>
+			(build mining-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age >= castle-age)
+			(building-type-count-total lumber-camp < 4)
+			(building-type-count-total university >= 1)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+	
+	;Military 
+
+		;Dark Age
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TO-FEUDAL YES)
+			(building-type-count-total barracks == 0)
+			(can-build-with-escrow barracks)
+		=>
+			(release-escrow wood)
+			(build barracks)
+		)
+
+		;Feudal Age
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(building-type-count-total archery-range < 3)
+			(can-build-with-escrow archery-range)
+		=>
+			(release-escrow wood)
+			(build archery-range)
+		)
+
+		;Castle Age
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age >= castle-age)
+			(building-type-count-total university == 0)
+			(can-build-with-escrow university)
+		=>
+			(release-escrow wood)
+			(build university)
+		)
+
+		;Imperial Age
+
+		(defrule
+			(current-age == imperial-age)
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(building-type-count-total archery-range < 6)
+			(can-build-with-escrow archery-range)
+		=>
+			(release-escrow wood)
+			(build archery-range)
+		)
+
+
+;Research
+
+	;Feudal Age
+
+		;Economy
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(building-type-count-total archery-range >= 1)
+			(can-research-with-escrow ri-double-bit-axe)
+		=>
+			(release-escrow wood)
+			(release-escrow food)
+			(research ri-double-bit-axe)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research ri-gold-mining)
+		=>
+			(research ri-gold-mining)
+		)
+
+		;Military
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-fletching)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-fletching)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-padded-archer-armor)
+		=>
+			(release-escrow food)
+			(research ri-padded-archer-armor)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age == feudal-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-double-bit-axe)
+			(research-completed ri-fletching)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age == feudal-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-gold-mining)
+			(research-completed ri-padded-archer-armor)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+	;Castle Age
+
+		;Military
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-crossbow)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-crossbow)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-bodkin-arrow)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-bodkin-arrow)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-leather-archer-armor)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-leather-archer-armor)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-ballistics)
+		=>
+			(release-escrow wood)
+			(release-escrow gold)
+			(research ri-ballistics)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age == castle-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-crossbow)
+			(research-completed ri-bodkin-arrow)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age == castle-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-ballistics)
+			(research-completed ri-leather-archer-armor)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+	;Imperial Age
+
+		;Military
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-arbalest)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-arbalest)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-capped-ram)
+		=>
+			(release-escrow food)
+			(research ri-capped-ram)
+		)
+
+		;Defense
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-bracer)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-bracer)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-ring-archer-armor)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-ring-archer-armor)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-chemistry)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chemistry)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age == imperial-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-arbalest)
+			(research-completed ri-bracer)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-STRAIGHT-ARCHERS YES)
+			(current-age == imperial-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-chemistry)
+			(research-completed ri-ring-archer-armor)
+			(research-completed ri-capped-ram)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+;Military
+
+(defrule
+	(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(military-population < MAX-MILITARY)
+	(can-train archer-line)
+	(goal HALT-PRODUCTION NO)
+=>
+	(train archer-line)
+)
+
+;Escrow rules
+
+(defrule
+	(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(current-age == feudal-age)
+	(military-population > 30)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+	(chat-to-player my-player-number "Prioritizing Age up")
+	(disable-self)
+)
+
+(defrule
+	(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(current-age == castle-age)
+	(military-population > 40)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+	(chat-to-player my-player-number "Prioritizing Age up")
+	(disable-self)
+)
+
+;======================================
+
+;Scouts into Knights
+
+(defrule
+	(military-population <= 5)
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+=>
+	(set-strategic-number sn-number-attack-groups 0)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(military-population > 5)
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(timer-triggered ATTACK-TIMER)
+	(goal MILITIA NO)
+	(goal PIKEMEN NO)
+	(goal TO-CASTLE NO)
+=>
+	(attack-now)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(military-population > 10)
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(players-military-population any-enemy < military-population)
+	(players-score any-enemy < current-score)
+	(players-building-count any-enemy >= 1)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(military-population > MIN-IMPERIAL-ATTACK-SIZE)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)
+
+;Build Order
+
+	(defrule
+		(unit-type-count villager == 15)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 16)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 62)
+		(set-strategic-number sn-wood-gatherer-percentage 38)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 17)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 64)
+		(set-strategic-number sn-wood-gatherer-percentage 36)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 18)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 19)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 68)
+		(set-strategic-number sn-wood-gatherer-percentage 32)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 20)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 70)
+		(set-strategic-number sn-wood-gatherer-percentage 30)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 21)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 71)
+		(set-strategic-number sn-wood-gatherer-percentage 29)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 22)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 72)
+		(set-strategic-number sn-wood-gatherer-percentage 28)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 23)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 74)
+		(set-strategic-number sn-wood-gatherer-percentage 26)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 24)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 75)
+		(set-strategic-number sn-wood-gatherer-percentage 25)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 25)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 76)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 26)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 77)
+		(set-strategic-number sn-wood-gatherer-percentage 23)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 22)
+		(unit-type-count villager < 28)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 60)
+		(set-strategic-number sn-wood-gatherer-percentage 40)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 28)
+		(unit-type-count villager < 32)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 57)
+		(set-strategic-number sn-wood-gatherer-percentage 31)
+		(set-strategic-number sn-gold-gatherer-percentage 12)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 32)
+		(unit-type-count villager < 38)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 48)
+		(set-strategic-number sn-wood-gatherer-percentage 26)
+		(set-strategic-number sn-gold-gatherer-percentage 26)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 38)
+		(unit-type-count villager < 42)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 43)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 33)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 42)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(building-type-count-total castle == 0)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 33)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 28)
+		(set-strategic-number sn-stone-gatherer-percentage 15)
+	)
+
+	(defrule
+		(unit-type-count villager >= 42)
+		(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+		(building-type-count-total castle >= 1)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 38)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 28)
+		(set-strategic-number sn-stone-gatherer-percentage 10)
+	)
+
+;Buildings
+
+	;Economic Buildings
+
+		;Feudal Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(unit-type-count villager >= 28)
+			(resource-found gold)
+			(building-type-count-total lumber-camp >= 1)
+			(building-type-count-total mill >= 1)
+			(building-type-count-total stable >= 1)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total mining-camp == 0)
+			(can-build-with-escrow mining-camp)
+		=>
+			(release-escrow wood)
+			(build mining-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TO-FEUDAL YES)
+			(building-type-count-total lumber-camp < 2)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(building-type-count-total blacksmith == 0)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total stable >= 1)
+			(can-build-with-escrow blacksmith)
+		=>
+			(release-escrow wood)
+			(build blacksmith)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total stable >= 1)
+			(building-type-count-total market == 0)
+			(can-build-with-escrow market)
+		=>
+			(release-escrow wood)
+			(build market)
+		)
+
+		;Castle Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age >= castle-age)
+			(building-type-count-total university == 0)
+			(can-build university)
+		=>
+			(release-escrow wood)
+			(build university)
+		)
+
+		;Imperial Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age >= imperial-age)
+			(building-type-count-total stable < 6)
+			(can-build stable)
+		=>
+			(build stable)
+		)
+	
+	;Military
+
+	;Dark Age
+
+		(defrule
+			(goal TO-FEUDAL YES)
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(building-type-count-total barracks == 0)
+			(can-build-with-escrow barracks)
+		=>
+			(release-escrow wood)
+			(build barracks)
+		)
+
+	;Feudal Age
+
+		(defrule
+			(current-age >= feudal-age)
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(building-type-count-total stable == 0)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+	;Castle Age
+
+		(defrule
+			(current-age >= castle-age)
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(building-type-count-total stable < 3)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+;Research
+
+	;Feudal Age
+
+		;Economy
+
+		(defrule
+			(goal TECH-PRIORITY IMPORTANT)
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(building-type-count-total stable >= 1)
+			(can-research-with-escrow ri-double-bit-axe)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-double-bit-axe)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY IMPORTANT)
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(building-type-count-total stable >= 1)
+			(can-research-with-escrow ri-horse-collar)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-horse-collar)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-gold-mining)
+		=>
+			(research ri-gold-mining)
+		)
+
+		;Blacksmith
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-forging)
+		=>
+			(release-escrow food)
+			(research ri-forging)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research ri-scale-barding)
+		=>
+			(release-escrow food)
+			(research ri-scale-barding)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age == feudal-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-double-bit-axe)
+			(research-completed ri-horse-collar)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age == feudal-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-forging)
+			(research-completed ri-scale-barding)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+	;Castle Age
+
+		;Economy
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-bow-saw)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-bow-saw)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-heavy-plow)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-heavy-plow)
+		)
+
+		;Blacksmith
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-chain-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chain-barding)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-iron-casting)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-iron-casting)
+		)
+
+		;Military
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(unit-type-count scout-cavalry-line > 5)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-light-cavalry)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-light-cavalry)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-husbandry)
+		=>
+			(release-escrow food)
+			(research ri-husbandry)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age == castle-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-bow-saw)
+			(research-completed ri-chain-barding)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age == castle-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-iron-casting)
+			(research-completed ri-heavy-plow)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+	;Imperial Age
+
+		;Blacksmith
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-plate-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-plate-barding)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-blast-furnace)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-blast-furnace)
+		)
+
+		;Military
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-cavalier)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-cavalier)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-paladin)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-paladin)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age == imperial-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-plate-barding)
+			(research-completed ri-cavalier)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+			(current-age == imperial-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-blast-furnace)
+			(research-completed ri-paladin)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+;Military
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age == feudal-age)
+	(military-population < MAX-MILITARY)
+	(can-train scout-cavalry-line)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(military-population < MAX-MILITARY)
+	(gold-amount < 100)
+	(can-train scout-cavalry-line)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(military-population < MAX-MILITARY)
+	(can-train knight-line)
+=>
+	(train knight-line)
+)
+
+;Escrow rules
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age == feudal-age)
+	(military-population > 10)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age == castle-age)
+	(military-population > 30)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+)
+
+;======================================
+
+;Scouts and Cavalry archers
+
+(defrule
+	(military-population <= 5)
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+=>
+	(set-strategic-number sn-number-attack-groups 0)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(military-population > 5)
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(timer-triggered ATTACK-TIMER)
+	(goal MILITIA NO)
+	(goal PIKEMEN NO)
+	(goal TO-CASTLE NO)
+=>
+	(attack-now)
+	(disable-self)
+)
+
+(defrule
+	(current-age <= feudal-age)
+	(military-population > 10)
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(timer-triggered ATTACK-TIMER)
+	(goal TO-CASTLE NO)
+=>
+	(attack-now)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age >= castle-age)
+	(players-military-population any-enemy < military-population)
+	(players-score any-enemy < current-score)
+	(players-building-count any-enemy >= 1)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age >= castle-age)
+	(military-population > MIN-IMPERIAL-ATTACK-SIZE)
+	(timer-triggered ATTACK-TIMER)
+=>
+	(attack-now)
+)
+
+;Build Order
+
+	(defrule
+		(unit-type-count villager == 15)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 16)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 62)
+		(set-strategic-number sn-wood-gatherer-percentage 38)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 17)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 64)
+		(set-strategic-number sn-wood-gatherer-percentage 36)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 18)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 66)
+		(set-strategic-number sn-wood-gatherer-percentage 34)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 19)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 68)
+		(set-strategic-number sn-wood-gatherer-percentage 32)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 20)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 70)
+		(set-strategic-number sn-wood-gatherer-percentage 30)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 21)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 71)
+		(set-strategic-number sn-wood-gatherer-percentage 29)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 22)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 72)
+		(set-strategic-number sn-wood-gatherer-percentage 28)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 23)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 74)
+		(set-strategic-number sn-wood-gatherer-percentage 26)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 24)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 75)
+		(set-strategic-number sn-wood-gatherer-percentage 25)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 25)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 76)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager == 26)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-FEUDAL NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 77)
+		(set-strategic-number sn-wood-gatherer-percentage 23)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 22)
+		(unit-type-count villager < 28)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-FEUDAL YES)
+		(goal TO-CASTLE NO)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 60)
+		(set-strategic-number sn-wood-gatherer-percentage 40)
+		(set-strategic-number sn-gold-gatherer-percentage 0)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 28)
+		(unit-type-count villager < 32)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 57)
+		(set-strategic-number sn-wood-gatherer-percentage 31)
+		(set-strategic-number sn-gold-gatherer-percentage 12)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 32)
+		(unit-type-count villager < 38)
+		(goal TO-CASTLE YES)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 48)
+		(set-strategic-number sn-wood-gatherer-percentage 26)
+		(set-strategic-number sn-gold-gatherer-percentage 26)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 38)
+		(unit-type-count villager < 42)
+		(goal TO-CASTLE YES)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 43)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 33)
+		(set-strategic-number sn-stone-gatherer-percentage 0)
+	)
+
+	(defrule
+		(unit-type-count villager >= 42)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-CASTLE YES)
+		(building-type-count-total castle == 0)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 33)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 28)
+		(set-strategic-number sn-stone-gatherer-percentage 15)
+	)
+
+	(defrule
+		(unit-type-count villager >= 42)
+		(goal STRATEGY-SCOUTS-AND-CA YES)
+		(goal TO-CASTLE YES)
+		(building-type-count-total castle >= 1)
+	=>
+		(set-strategic-number sn-food-gatherer-percentage 38)
+		(set-strategic-number sn-wood-gatherer-percentage 24)
+		(set-strategic-number sn-gold-gatherer-percentage 28)
+		(set-strategic-number sn-stone-gatherer-percentage 10)
+	)
+
+;Buildings
+
+	;Economic Buildings
+
+		;Feudal Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(unit-type-count villager >= 28)
+			(resource-found gold)
+			(building-type-count-total lumber-camp >= 1)
+			(building-type-count-total mill >= 1)
+			(building-type-count-total stable >= 1)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total mining-camp == 0)
+			(can-build-with-escrow mining-camp)
+		=>
+			(release-escrow wood)
+			(build mining-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TO-FEUDAL YES)
+			(building-type-count-total lumber-camp < 2)
+			(can-build lumber-camp)
+		=>
+			(build lumber-camp)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total blacksmith == 0)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total stable >= 1)
+			(can-build-with-escrow blacksmith)
+		=>
+			(release-escrow wood)
+			(build blacksmith)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total blacksmith >= 1)
+			(building-type-count-total barracks >= 1)
+			(building-type-count-total stable >= 1)
+			(building-type-count-total market == 0)
+			(can-build-with-escrow market)
+		=>
+			(release-escrow wood)
+			(build market)
+		)
+
+		;Castle Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age >= castle-age)
+			(building-type-count-total university == 0)
+			(can-build-with-escrow university)
+		=>
+			(release-escrow wood)
+			(build university)
+		)
+	
+	;Military
+
+	;Dark Age
+
+		(defrule
+			(goal TO-FEUDAL YES)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total barracks == 0)
+			(can-build-with-escrow barracks)
+		=>
+			(release-escrow wood)
+			(build barracks)
+		)
+
+	;Feudal Age
+
+		(defrule
+			(current-age >= feudal-age)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable == 0)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+		(defrule
+			(current-age >= feudal-age)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable == 1)
+			(research-completed ri-forging)
+			(research-completed ri-scale-barding)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+	;Castle Age
+
+		(defrule
+			(current-age >= castle-age)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable < 3)
+			(can-build-with-escrow stable)
+		=>
+			(release-escrow wood)
+			(build stable)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age >= castle-age)
+			(building-type-count-total archery-range < 3)
+			(can-build-with-escrow archery-range)
+		=>
+			(release-escrow wood)
+			(build archery-range)
+		)
+
+	;Imperial Age
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age >= imperial-age)
+			(building-type-count-total stable < 6)
+			(can-build stable)
+		=>
+			(build stable)
+		)
+
+;Research
+
+	;Feudal Age
+
+		;Economy
+
+		(defrule
+			(goal TECH-PRIORITY IMPORTANT)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable >= 1)
+			(can-research-with-escrow ri-double-bit-axe)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-double-bit-axe)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY IMPORTANT)
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(building-type-count-total stable >= 1)
+			(can-research-with-escrow ri-horse-collar)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-horse-collar)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-gold-mining)
+		=>
+			(research ri-gold-mining)
+		)
+
+		;Blacksmith
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-forging)
+		=>
+			(release-escrow food)
+			(research ri-forging)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research ri-scale-barding)
+		=>
+			(release-escrow food)
+			(research ri-scale-barding)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age == feudal-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-double-bit-axe)
+			(research-completed ri-horse-collar)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age == feudal-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-forging)
+			(research-completed ri-scale-barding)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+	;Castle Age
+
+		;Economy
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-bow-saw)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-bow-saw)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-heavy-plow)
+		=>
+			(release-escrow food)
+			(release-escrow wood)
+			(research ri-heavy-plow)
+		)
+
+		;Blacksmith
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-chain-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chain-barding)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(goal TO-CASTLE YES)
+			(can-research-with-escrow ri-fletching)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-fletching)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(goal TO-CASTLE YES)
+			(can-research-with-escrow ri-padded-archer-armor)
+		=>
+			(release-escrow food)
+			(research ri-padded-archer-armor)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(goal TO-CASTLE YES)
+			(can-research-with-escrow ri-bodkin-arrow)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-bodkin-arrow)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-iron-casting)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-iron-casting)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-leather-archer-armor)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-leather-archer-armor)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-ballistics)
+		=>
+			(release-escrow wood)
+			(release-escrow gold)
+			(research ri-ballistics)
+		)
+
+		;Military
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(unit-type-count scout-cavalry-line > 5)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-light-cavalry)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-light-cavalry)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-husbandry)
+		=>
+			(release-escrow food)
+			(research ri-husbandry)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age == castle-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-bow-saw)
+			(research-completed ri-chain-barding)
+			(research-completed ri-padded-archer-armor)
+			(research-completed ri-bodkin-arrow)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age == castle-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-iron-casting)
+			(research-completed ri-heavy-plow)
+			(research-completed ri-ballistics)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+	;Imperial Age
+
+		;Blacksmith
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-plate-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-plate-barding)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-bracer)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-bracer)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-blast-furnace)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-blast-furnace)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-ring-archer-armor)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-ring-archer-armor)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(can-research-with-escrow ri-chemistry)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chemistry)
+		)
+
+		;Military
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow ri-heavy-cavalry-archer)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-heavy-cavalry-archer)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age == imperial-age)
+			(goal TECH-PRIORITY IMPORTANT)
+			(research-completed ri-plate-barding)
+			(research-completed ri-bracer)
+			(research-completed ri-heavy-cavalry-archer)
+		=>
+			(set-goal TECH-PRIORITY SEMI-IMPORTANT)
+			(chat-to-player my-player-number "Priority: Semi-Important techs")
+			(disable-self)
+		)
+
+		(defrule
+			(goal STRATEGY-SCOUTS-AND-CA YES)
+			(current-age == imperial-age)
+			(goal TECH-PRIORITY SEMI-IMPORTANT)
+			(research-completed ri-blast-furnace)
+			(research-completed ri-ring-archer-armor)
+			(research-completed ri-chemistry)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+			(set-goal PRIORITIZE-TECH NO)
+			(chat-to-player my-player-number "Allowing Non-Important techs")
+			(disable-self)
+		)
+
+;Military
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age >= feudal-age)
+	(military-population < MAX-MILITARY)
+	(can-train scout-cavalry-line)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age >= castle-age)
+	(military-population < MAX-MILITARY)
+	(can-train cavalry-archer-line)
+=>
+	(train cavalry-archer-line)
+)
+
+;Escrow rules
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age == feudal-age)
+	(military-population > 20)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age == castle-age)
+	(military-population > 30)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+)
+
+
+;======================================
+
+;Walls
+
+	(defrule
+		(current-age == imperial-age)
+		(building-type-count-total castle >= 2)
+	=>
+		(set-goal WALLS YES)
+	)
+	
+
+	(defrule
+		(goal WALLS YES)
+		(current-age >= castle-age)
+	=>
+		(enable-wall-placement 2)
+		(disable-self)
+	)
+
+	(defrule
+		(goal WALLS YES)
+		(current-age >= castle-age)
+		(can-build-wall 2 stone-wall-line)
+		(not (town-under-attack))
+	=>
+		(build-wall 2 stone-wall-line)
+	)
+
+	(defrule
+		(goal WALLS YES)
+		(current-age >= castle-age)
+		(can-build-gate 2)
+		(not (town-under-attack))
+	=>
+		(build-gate 2)
+	)
+
+;Escrow rules
+
+(defrule
+	(goal PRIORITIZE-AGE-UP YES)
+=>
+	(set-escrow-percentage food 80)
+	(set-escrow-percentage wood 80)
+	(set-escrow-percentage gold 80)
+)
+
+(defrule
+	(current-age == castle-age)
+	(goal PRIORITIZE-TECH YES)
+=>
+	(set-escrow-percentage food 50)
+	(set-escrow-percentage wood 20)
+	(set-escrow-percentage gold 50)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(goal PRIORITIZE-TECH YES)
+=>
+	(set-escrow-percentage food 30)
+	(set-escrow-percentage wood 20)
+	(set-escrow-percentage gold 50)
+)
+
+(defrule
+	(current-age == dark-age)
+	(goal PRIORITIZE-TECH NO)
+	(goal PRIORITIZE-AGE-UP NO)
+=>
+	(set-escrow-percentage food 0)
+	(set-escrow-percentage wood 0)
+	(set-escrow-percentage gold 0)
+	(disable-self)
+)
+
+(defrule
+	(current-age == feudal-age)
+	(goal PRIORITIZE-TECH NO)
+	(goal PRIORITIZE-AGE-UP NO)
+=>
+	(set-escrow-percentage food 20)
+	(set-escrow-percentage wood 10)
+	(set-escrow-percentage gold 20)
+)
+
+(defrule
+	(current-age == castle-age)
+	(goal PRIORITIZE-TECH NO)
+	(goal PRIORITIZE-AGE-UP NO)
+=>
+	(set-escrow-percentage food 10)
+	(set-escrow-percentage wood 5)
+	(set-escrow-percentage gold 10)
+	(set-goal TECH-PRIORITY NON-IMPORTANT)
+)
+
+(defrule
+	(current-age == imperial-age)
+	(goal PRIORITIZE-TECH NO)
+	(goal PRIORITIZE-AGE-UP NO)
+=>
+	(set-escrow-percentage food 0)
+	(set-escrow-percentage wood 0)
+	(set-escrow-percentage gold 0)
+	(release-escrow food)
+	(release-escrow gold)
+	(release-escrow wood)
+	(set-goal TECH-PRIORITY NON-IMPORTANT)
+)
+
+(defrule
+	(town-under-attack)
+	(or (military-population < 10) (unit-type-count villager < 40))
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(release-escrow wood)
+)
+
+;Market
+
+(defrule
+	(current-age == feudal-age)
+    (gold-amount > 300)
+    (food-amount < 800)
+	(goal TO-CASTLE NO)
+=>
+    (buy-commodity food)
+)
+
+(defrule
+    (gold-amount > 1000)
+    (food-amount < 500)
+=>
+    (buy-commodity food)
+)
+
+(defrule
+    (food-amount > 2000)
+    (gold-amount < 1000)
+=>
+    (sell-commodity food)
+)
+
+(defrule
+	(current-age == feudal-age)
+    (wood-amount > 300)
+    (gold-amount < 1000)
+=>
+    (sell-commodity wood)
+)
+
+(defrule
+    (wood-amount > 800)
+    (gold-amount < 1000)
+=>
+    (sell-commodity wood)
+)
+
+;Resign
+
+(defrule
+	(building-type-count-total town-center == 0)
+	(unit-type-count villager == 0)
+	(not(can-build town-center))
+	(unit-type-count monk == 0)
+	(not(can-train monk))
+=>
+	(chat-to-all "Your land wasn't as good as I thought. We'll establish our kingdom in another place.")
+	(resign)
+)
+
+;Taunts
+
+(defrule
+	(civ-selected briton)
+	(current-age == castle-age)
+=>
+	(chat-to-all "The quality of our bows is unmatched in the entire world, and so is our cruelty with those who dare defy us.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected byzantine)
+	(building-type-count watch-tower-line > 0)
+=>
+	(chat-to-all "Isn't it a beautiful tower? Enjoy it while you're still alive.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected byzantine)
+	(building-type-count stone-wall-line > 0)
+=>
+	(chat-to-all "You'll never be able to break through these walls!")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected celtic)
+	(unit-type-count militiaman-line > 5)
+=>
+	(chat-to-all "Our infantry is already on the way, they will deal with you as quickly as possible.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected chinese)
+	(unit-type-count chu-ko-nu-line > 0)
+=>
+	(chat-to-all "The surprise on your face tells me you have never seen a crossbow shoot more than one arrow per volley.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected frankish)
+	(unit-type-count knight-line > 0)
+=>
+	(chat-to-all "Behold the strenght of our heavy cavalry! This would be a good time to resign.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected gothic)
+	(unit-type-count militiaman-line > 0)
+=>
+	(chat-to-all "It doesn't matter what kind of resistance you're preparing, through sheer numbers we'll take the victory.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected gothic)
+	(unit-type-count huskarl-line > 0)
+=>
+	(chat-to-all "No arrow is able to pierce these plates, and yet they are so light only a horse would be capable of escaping us.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected japanese)
+	(unit-type-count militiaman-line > 5)
+=>
+	(chat-to-all "You better be prepared to face the edge of our swords.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected japanese)
+	(unit-type-count samurai-line > 0)
+=>
+	(chat-to-all "Those you have fought till now were mere peasant, the pride of our nation will deal with you now.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected mongol)
+	(unit-type-count mangudai-line > 0)
+=>
+	(chat-to-all "The accuracy of our mounted warriors is something you'll quickly learn to fear.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected persian)
+	(unit-type-count war-elephant-line > 0)
+=>
+	(chat-to-all "We've already tamed these enormous beasts, it's won't be long before we tame you.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected saracen)
+	(or (unit-type-count camel-line > 0) (unit-type-count mameluke-line > 0))
+=>
+	(chat-to-all "Your horses are no match for our camels. The sand will take care of them before we even have to do something.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected teutonic)
+	(unit-type-count knight-line > 1)
+=>
+	(chat-to-all "You won't find a better armour than ours anywhere, your weapons won't even make a dent on it.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected teutonic)
+	(unit-type-count teutonic-knight-line > 1)
+=>
+	(chat-to-all "The order has decided that you are an enemy worthy of our best knights. Hope you won't disappoint them.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected turkish)
+	(unit-type-count scout-cavalry-line > 1)
+=>
+	(chat-to-all "So, you have chosen not to submit. You're going to regret this when our mighty light cavalry lays waste to your cities.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected turkish)
+	(current-age == castle-age)
+	(unit-type-count janissary-line > 0)
+=>
+	(chat-to-all "Have you ever seen this? This new weapon is able to pierce even the thickest armor.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected turkish)
+	(building-type-count bombard-tower > 0)
+=>
+	(chat-to-all "These fortified cannons will turn your city to ashes.")
+	(disable-self)
+)
+
+(defrule
+	(civ-selected viking)
+	(current-age == castle-age)
+=>
+	(chat-to-all "You should have surrendered when you had the opportunity, now you'll regret it.")
+	(disable-self)
+)

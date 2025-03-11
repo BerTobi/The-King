@@ -1,0 +1,45 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count archer-line > 5)
+    (current-age == feudal-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+    (disable-self)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count archer-line > 20)
+    (players-building-type-count any-enemy watch-tower-line == 0)
+    (current-age == feudal-age)
+    (goal TO-CASTLE NO)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count archer-line > 30)
+    (current-age == castle-age)
+    (research-completed ri-crossbow)
+    (research-completed ri-bodkin-arrow)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count archer-line > 40)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)

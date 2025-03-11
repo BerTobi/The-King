@@ -1,0 +1,15 @@
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age == feudal-age)
+	(unit-type-count scout-cavalry-line > 20)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-AND-CA YES)
+	(current-age == castle-age)
+	(unit-type-count cavalry-archer-line > 30)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+)

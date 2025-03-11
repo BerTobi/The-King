@@ -1,0 +1,33 @@
+(defrule
+	(current-age == dark-age)
+=>
+	(set-strategic-number sn-number-attack-groups 0)
+	(disable-self)
+)
+
+(defrule
+	(current-age >= feudal-age)
+=>
+	(set-strategic-number sn-number-attack-groups 5)
+	(set-strategic-number sn-minimum-attack-group-size 5)
+	(set-strategic-number sn-maximum-attack-group-size 7)
+	(disable-self)
+)
+
+(defrule
+	(current-age >= castle-age)
+=>
+	(set-strategic-number sn-number-attack-groups 5)
+	(set-strategic-number sn-minimum-attack-group-size 7)
+	(set-strategic-number sn-maximum-attack-group-size 10)
+	(disable-self)
+)
+
+(defrule
+	(current-age >= imperial-age)
+=>
+	(set-strategic-number sn-number-attack-groups 10)
+	(set-strategic-number sn-minimum-attack-group-size 10)
+	(set-strategic-number sn-maximum-attack-group-size 20)
+	(disable-self)
+)

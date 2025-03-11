@@ -1,0 +1,11 @@
+;Safety
+
+    (defrule
+        (current-age >= castle-age)
+        (unit-type-count villager < 20)
+    =>
+        (release-escrow food)
+        (release-escrow wood)
+        (release-escrow gold)
+        (release-escrow stone)
+    )

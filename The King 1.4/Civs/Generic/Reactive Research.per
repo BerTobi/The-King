@@ -1,0 +1,376 @@
+;Unit upgrades
+
+	(defrule
+		(goal COUNTER-UNIT militiaman-line)
+		(can-research-with-escrow ri-man-at-arms)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-man-at-arms)
+	)
+
+	(defrule
+		(goal COUNTER-UNIT militiaman-line)
+		(can-research-with-escrow ri-long-swordsman)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-long-swordsman)
+	)
+
+	(defrule
+		(goal COUNTER-UNIT spearman-line)	
+		(can-research-with-escrow ri-pikeman)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-pikeman)
+	)
+
+	(defrule
+		(or (goal COUNTER-UNIT militiaman-line)
+		(goal COUNTER-UNIT spearman-line))	
+		(can-research-with-escrow ri-forging)
+	=>
+		(release-escrow food)
+		(research ri-forging)
+	)
+
+	(defrule
+		(or (goal COUNTER-UNIT militiaman-line)
+		(goal COUNTER-UNIT spearman-line))	
+		(can-research-with-escrow ri-scale-mail)
+	=>
+		(release-escrow food)
+		(research ri-scale-mail)
+	)
+
+	(defrule
+		(or (goal COUNTER-UNIT militiaman-line)
+		(goal COUNTER-UNIT spearman-line))	
+		(can-research-with-escrow ri-iron-casting)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-iron-casting)
+	)
+
+	(defrule
+		(or (goal COUNTER-UNIT militiaman-line)
+		(goal COUNTER-UNIT spearman-line))	
+		(can-research-with-escrow ri-chain-mail)
+	=>
+		(release-escrow food)
+		(release-escrow gold)
+		(research ri-chain-mail)
+	)
+
+	;(defrule
+	;	(goal PIKEMEN YES)
+	;	(can-research-with-escrow ri-pikeman)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-pikeman)
+	;)
+
+
+
+	;(defrule
+	;	(goal MILITIA YES)
+	;	(can-research-with-escrow ri-long-swordsman)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-long-swordsman)
+	;)
+
+	;(defrule
+	;	(goal MILITIA YES)
+	;	(can-research-with-escrow ri-two-handed-swordsman)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-two-handed-swordsman)
+	;)
+
+	;(defrule
+	;	(goal MILITIA YES)
+	;	(can-research-with-escrow ri-champion)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-champion)
+	;)
+
+	;(defrule
+	;	(goal SKIRMISHERS YES)
+	;	(can-research-with-escrow ri-elite-skirmisher)
+	;=>
+	;	(release-escrow wood)
+	;	(release-escrow gold)
+	;	(research ri-elite-skirmisher)
+	;)
+
+	;(defrule
+	;	(goal ARCHERS YES)
+	;	(can-research-with-escrow ri-crossbow)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-crossbow)
+	;)
+
+	;(defrule
+	;	(goal ARCHERS YES)
+	;	(can-research-with-escrow ri-arbalest)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-arbalest)
+	;)
+
+	;(defrule
+	;	(goal SCOUTS YES)
+	;	(can-research-with-escrow ri-light-cavalry)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-light-cavalry)
+	;)
+
+	;(defrule
+	;	(goal SCOUTS YES)
+	;	(can-research-with-escrow ri-husbandry)
+	;=>
+	;	(release-escrow food)
+	;	(research ri-husbandry)
+	;)
+
+	;(defrule
+	;	(goal KNIGHTS YES)
+	;	(can-research-with-escrow ri-cavalier)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-cavalier)
+	;)
+
+	;(defrule
+	;	(goal KNIGHTS YES)
+	;	(can-research-with-escrow ri-paladin)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-paladin)
+	;)
+
+	;(defrule
+	;	(goal CAMELS YES)
+	;	(can-research-with-escrow ri-heavy-camel)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-heavy-camel)
+	;)
+
+	;(defrule
+	;	(goal HAND-CANNONEER YES)
+	;	(can-research-with-escrow ri-hand-cannon)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-hand-cannon)
+	;)
+
+	;(defrule
+	;	(goal CAV-ARCHER YES)
+	;	(can-research-with-escrow ri-heavy-cavalry-archer)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-heavy-cavalry-archer)
+	;)
+
+	;(defrule
+	;	(goal MANGONEL YES)
+	;	(can-research-with-escrow ri-onager)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-onager)
+	;)
+
+	;(defrule
+	;	(goal MANGONEL YES)
+	;	(can-research-with-escrow ri-siege-onager)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-siege-onager)
+	;)
+
+	;(defrule
+	;	(goal SCORPION YES)
+	;	(can-research-with-escrow ri-heavy-scorpion)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow wood)
+	;	(research ri-heavy-scorpion)
+	;)
+
+	;;Blacksmith upgrades
+
+	;(defrule
+	;	(or (goal MILITIA YES) (goal PIKEMEN YES))
+	;	(can-research-with-escrow ri-scale-mail)
+	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	;=>
+	;	(release-escrow food)
+	;	(research ri-scale-mail)
+	;)
+
+	;(defrule
+	;	(or (goal MILITIA YES) (goal PIKEMEN YES))
+	;	(can-research-with-escrow ri-chain-mail)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-chain-mail)
+	;)
+
+	;(defrule
+	;	(or (goal MILITIA YES) (goal PIKEMEN YES))
+	;	(can-research-with-escrow ri-plate-mail)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-plate-mail)
+	;)
+
+	;(defrule
+	;	(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
+	;	(can-research-with-escrow ri-scale-barding)
+	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	;=>
+	;	(release-escrow food)
+	;	(research ri-scale-barding)
+	;)
+
+	;(defrule
+	;	(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
+	;	(can-research-with-escrow ri-chain-barding)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-chain-barding)
+	;)
+
+	;(defrule
+	;	(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
+	;	(can-research-with-escrow ri-plate-barding)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-plate-barding)
+	;)
+
+	;(defrule
+	;	(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
+	;	(can-research-with-escrow ri-forging)
+	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	;=>
+	;	(release-escrow food)
+	;	(research ri-forging)
+	;)
+
+	;(defrule
+	;	(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
+	;	(can-research-with-escrow ri-iron-casting)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-iron-casting)
+	;)
+
+	;(defrule
+	;	(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
+	;	(can-research-with-escrow ri-blast-furnace)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-blast-furnace)
+	;)
+
+	;(defrule
+	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+	;	(can-research-with-escrow ri-fletching)
+	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-fletching)
+	;)
+
+	;(defrule
+	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+	;	(can-research-with-escrow ri-bodkin-arrow)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-bodkin-arrow)
+	;)
+
+	;(defrule
+	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+	;	(can-research-with-escrow ri-bracer)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-bracer)
+	;)
+
+	;(defrule
+	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+	;	(can-research-with-escrow ri-ballistics)
+	;=>
+	;	(release-escrow wood)
+	;	(release-escrow gold)
+	;	(research ri-ballistics)
+	;)
+
+	;(defrule
+	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
+	;	(can-research-with-escrow ri-chemistry)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-chemistry)
+	;)
+
+	;(defrule
+	;	(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
+	;	(can-research-with-escrow ri-padded-archer-armor)
+	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	;=>
+	;	(release-escrow food)
+	;	(research ri-padded-archer-armor)
+	;)
+
+	;(defrule
+	;	(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
+	;	(can-research-with-escrow ri-leather-archer-armor)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-leather-archer-armor)
+	;)
+
+	;(defrule
+	;	(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
+	;	(can-research-with-escrow ri-ring-archer-armor)
+	;=>
+	;	(release-escrow food)
+	;	(release-escrow gold)
+	;	(research ri-ring-archer-armor)
+	;)

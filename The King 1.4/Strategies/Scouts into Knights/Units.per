@@ -1,0 +1,24 @@
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age == feudal-age)
+	(can-train scout-cavalry-line)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(gold-amount < 100)
+	(can-train scout-cavalry-line)
+=>
+	(train scout-cavalry-line)
+)
+
+(defrule
+	(goal STRATEGY-SCOUTS-INTO-KNIGHTS YES)
+	(current-age >= castle-age)
+	(can-train knight-line)
+=>
+	(train knight-line)
+)

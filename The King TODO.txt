@@ -1,0 +1,13 @@
+The King Changelog
+
+1.3 TODO
+
+-Mejorar Persian steamroll (priorizar mejora de unidad unica)
+-Reacciones a unidades unicas
+-Escrow para pasar de edad
+-Mejorar sistema de reacciones
+-Gold Rush loads
+
+1.4
+
+-Reaccionando a arqueros cuando no hay con britons

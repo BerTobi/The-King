@@ -1,0 +1,21 @@
+;Market
+
+(defrule
+	(building-type-count-total barracks < 1)
+    (building-type-count market >= 1)
+    (gold-amount > 200)
+=>
+    (buy-commodity wood)
+)
+
+(defrule
+	(building-type-count-total archery-range < 1)
+    (building-type-count market >= 1)
+    (gold-amount > 200)
+=>
+    (buy-commodity wood)
+)
+
+
+
+

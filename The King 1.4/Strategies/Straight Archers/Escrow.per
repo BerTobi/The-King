@@ -1,0 +1,19 @@
+(defrule
+	(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(current-age == feudal-age)
+	(unit-type-count archer-line > 30)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+	(chat-to-player my-player-number "Prioritizing Age up")
+	(disable-self)
+)
+
+(defrule
+	(goal STRATEGY-STRAIGHT-ARCHERS YES)
+	(current-age == castle-age)
+	(unit-type-count archer-line > 40)
+=>
+	(set-goal PRIORITIZE-AGE-UP YES)
+	(chat-to-player my-player-number "Prioritizing Age up")
+	(disable-self)
+)

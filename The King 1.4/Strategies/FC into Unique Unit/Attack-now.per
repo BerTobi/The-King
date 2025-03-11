@@ -1,0 +1,65 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count my-unique-unit-line > 5)
+    (or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+    (game-time < 2100)
+    (current-age == castle-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count my-unique-unit-line > 20)
+    (or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+    (unit-type-count battering-ram-line > 1)
+    (game-time < 2100)
+    (current-age == castle-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+    (unit-type-count my-unique-unit-line > 10)
+    (game-time < 2100)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count my-unique-unit-line > 30)
+    (or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+    (unit-type-count battering-ram-line > 1)
+    (game-time < 2100)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count my-unique-unit-line > 20)
+    (game-time > 2100)
+    (current-age == castle-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count my-unique-unit-line > 30)
+    (game-time > 2100)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+)

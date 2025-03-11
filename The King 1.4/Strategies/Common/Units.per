@@ -1,0 +1,146 @@
+; Deciding rules
+
+    (defrule
+        (goal TRAIN-UNITS NO)
+        (current-age <= castle-age)
+        (military-population < 30)
+    =>
+        (set-goal TRAIN-UNITS YES)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (current-age <= castle-age)
+        (military-population > 30)
+    =>
+        (set-goal TRAIN-UNITS NO)
+    )
+
+; Economic units
+
+    (defrule
+        (unit-type-count villager < MAX-VILLAGERS)
+        (can-train-with-escrow villager)
+    =>
+        (release-escrow food)
+        (train villager)
+    )
+
+; Military units
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT my-unique-unit-line) (goal COUNTER-UNIT my-unique-unit-line))
+        (can-train my-unique-unit-line)
+    =>
+        (train my-unique-unit-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT knight-line) (goal COUNTER-UNIT knight-line))
+        (can-train knight-line)
+    =>
+        (train knight-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT cavalry-archer-line) (goal COUNTER-UNIT cavalry-archer-line))
+        (can-train cavalry-archer-line)
+    =>
+        (train cavalry-archer-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT camel-line) (goal COUNTER-UNIT camel-line))
+        (can-train camel-line)
+    =>
+        (train camel-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT spearman-line) (goal COUNTER-UNIT spearman-line))
+        (can-train spearman-line)
+    =>
+        (train spearman-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT militiaman-line) (goal COUNTER-UNIT militiaman-line))
+        (can-train militiaman-line)
+    =>
+        (train militiaman-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT archer-line) (goal COUNTER-UNIT archer-line))
+        (can-train archer-line)
+    =>
+        (train archer-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT skirmisher-line) (goal COUNTER-UNIT skirmisher-line))
+        (can-train skirmisher-line)
+    =>
+        (train skirmisher-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (or (goal MAIN-UNIT scout-cavalry-line) (goal COUNTER-UNIT scout-cavalry-line))
+        (can-train scout-cavalry-line)
+    =>
+        (train scout-cavalry-line)
+    )
+
+    (defrule
+        (goal TRAIN-UNITS YES)
+        (goal SIEGE-UNIT battering-ram-line)
+        (can-train battering-ram-line)
+    =>
+        (train battering-ram-line)
+    )
+
+    (defrule
+        (game-time > 3600)
+    =>
+        (set-goal TRASH-WAR 1)
+        (chat-to-all "Trash War mode: Activated")
+        (disable-self)
+    )
+
+    (defrule
+        (goal TRASH-WAR 1)
+    =>
+        (set-goal PIKEMEN 1)
+        (set-goal SKIRMISHERS 1)
+        (set-goal SCOUTS 1)
+    )
+
+    (defrule
+        (goal TRASH-WAR 1)
+        (can-train spearman-line)
+    =>
+        (train spearman-line)
+    )
+
+    (defrule
+        (goal TRASH-WAR 1)
+        (can-train skirmisher-line)
+    =>
+        (train skirmisher-line)
+    )
+
+    (defrule
+        (goal TRASH-WAR 1)
+        (can-train scout-cavalry-line)
+    =>
+        (train scout-cavalry-line)
+    )

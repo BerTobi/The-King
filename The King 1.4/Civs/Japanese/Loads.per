@@ -1,0 +1,70 @@
+#load-if-defined JAPANESE-CIV
+    #load-if-defined ARABIA-MAP
+        
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: MAA and Towers")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Strategies/MAA and Towers/Strategic Numbers")
+        
+        (load "The King 1.4/Strategies/MAA and Towers/Research")
+        (load "The King 1.4/Strategies/MAA and Towers/Units")
+        (load "The King 1.4/Maps/Arabia/Market")
+        (load "The King 1.4/Strategies/MAA and Towers/Buildings")
+        ;(load "The King 1.4/Strategies/MAA and Towers/Attack-now")
+        ;(load "The King 1.4/Strategies/MAA and Towers/Attack")
+        (load "The King 1.4/Strategies/MAA and Towers/Villager Distribution")
+        (load "The King 1.4/Strategies/MAA and Towers/Reactions")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Japanese/Reactions")
+
+    #end-if
+
+    #load-if-defined GOLD-RUSH-MAP
+        
+        (defrule
+            (true)
+        =>
+            (chat-to-player my-player-number "Strategy: MAA and Towers")
+            (disable-self)
+        )
+
+        (load "The King 1.4/Strategies/MAA and Towers/Strategic Numbers")
+        
+        (load "The King 1.4/Strategies/MAA and Towers/Research")
+        (load "The King 1.4/Strategies/MAA and Towers/Units")
+        (load "The King 1.4/Maps/Arabia/Market")
+        (load "The King 1.4/Strategies/MAA and Towers/Buildings")
+        ;(load "The King 1.4/Strategies/MAA and Towers/Attack-now")
+        ;(load "The King 1.4/Strategies/MAA and Towers/Attack")
+        (load "The King 1.4/Strategies/MAA and Towers/Villager Distribution")
+        (load "The King 1.4/Strategies/MAA and Towers/Reactions")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+        (load "The King 1.4/Civs/Japanese/Reactions")
+
+    #end-if
+
+    #load-if-not-defined ARABIA-MAP
+    #load-if-not-defined GOLD-RUSH-MAP
+        
+        (load "The King 1.4/Maps/Arabia/Strategic Numbers")
+        (load "The King 1.4/Maps/Arabia/Escrow")
+        
+        (load "The King 1.4/Strategies/FC into Unique Unit/Research")
+        (load "The King 1.4/Maps/Arabia/Units")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Market")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Buildings")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Attack-now")
+        (load "The King 1.4/Strategies/FC into Unique Unit/Villager Distribution")
+        (load "The King 1.4/Civs/Japanese/Reactions")
+        (load "The King 1.4/Civs/Generic/Reactive Research")
+        (load "The King 1.4/Civs/Generic/Reaction Buildings")
+
+    #end-if
+    #end-if
+#end-if

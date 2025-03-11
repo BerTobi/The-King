@@ -1,0 +1,36 @@
+The King Changelog
+
+1.2
+
+-Added FC into infantry strategy
+-Celts now go for FC into infantry in non-arabia maps
+-Celts now go for MAA and Towers in Arabia
+-Replaced FC into light cav with FC into Knights
+-Franks will now go for FC into Knights in all maps
+-Persians will now go for FC into Knights in Arabia
+-Japanese will now go for MAA and Towers in Arabia
+
+1.3
+
+-Mills can now get constructed before lumbercamps if there isn't a food source
+-Added market rules to rebuild TC
+-Villagers will now gather wood and stone if TC is destroyed
+-Added Gold Rush strategies for all 13 civs
+-The King now uses TSA in some situations
+
+1.3b
+
+-Added emergency escrow releasing
+-Added re-booming farm rules
+-Creating vills now can use escrow
+-Added trash war rules that activate after 1 in-game hour
+-Improved expansion rules to allow for bigger sizes
+-Re assigned IDs to goals and timers for them to work on AoK
+-Taunts are back
+
+1.3 TODO
+
+-Mejorar Persian steamroll (priorizar mejora de unidad unica)
+-Reacciones a unidades unicas
+-Escrow para pasar de edad
+-Mejorar sistema de reacciones

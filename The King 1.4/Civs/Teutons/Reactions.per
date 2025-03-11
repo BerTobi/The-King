@@ -1,0 +1,133 @@
+(defrule
+    (civ-selected teutonic)
+    (current-age >= feudal-age)
+    (players-unit-type-count any-enemy scout-cavalry-line > 1)
+    (goal PIKEMEN NO)
+=>
+    (set-goal PIKEMEN YES)
+    (chat-to-player my-player-number "Countering scouts: spearmen")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (current-age >= feudal-age)
+    (players-unit-type-count any-enemy knight-line > 1)
+    (goal PIKEMEN NO)
+=>
+    (set-goal PIKEMEN YES)
+    (chat-to-player my-player-number "Countering knights: spearmen")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (current-age >= imperial-age)
+    (players-unit-type-count any-enemy scout-cavalry-line > 5)
+    (goal PIKEMEN NO)
+=>
+    (set-goal PIKEMEN YES)
+    (chat-to-player my-player-number "Countering light cavalry: spearmen")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (current-age >= castle-age)
+    (players-unit-type-count any-enemy scorpion-line > 1)
+    (goal MANGONEL NO)
+=>
+    (set-goal MANGONEL YES)
+    (chat-to-player my-player-number "Countering scorpions: mangonel")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (current-age >= feudal-age)
+    (players-unit-type-count any-enemy spearman-line > 2)
+    (unit-type-count-total teutonic-knight-line < 1)
+    (goal MILITIA NO)
+=>
+    (set-goal MILITIA YES)
+    (chat-to-player my-player-number "Countering spearmen: militia")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (current-age >= castle-age)
+    (players-unit-type-count any-enemy spearman-line > 2)
+    (goal SCORPION NO)
+=>
+    (set-goal SCORPION YES)
+    (chat-to-player my-player-number "Countering spearmen: scorpions")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (current-age == castle-age)
+    (players-unit-type-count any-enemy archer-line > 5)
+    (goal MANGONEL NO)
+=>
+    (set-goal MANGONEL YES)
+    (chat-to-player my-player-number "Countering archers: mangonel")
+    (enable-timer DEACTIVATE-REACTION-TIMER 120)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (goal MILITIA YES)
+    (current-age == feudal-age)
+    (not (research-completed ri-man-at-arms))
+=>
+    (set-goal HALT-PRODUCTION YES)
+    (disable-self)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (goal MILITIA YES)
+    (research-completed ri-man-at-arms)
+=>
+    (set-goal HALT-PRODUCTION NO)
+    (disable-self)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (goal MILITIA YES)
+    (current-age >= castle-age)
+    (not (research-completed ri-long-swordsman))
+=>
+    (set-goal HALT-PRODUCTION YES)
+    (disable-self)
+)
+
+(defrule
+    (civ-selected teutonic)
+    (goal MILITIA YES)
+    (research-completed ri-long-swordsman)
+=>
+    (set-goal HALT-PRODUCTION NO)
+    (disable-self)
+)
+
+(defrule
+	(timer-triggered DEACTIVATE-REACTION-TIMER)
+=>
+	(set-goal ARCHERS NO)
+	(set-goal SCOUTS NO)
+	(set-goal KNIGHTS NO)   
+	(set-goal SKIRMISHERS NO)
+	(set-goal PIKEMEN NO)
+	(set-goal CAV-ARCHERS NO)
+	(set-goal CAMELS NO)
+	(set-goal HAND-CANNONEER NO)
+	(set-goal MILITIA NO)
+	(set-goal MANGONEL NO)
+	(set-goal SCORPION NO)
+	(chat-to-player my-player-number "Resuming default behaviour")
+	(enable-timer DEACTIVATE-REACTION-TIMER 300)
+)

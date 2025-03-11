@@ -1,0 +1,978 @@
+;Age up
+
+(defrule
+	(can-research-with-escrow feudal-age)
+	(unit-type-count villager >= 20)
+=>
+	(release-escrow food)
+	(research feudal-age)
+	(set-goal TO-FEUDAL YES)
+)
+
+(defrule
+	(current-age == feudal-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow castle-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research castle-age)
+	(set-goal TO-CASTLE YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == castle-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(can-research-with-escrow imperial-age)
+=>
+	(release-escrow food)
+	(release-escrow gold)
+	(research imperial-age)
+	(set-goal TO-IMPERIAL YES)
+	(set-goal PRIORITIZE-AGE-UP NO)
+)
+
+(defrule
+	(current-age == imperial-age)
+=>
+	(set-goal TECH-PRIORITY IMPORTANT)
+	(set-goal PRIORITIZE-AGE-UP NO)
+	(chat-to-player my-player-number "Priority: Important techs")
+	(disable-self)
+)
+
+(defrule
+	(or (not(can-train villager)) (unit-type-count villager >= 24))
+	(can-research ri-loom)
+=>
+	(research ri-loom)
+)
+
+(defrule
+	(unit-type-count villager > 35)
+	(can-research-with-escrow ri-wheel-barrow)
+	(current-age >= feudal-age)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-wheel-barrow)
+)
+
+(defrule
+	(unit-type-count villager >= MAX-VILLAGERS)
+	(can-research-with-escrow ri-hand-cart)
+=>
+	(release-escrow food)
+	(release-escrow wood)
+	(research ri-hand-cart)
+)
+
+;Priorities
+
+	;Feudal age
+
+	(defrule
+		(current-age == feudal-age)
+		(goal TECH-PRIORITY IMPORTANT)
+	=>
+		(set-goal TECH-PRIORITY	SEMI-IMPORTANT)
+		(chat-to-player my-player-number "Tech Priority: Semi-important")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == feudal-age)
+		(goal TECH-PRIORITY	SEMI-IMPORTANT)
+		(research-completed ri-fletching)
+		(research-completed ri-padded-archer-armor)
+	=>
+		(set-goal TECH-PRIORITY	NON-IMPORTANT)
+		(chat-to-player my-player-number "Tech Priority: Non-important")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == castle-age)
+		(goal TECH-PRIORITY IMPORTANT)
+		(research-completed ri-elite-skirmisher)
+	=>
+		(set-goal TECH-PRIORITY	SEMI-IMPORTANT)
+		(chat-to-player my-player-number "Tech Priority: Semi-important")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == castle-age)
+		(goal TECH-PRIORITY	SEMI-IMPORTANT)
+		(research-completed ri-ballistics)
+	=>
+		(set-goal TECH-PRIORITY	NON-IMPORTANT)
+		(chat-to-player my-player-number "Tech Priority: Non-important")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == castle-age)
+	=>
+		(set-goal PRIORITIZE-TECH YES)
+		(chat-to-player my-player-number "Prioriticing techs")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == imperial-age)
+	=>
+		(set-goal PRIORITIZE-TECH YES)
+		(chat-to-player my-player-number "Prioriticing techs")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == castle-age)
+		(escrow-amount food > 500)
+		(escrow-amount gold > 300)
+	=>
+		(set-goal PRIORITIZE-TECH NO)
+		(chat-to-player my-player-number "Stopped prioriticing techs")
+		(disable-self)
+	)
+
+	(defrule
+		(current-age == imperial-age)
+		(escrow-amount food > 800)
+		(escrow-amount gold > 500)
+	=>
+		(set-goal PRIORITIZE-TECH NO)
+		(chat-to-player my-player-number "Stopped prioriticing techs")
+		(disable-self)
+	)
+
+	;Feudal Age
+
+		;Economy
+
+		(defrule
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-double-bit-axe)
+		=>
+			(research ri-double-bit-axe)
+		)
+
+		(defrule
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-horse-collar)
+		=>
+			(research ri-horse-collar)
+		)
+
+		(defrule
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-gold-mining)
+		=>
+			(research ri-gold-mining)
+		)
+
+		;Utility
+
+		(defrule
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-town-watch)
+		=>
+			(research ri-town-watch)
+		)
+
+		;Team games
+
+		(defrule
+			(or (goal TO-CASTLE YES) (current-age >= castle-age))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(players-stance any-ally ally)
+			(can-research ri-cartography)
+		=>
+			(research ri-cartography)
+		)
+
+		;Military
+
+			;Blacksmith
+
+			(defrule
+				(goal TECH-PRIORITY SEMI-IMPORTANT)
+				(goal TO-CASTLE YES)
+				(can-research-with-escrow ri-fletching)
+			=>
+				(release-escrow food)
+				(release-escrow gold)
+				(research ri-fletching)
+			)
+
+			(defrule
+				(goal TECH-PRIORITY SEMI-IMPORTANT)
+				(goal TO-CASTLE YES)
+				(can-research-with-escrow ri-padded-archer-armor)
+			=>
+				(release-escrow food)
+				(research ri-padded-archer-armor)
+			)
+
+
+	;Castle Age
+
+		;Economy
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-bow-saw)
+		=>
+			(research ri-bow-saw)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-heavy-plow)
+		=>
+			(research ri-heavy-plow)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(or (goal TO-IMPERIAL YES) (current-age == imperial-age))
+			(can-research ri-gold-shaft-mining)
+		=>
+			(research ri-gold-shaft-mining)
+		)
+
+		
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(or (goal TO-IMPERIAL YES) (current-age >= imperial-age))
+			(unit-type-count villager >= MAX-VILLAGERS)
+			(can-research ri-stone-mining)
+		=>
+			(research ri-stone-mining)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(or (goal TO-IMPERIAL YES) (current-age >= imperial-age))
+			(unit-type-count villager >= MAX-VILLAGERS)
+			(can-research ri-stone-shaft-mining)
+		=>
+			(research ri-stone-shaft-mining)
+		)
+
+		;Military
+
+			;Units
+
+			(defrule
+				(goal TECH-PRIORITY IMPORTANT)
+				(current-age >= castle-age)
+				(can-research-with-escrow ri-elite-skirmisher)
+			=>
+				(release-escrow wood)
+				(release-escrow gold)
+				(research ri-elite-skirmisher)
+			)
+
+			;Blacksmith
+
+			(defrule
+				(goal TECH-PRIORITY SEMI-IMPORTANT)
+				(current-age >= castle-age)
+				(can-research-with-escrow ri-bodkin-arrow)
+			=>
+				(release-escrow food)
+				(research ri-bodkin-arrow)
+			)
+
+			(defrule
+				(goal TECH-PRIORITY SEMI-IMPORTANT)
+				(current-age >= castle-age)
+				(can-research-with-escrow ri-leather-archer-armor)
+			=>
+				(release-escrow food)
+				(research ri-leather-archer-armor)
+			)
+
+			(defrule
+				(goal TECH-PRIORITY SEMI-IMPORTANT)
+				(current-age >= castle-age)
+				(can-research-with-escrow ri-iron-casting)
+			=>
+				(release-escrow food)
+				(release-escrow gold)
+				(research ri-iron-casting)
+			)
+
+			(defrule
+				(goal TECH-PRIORITY SEMI-IMPORTANT)
+				(current-age >= castle-age)
+				(can-research-with-escrow ri-chain-mail)
+			=>
+				(release-escrow food)
+				(release-escrow gold)
+				(research ri-chain-mail)
+			)
+
+			(defrule
+				(goal TECH-PRIORITY SEMI-IMPORTANT)
+				(current-age >= castle-age)
+				(can-research-with-escrow ri-ballistics)
+			=>
+				(release-escrow wood)
+				(release-escrow gold)
+				(research ri-ballistics)
+			)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-squires)
+		=>
+			(release-escrow food)
+			(research ri-squires)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-tracking)
+		=>
+			(release-escrow food)
+			(research ri-tracking)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-husbandry)
+		=>
+			(release-escrow food)
+			(research ri-husbandry)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= castle-age)
+			(can-research-with-escrow ri-chain-barding)
+		=>
+			(release-escrow food)
+			(research ri-chain-barding)
+		)
+
+		;Defense
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(can-research ri-murder-holes)
+		=>
+			(research ri-murder-holes)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(can-research ri-masonry)
+		=>
+			(research ri-masonry)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count-total watch-tower-line >= 1)
+			(can-research ri-guard-tower)
+		=>
+			(research ri-guard-tower)
+		)
+
+		;Utility
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-town-patrol)
+		=>
+			(research ri-town-patrol)
+		)
+
+	;Imperial Age
+
+		;Economy
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-two-man-saw)
+		=>
+			(research ri-two-man-saw)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-crop-rotation)
+		=>
+			(research ri-crop-rotation)
+		)
+
+		
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-guilds)
+			(goal PRIORITIZE-TECH NO)
+		=>
+			(research ri-guilds)
+		)
+
+		;Siege
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-onager)
+		=>
+			(research ri-onager)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-siege-onager)
+		=>
+			(research ri-siege-onager)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-heavy-scorpion)
+		=>
+			(research ri-heavy-scorpion)
+		)
+
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-capped-ram)
+		=>
+			(research ri-capped-ram)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-siege-ram)
+		=>
+			(research ri-siege-ram)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-bombard-cannon)
+		=>
+			(research ri-bombard-cannon)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-siege-engineers)
+		=>
+			(research ri-siege-engineers)
+		)
+
+		;Military
+
+		(defrule
+			(goal TECH-PRIORITY IMPORTANT)
+			(can-research-with-escrow my-unique-unit-upgrade)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(release-escrow wood)
+			(research my-unique-unit-upgrade)
+		)
+
+		(defrule
+			(research-completed my-unique-unit-upgrade)
+			(goal TECH-PRIORITY IMPORTANT)
+		=>
+			(set-goal TECH-PRIORITY NON-IMPORTANT)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research-with-escrow my-unique-unit-upgrade)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(release-escrow wood)
+			(research my-unique-unit-upgrade)
+		)
+
+		(defrule
+			(goal PRIORITIZE-TECH NO)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-conscription)
+		=>
+			(research ri-conscription)
+		)
+
+		(defrule
+			(goal PRIORITIZE-TECH NO)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(can-research ri-sappers)
+		=>
+			(research ri-sappers)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-forging)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-forging)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-scale-mail)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-scale-mail)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-scale-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-scale-barding)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-iron-casting)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-iron-casting)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-chain-mail)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chain-mail)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-chain-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chain-barding)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS INFANTRY) (goal UNIQUE-UNIT-CLASS CAVALRY))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-blast-furnace)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-blast-furnace)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS INFANTRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-plate-mail)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-plate-mail)
+		)
+
+		(defrule
+			(goal UNIQUE-UNIT-CLASS CAVALRY)
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-plate-barding)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-plate-barding)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-chemistry)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-chemistry)
+		)
+
+		(defrule
+			(or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-bracer)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-bracer)
+		)
+
+		(defrule
+			(or (or (goal UNIQUE-UNIT-CLASS ARCHER) (goal UNIQUE-UNIT-CLASS CAV-ARCHER)) (goal UNIQUE-UNIT-CLASS GUNPOWDER))
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age == imperial-age)
+			(can-research-with-escrow ri-ring-archer-armor)
+		=>
+			(release-escrow food)
+			(release-escrow gold)
+			(research ri-ring-archer-armor)
+		)
+
+		;Defense
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-bracer)
+		=>
+			(research ri-bracer)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-chemistry)
+		=>
+			(research ri-chemistry)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-hoardings)
+		=>
+			(research ri-hoardings)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-architecture)
+		=>
+			(research ri-architecture)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count watch-tower-line >= 1)
+			(can-research ri-keep)
+		=>
+			(research ri-keep)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count stone-wall-line >= 1)
+			(can-research ri-fortified-wall)
+		=>
+			(research ri-fortified-wall)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(building-type-count castle >= 1)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-heated-shot)
+		=>
+			(research ri-heated-shot)
+		)
+	
+		;Team games
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(players-stance any-ally ally)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-coinage)
+		=>
+			(research ri-coinage)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(players-stance any-ally ally)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-banking)
+		=>
+			(research ri-banking)
+		)
+
+		;Monks
+		(defrule
+			(unit-type-count-total monk > 5)
+			(can-research ri-atonement)
+		=>
+			(research ri-atonement)
+		)
+
+		(defrule
+			(unit-type-count-total monk > 5)
+			(can-research ri-block-printing)
+		=>
+			(research ri-block-printing)
+		)
+
+		(defrule
+			(unit-type-count-total monk > 5)
+			(can-research ri-fervor)
+		=>
+			(research ri-fervor)
+		)
+
+		(defrule
+			(unit-type-count-total monk > 5)
+			(can-research ri-redemption)
+		=>
+			(research ri-redemption)
+		)
+
+		(defrule
+			(unit-type-count-total monk > 5)
+			(can-research ri-sanctity)
+		=>
+			(research ri-sanctity)
+		)
+
+		(defrule
+			(unit-type-count-total monk > 5)
+			(can-research ri-faith)
+		=>
+			(research ri-faith)
+		)
+
+		(defrule
+			(unit-type-count-total monk > 5)
+			(can-research ri-illumination)
+		=>
+			(research ri-illumination)
+		)
+
+		;Utility
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-stonecutting)
+		=>
+			(research ri-stonecutting)
+		)
+
+		;Blacksmith
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-forging)
+		=>
+			(research ri-forging)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-scale-mail)
+		=>
+			(research ri-scale-mail)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-scale-barding)
+		=>
+			(research ri-scale-barding)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-padded-archer-armor)
+		=>
+			(research ri-padded-archer-armor)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-iron-casting)
+		=>
+			(research ri-iron-casting)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-chain-mail)
+		=>
+			(research ri-chain-mail)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-chain-barding)
+		=>
+			(research ri-chain-barding)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-leather-archer-armor)
+		=>
+			(research ri-leather-archer-armor)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-blast-furnace)
+		=>
+			(research ri-blast-furnace)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-plate-mail)
+		=>
+			(research ri-plate-mail)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-plate-barding)
+		=>
+			(research ri-plate-barding)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-ring-archer-armor)
+		=>
+			(research ri-ring-archer-armor)
+		)
+
+		;Barracks
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-tracking)
+		=>
+			(research ri-tracking)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-squires)
+		=>
+			(research ri-squires)
+		)
+
+		;Stable
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-light-cavalry)
+		=>
+			(research ri-light-cavalry)
+		)
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(goal PRIORITIZE-TECH NO)
+			(can-research ri-husbandry)
+		=>
+			(research ri-husbandry)
+		)
+
+		;Units
+
+		(defrule
+			(goal TECH-PRIORITY NON-IMPORTANT)
+			(current-age >= imperial-age)
+			(can-research ri-pikeman)
+		=>
+			(research ri-pikeman)
+		)

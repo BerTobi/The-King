@@ -1,0 +1,388 @@
+;General AI for AoK by Tobi made in 2023/2024
+;Will eventually play any map and any gamemode
+
+;The King 1.4
+
+;----------------
+;   Constants   |
+;----------------
+
+;Constants
+
+(defconst NO 0)
+(defconst YES 1)
+
+(defconst ARCHER 180)
+(defconst CAV-ARCHER 181)
+(defconst INFANTRY 182)
+(defconst CAVALRY 183)
+(defconst GUNPOWDER 184)
+
+(defconst DECIDING-BUILDING 0)
+(defconst FORWARD-CASTLE 2000)
+(defconst FORWARD-TOWER 2001)
+
+;Timers
+
+(defconst ATTACK-TIMER 1)
+(defconst REACTION-TIMER 2)
+(defconst DEACTIVATE-REACTION-TIMER 3)
+(defconst EXPANSION-TIMER 4)
+(defconst TSA-TIMER 5)
+
+;Goals
+
+(defconst NEXT-BUILDING 1)
+(defconst NEXT-RESEARCH 2)
+(defconst MAIN-UNIT 3)
+(defconst COUNTER-UNIT 4)
+(defconst SIEGE-UNIT 5)
+(defconst TRAIN-UNITS 6)
+
+(defconst PRIORITIZE-TECH 2)
+(defconst PRIORITIZE-AGE-UP 3)
+(defconst ARCHERS 4)
+(defconst KNIGHTS 5)
+(defconst MILITIA 6)
+(defconst SKIRMISHERS 7)
+(defconst PIKEMEN 8)
+(defconst CAV-ARCHERS 9)
+(defconst CAMELS 10)
+(defconst HAND-CANNONEER 11)
+(defconst SCOUTS 12)
+(defconst DEFAULT-BEHAVIOUR 13)
+(defconst TOWER-RUSH 14)
+(defconst BOMBARD-TOWERS 15)
+(defconst WALLS 16)
+(defconst STRATEGY-STRAIGHT-ARCHERS 17)
+(defconst STRATEGY-SCOUTS-INTO-KNIGHTS 18)
+(defconst STRATEGY-INFANTRY 19) 
+(defconst NO-STRATEGY 20) 
+(defconst TECH-PRIORITY 21)
+(defconst UNIQUE-UNIT-CLASS 22)
+(defconst MANGONEL 23)
+(defconst SCORPION 24)
+(defconst HALT-PRODUCTION 25)
+(defconst STRATEGY-SCOUTS-AND-CA 26)
+(defconst TRASH-WAR 27)
+
+(defconst EXPANSION-N 31)
+(defconst ACTIVATE-TSA 32)
+(defconst TSA-STAGE 33)
+(defconst USES-ATTACK-NOW 34)
+(defconst IMPORTANT 35)
+(defconst SEMI-IMPORTANT 36)
+(defconst NON-IMPORTANT 37)
+
+(defconst TO-FEUDAL 38)
+(defconst TO-CASTLE 39)
+(defconst TO-IMPERIAL 40)
+
+
+
+(defrule
+	(true)
+=>
+	(enable-timer ATTACK-TIMER 60)
+	(enable-timer DEACTIVATE-REACTION-TIMER 300)
+	(enable-timer EXPANSION-TIMER 600)
+	(set-goal EXPANSION-N 0)
+	(set-goal HALT-PRODUCTION NO)
+	(set-goal ACTIVATE-TSA 0)
+	(set-goal TSA-STAGE 0)
+	(set-goal USES-ATTACK-NOW 0)
+	(disable-self)
+)
+
+(defrule
+	(true)
+=>
+	(set-goal TRASH-WAR 0)
+	(set-goal NEXT-BUILDING 0)
+	(set-goal TRAIN-UNITS YES)
+	(set-goal COUNTER-UNIT NO)
+	(disable-self)
+)
+
+#load-if-defined POPULATION-CAP-75
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-MILITARY 20)
+	(defconst MAX-SIEGE 3)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 15)
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 25)			
+#end-if
+
+#load-if-defined POPULATION-CAP-100
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-MILITARY 40)
+	(defconst MAX-SIEGE 4)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 20)
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 30)
+#end-if
+
+#load-if-defined POPULATION-CAP-125
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-MILITARY 65)
+	(defconst MAX-SIEGE 5)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 20)
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 40)			
+#end-if
+
+#load-if-defined POPULATION-CAP-200
+	(defconst MAX-VILLAGERS 50)
+	(defconst MAX-FEUDAL-MILITARY 25)
+	(defconst MAX-CASTLE-MILITARY 50)
+	(defconst MAX-MILITARY 130)
+	(defconst MAX-SIEGE 20)
+	(defconst MIN-IMPERIAL-ATTACK-SIZE 25)		
+	(defconst MAX-IMPERIAL-ATTACK-SIZE 60)	
+#end-if
+
+;----------------
+;   Load Files  |
+;----------------
+
+(defrule
+	(game-time > 0)
+=>
+	(chat-to-all "The King 1.4 by Tobi.")
+	(disable-self)
+)
+
+(defrule
+	(game-time > 60)
+=>
+	(chat-to-all "My kingdom is in need of more land, and yours looks like it would suit our needs.")
+	(disable-self)
+)
+
+
+
+#load-if-defined BRITON-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS ARCHER)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Britons/Loads")
+
+#end-if
+
+#load-if-defined BYZANTINE-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS CAVALRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Byzantines/Loads")
+
+#end-if
+
+#load-if-defined CELTIC-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Celts/Loads")
+#end-if
+
+#load-if-defined CHINESE-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS ARCHER)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Chinese/Loads")
+
+#end-if
+
+#load-if-defined FRANKISH-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Franks/Loads")
+#end-if
+
+#load-if-defined GOTHIC-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Goths/Loads")
+#end-if
+
+#load-if-defined JAPANESE-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Japanese/Loads")
+
+#end-if
+
+#load-if-defined MONGOL-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS CAV-ARCHER)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Mongols/Loads")
+#end-if
+
+#load-if-defined PERSIAN-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS CAVALRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Persians/Loads")
+#end-if
+
+#load-if-defined SARACEN-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS CAVALRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Saracens/Loads")
+#end-if
+
+#load-if-defined TEUTONIC-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+
+(load "The King 1.4/Civs/Teutons/Loads")
+#end-if
+
+#load-if-defined TURKISH-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS ARCHER)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Turks/Loads")
+#end-if
+
+#load-if-defined VIKING-CIV
+
+(defrule
+	(true)
+=>
+	(set-goal UNIQUE-UNIT-CLASS INFANTRY)
+	(disable-self)
+)
+
+(load "The King 1.4/Civs/Vikings/Loads")
+#end-if
+
+#load-if-not-defined BRITON-CIV
+#load-if-not-defined BYZANTINE-CIV
+#load-if-not-defined CELTIC-CIV
+#load-if-not-defined CHINESE-CIV
+#load-if-not-defined FRANKISH-CIV
+#load-if-not-defined GOTHIC-CIV
+#load-if-not-defined JAPANESE-CIV
+#load-if-not-defined MONGOL-CIV
+#load-if-not-defined PERSIAN-CIV
+#load-if-not-defined SARACEN-CIV
+#load-if-not-defined TEUTONIC-CIV
+#load-if-not-defined TURKISH-CIV
+#load-if-not-defined VIKING-CIV
+
+(load "The King 1.4/Civs/Generic/Loads")
+
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+#end-if
+
+(load "The King 1.4/Strategies/Common/Building System")
+;(load "The King 1.4/Strategies/Common/Buildings")
+(load "The King 1.4/Strategies/Common/Expansion")
+(load "The King 1.4/Strategies/Common/Villager Distribution")
+(load "The King 1.4/Strategies/Common/TSA")
+(load "The King 1.4/Strategies/Common/Units")
+(load "The King 1.4/Strategies/Common/Escrow")
+(load "The King 1.4/Taunts")
+(load "The King 1.4/Resign")
+
+;----------------
+;     Goals	    |
+;----------------
+
+;Goals
+
+(defrule
+	(true)
+=>
+	(set-goal TO-FEUDAL NO)
+	(set-goal TO-CASTLE NO)
+	(set-goal TO-IMPERIAL NO)
+	(set-goal PRIORITIZE-TECH NO)
+	(set-goal PRIORITIZE-AGE-UP NO)
+	(set-goal DEFAULT-BEHAVIOUR YES)
+	(set-goal TOWER-RUSH NO)
+	(set-goal BOMBARD-TOWERS NO)
+	(disable-self)
+)
+
+(defrule
+	(not (goal STRATEGY-STRAIGHT-ARCHERS YES))
+	(not (goal STRATEGY-SCOUTS-INTO-KNIGHTS YES))
+	(not (goal STRATEGY-SCOUTS-AND-CA YES))
+=>
+	(set-goal NO-STRATEGY YES)
+)

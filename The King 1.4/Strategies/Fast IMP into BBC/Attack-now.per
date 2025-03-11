@@ -1,0 +1,39 @@
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count-total scout-cavalry-line > 5)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count-total hand-cannoneer > 10)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count-total bombard-cannon > 2)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)
+
+(defrule
+    (timer-triggered ATTACK-TIMER)
+    (unit-type-count-total monk > 10)
+    (current-age == imperial-age)
+=>
+    (attack-now)
+    (enable-timer ATTACK-TIMER 60)
+    (chat-to-all "Attacking")
+)

@@ -1,0 +1,69 @@
+;Market
+
+(defrule
+	(current-age == feudal-age)
+    (gold-amount > 300)
+    (food-amount < 800)
+	(goal TO-CASTLE NO)
+    (building-type-count market >= 1)
+=>
+    (buy-commodity food)
+)
+
+(defrule
+	(current-age == feudal-age)
+    (gold-amount < 300)
+	(goal TO-CASTLE NO)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity stone)
+)
+
+(defrule
+	(current-age == castle-age)
+    (building-type-count-total monastery < 2)
+    (building-type-count market >= 1)
+    (gold-amount > 200)
+=>
+    (buy-commodity wood)
+)
+
+(defrule
+    (gold-amount > 1000)
+    (food-amount < 500)
+    (building-type-count market >= 1)
+=>
+    (buy-commodity food)
+)
+
+(defrule
+    (food-amount > 1500)
+    (gold-amount < 1000)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity food)
+    (chat-to-player my-player-number "Selling excess food")
+)
+
+(defrule
+	(current-age == feudal-age)
+    (goal TO-CASTLE NO)
+    (wood-amount > 300)
+    (gold-amount < 1000)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity wood)
+    (chat-to-player my-player-number "Selling excess wood")
+)
+
+(defrule
+    (wood-amount > 800)
+    (gold-amount < 1000)
+    (building-type-count market >= 1)
+=>
+    (sell-commodity wood)
+    (chat-to-player my-player-number "Selling excess wood")
+)
+
+
+
