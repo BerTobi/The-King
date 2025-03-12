@@ -1,61 +1,61 @@
 ;Reaction Buildings
 
 (defrule
+	(goal NEXT-BUILDING 0)
 	(current-age >= feudal-age)
-	(goal SCOUTS YES)
+	(goal COUNTER-UNIT scout-cavalry-line)
 	(building-type-count-total stable < 2)
-	(can-build-with-escrow stable)
 =>
-	(release-escrow wood)
-	(build stable)
+	(set-goal NEXT-BUILDING stable)
+    (chat-to-player my-player-number "Want to build: Stable")
 )
 
 (defrule
+	(goal NEXT-BUILDING 0)
 	(current-age == imperial-age)
-	(or (or (goal SCOUTS YES) (goal KNIGHTS YES) )(goal CAMELS YES))
+	(or (or (goal COUNTER-UNIT scout-cavalry-line) (goal COUNTER-UNIT knight-line) )(goal COUNTER-UNIT camel-line))
 	(building-type-count-total stable < 3)
-	(can-build-with-escrow stable)
 =>
-	(release-escrow wood)
-	(build stable)
+	(set-goal NEXT-BUILDING stable)
+    (chat-to-player my-player-number "Want to build: Stable")
 )
 
 (defrule
+	(goal NEXT-BUILDING 0)
 	(current-age >= feudal-age)
-	(or (goal PIKEMEN YES) (goal MILITIA YES))
+	(or (goal COUNTER-UNIT spearman-line) (goal COUNTER-UNIT militiaman-line))
 	(building-type-count-total barracks == 0)
-	(can-build-with-escrow barracks)
 =>
-	(release-escrow wood)
-	(build barracks)
+	(set-goal NEXT-BUILDING barracks)
+    (chat-to-player my-player-number "Want to build: Barracks")
 )
 
 (defrule
+	(goal NEXT-BUILDING 0)
 	(current-age >= castle-age)
-	(or (goal PIKEMEN YES) (goal MILITIA YES))
+	(or (goal COUNTER-UNIT spearman-line) (goal COUNTER-UNIT militiaman-line))
 	(building-type-count-total barracks < 3)
-	(can-build-with-escrow barracks)
 =>
-	(release-escrow wood)
-	(build barracks)
+	(set-goal NEXT-BUILDING barracks)
+    (chat-to-player my-player-number "Want to build: Barracks")
 )
 
 (defrule
+	(goal NEXT-BUILDING 0)
 	(current-age >= feudal-age)
-	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES) )(goal CAV-ARCHER YES))
+	(or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line) )(goal COUNTER-UNIT cavalry-archer-line))
 	(building-type-count-total archery-range == 0)
-	(can-build-with-escrow archery-range)
 =>
-	(release-escrow wood)
-	(build archery-range)
+	(set-goal NEXT-BUILDING archery-range)
+    (chat-to-player my-player-number "Want to build: Archery range")
 )
 
 (defrule
+	(goal NEXT-BUILDING 0)
 	(current-age == imperial-age)
-	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES) )(goal CAV-ARCHER YES))
+	(or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line) )(goal COUNTER-UNIT cavalry-archer-line))
 	(building-type-count-total archery-range < 3)
-	(can-build-with-escrow archery-range)
 =>
-	(release-escrow wood)
-	(build archery-range)
+	(set-goal NEXT-BUILDING archery-range)
+    (chat-to-player my-player-number "Want to build: Archery range")
 )

@@ -3,6 +3,7 @@
     ; Town Center rules
 
         (defrule
+            (not(goal NEXT-BUILDING town-center))
             (building-type-count-total town-center < 1)
             (can-build-with-escrow town-center)
         =>
@@ -11,6 +12,7 @@
         )
 
         (defrule
+            (not(goal NEXT-BUILDING town-center))
             (building-type-count-total town-center < 1)
             (building-type-count-total lumber-camp >= 1)
             (stone-amount >= 100)
@@ -20,6 +22,7 @@
         )
 
         (defrule
+            (not(goal NEXT-BUILDING town-center))
             (building-type-count-total town-center < 1)
             (building-type-count-total mining-camp >= 1)
             (wood-amount >= 275)
@@ -29,6 +32,7 @@
         )
 
         (defrule
+            (not(goal NEXT-BUILDING town-center))
             (building-type-count-total town-center < 1)
             (building-type-count-total mining-camp >= 1)
             (building-type-count-total lumber-camp >= 1)
@@ -88,7 +92,7 @@
             (population-headroom > 3)
         =>
             (set-goal NEXT-BUILDING house)
-            (chat-to-player my-player-number "Want to build: House")
+            ;(chat-to-player my-player-number "Want to build: House")
         )
 
 ; Builder
@@ -99,7 +103,7 @@
     =>
         (build house)
         (set-goal NEXT-BUILDING 0)
-        (chat-to-player my-player-number "Building: House")
+        ;(chat-to-player my-player-number "Building: House")
     )
 
     (defrule
@@ -135,7 +139,7 @@
     =>
         (build farm)
         (set-goal NEXT-BUILDING 0)
-        (chat-to-player my-player-number "Building: Farm")
+        ;(chat-to-player my-player-number "Building: Farm")
     )
 
     (defrule

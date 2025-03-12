@@ -20,16 +20,6 @@
 )
 
 (defrule
-	(current-age == castle-age)
-    (building-type-count-total stable < 2)
-    (building-type-count market >= 1)
-    (gold-amount > 200)
-=>
-    (buy-commodity wood)
-    (chat-to-all "Buying wood")
-)
-
-(defrule
     (gold-amount > 1000)
     (food-amount < 500)
     (building-type-count market >= 1)

@@ -1,0 +1,105 @@
+; Counter Units
+
+    ; No main unit
+
+        (defrule
+            (current-age == feudal-age)
+            (not (goal COUNTER-UNIT spearman-line))
+            (unit-type-count spearman-line < 5)
+            (players-unit-type-count any-enemy scout-cavalry-line > 2)
+        =>
+            (set-goal COUNTER-UNIT spearman-line)
+            (chat-to-player my-player-number "Counter Unit: Spearmen line")
+        )
+
+        (defrule
+            (current-age == castle-age)
+            (goal COUNTER-UNIT spearman-line)
+        =>
+            (set-goal COUNTER-UNIT NO)
+            (chat-to-player my-player-number "Disabling spearmen counter")
+            (disable-self)
+        )
+
+    ; Main Unit: Knight
+
+        ;Knight vs Spearmen = Add militia
+        (defrule
+            (goal MAIN-UNIT knight-line)
+            (not (goal COUNTER-UNIT militiaman-line))
+            (current-age >= castle-age)
+            (players-unit-type-count any-enemy knight-line < 3)
+            (players-unit-type-count any-enemy spearman-line > 3)
+            (players-unit-type-count any-enemy archer-line < 3)
+        =>
+            (set-goal COUNTER-UNIT militiaman-line)
+            (chat-to-player my-player-number "Counter Unit: Militiaman line")
+        )
+
+        ;Knight vs Knight = Add camels
+        (defrule
+            (not (goal COUNTER-UNIT camel-line))
+            (goal MAIN-UNIT knight-line)
+            (current-age >= castle-age)
+            (players-unit-type-count any-enemy knight-line > 3)
+            (players-unit-type-count any-enemy spearman-line < 3)
+            (players-unit-type-count any-enemy archer-line < 3)
+        =>
+            (set-goal COUNTER-UNIT camel-line)
+            (chat-to-player my-player-number "Counter Unit: Camel line")
+        )
+
+        ;Knights vs Knight + spearmen = Add spearmen
+        (defrule
+            (not (goal COUNTER-UNIT spearman-line))
+            (or (not (goal COUNTER-UNIT camel-line)) (players-unit-type-count any-enemy spearman-line > 2))
+            (goal MAIN-UNIT knight-line)
+            (current-age >= castle-age)
+            (players-unit-type-count any-enemy knight-line > 3)
+        =>
+            (set-goal COUNTER-UNIT spearman-line)
+            (chat-to-player my-player-number "Counter Unit: Spearmen line")
+        )
+
+        ;Knight vs Camel = Add spearmen
+        (defrule
+            (not (goal COUNTER-UNIT camel-line))
+            (goal MAIN-UNIT knight-line)
+            (current-age >= castle-age)
+            (players-unit-type-count any-enemy camel-line > 3)
+        =>
+            (set-goal COUNTER-UNIT camel-line)
+            (chat-to-player my-player-number "Counter Unit: Camel line")
+        )
+
+        ;Knights vs Archer + Spearmen = Add skirmishers
+        (defrule
+            (not (goal COUNTER-UNIT skirmisher-line))
+            (goal MAIN-UNIT knight-line)
+            (current-age >= castle-age)
+            (players-unit-type-count any-enemy archer-line > 3)
+            (players-unit-type-count any-enemy spearman-line > 3)
+        =>
+            (set-goal COUNTER-UNIT skirmisher-line)
+            (chat-to-player my-player-number "Counter Unit: Skirmisher line")
+        )
+
+        ;Knights vs Archer = Add mangonels + skirmishers
+        (defrule
+            (not (goal SIEGE-UNIT mangonel-line))
+            (goal MAIN-UNIT knight-line)
+            (current-age == castle-age)
+            (players-unit-type-count any-enemy archer-line > 3)
+        =>
+            (set-goal SIEGE-UNIT mangonel-line)
+            (chat-to-player my-player-number "Siege Unit: Mangonels")
+        )
+
+
+
+
+
+
+
+
+    

@@ -1,376 +1,320 @@
 ;Unit upgrades
 
-	(defrule
-		(goal COUNTER-UNIT militiaman-line)
-		(can-research-with-escrow ri-man-at-arms)
-	=>
-		(release-escrow food)
-		(release-escrow gold)
-		(research ri-man-at-arms)
-	)
-
-	(defrule
-		(goal COUNTER-UNIT militiaman-line)
-		(can-research-with-escrow ri-long-swordsman)
-	=>
-		(release-escrow food)
-		(release-escrow gold)
-		(research ri-long-swordsman)
-	)
-
+	
 	(defrule
 		(goal COUNTER-UNIT spearman-line)	
-		(can-research-with-escrow ri-pikeman)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-pikeman)
 	=>
-		(release-escrow food)
-		(release-escrow gold)
-		(research ri-pikeman)
+		(set-goal NEXT-RESEARCH ri-pikeman)
+		(chat-to-player my-player-number "Want to research: Pikeman")
 	)
 
 	(defrule
-		(or (goal COUNTER-UNIT militiaman-line)
-		(goal COUNTER-UNIT spearman-line))	
-		(can-research-with-escrow ri-forging)
+		(goal COUNTER-UNIT militiaman-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-man-at-arms)
 	=>
-		(release-escrow food)
-		(research ri-forging)
+		(set-goal NEXT-RESEARCH ri-man-at-arms)
+		(chat-to-player my-player-number "Want to research: Man at arms")
 	)
 
 	(defrule
-		(or (goal COUNTER-UNIT militiaman-line)
-		(goal COUNTER-UNIT spearman-line))	
-		(can-research-with-escrow ri-scale-mail)
+		(goal COUNTER-UNIT militiaman-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-long-swordsman)
 	=>
-		(release-escrow food)
-		(research ri-scale-mail)
+		(set-goal NEXT-RESEARCH ri-long-swordsman)
+		(chat-to-player my-player-number "Want to research: Long swordsman")
 	)
 
 	(defrule
-		(or (goal COUNTER-UNIT militiaman-line)
-		(goal COUNTER-UNIT spearman-line))	
-		(can-research-with-escrow ri-iron-casting)
+		(goal COUNTER-UNIT militiaman-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-two-handed-swordsman)
 	=>
-		(release-escrow food)
-		(release-escrow gold)
-		(research ri-iron-casting)
+		(set-goal NEXT-RESEARCH ri-two-handed-swordsman)
+		(chat-to-player my-player-number "Want to research: Two handed swordsman")
+	)	
+	(defrule
+		(goal COUNTER-UNIT militiaman-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-champion)
+	=>
+		(set-goal NEXT-RESEARCH ri-champion)
+		(chat-to-player my-player-number "Want to research: Champion")
 	)
 
 	(defrule
-		(or (goal COUNTER-UNIT militiaman-line)
-		(goal COUNTER-UNIT spearman-line))	
-		(can-research-with-escrow ri-chain-mail)
+		(goal COUNTER-UNIT skirmisher-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-elite-skirmisher)
 	=>
-		(release-escrow food)
-		(release-escrow gold)
-		(research ri-chain-mail)
+		(set-goal NEXT-RESEARCH ri-elite-skirmisher)
+		(chat-to-player my-player-number "Want to research: Elite Skirmisher")
 	)
 
-	;(defrule
-	;	(goal PIKEMEN YES)
-	;	(can-research-with-escrow ri-pikeman)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-pikeman)
-	;)
+	(defrule
+		(goal COUNTER-UNIT archer-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-crossbow)
+	=>
+		(set-goal NEXT-RESEARCH ri-crossbow)
+		(chat-to-player my-player-number "Want to research: Crossbow")
+	)
 
+	(defrule
+		(goal COUNTER-UNIT archer-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-arbalest)
+	=>
+		(set-goal NEXT-RESEARCH ri-arbalest)
+		(chat-to-player my-player-number "Want to research: Arbalest")
+	)
 
+	(defrule
+		(goal COUNTER-UNIT scout-cavalry-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-light-cavalry)
+	=>
+		(set-goal NEXT-RESEARCH ri-light-cavalry)
+		(chat-to-player my-player-number "Want to research: Light Cavalry")
+	)
 
-	;(defrule
-	;	(goal MILITIA YES)
-	;	(can-research-with-escrow ri-long-swordsman)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-long-swordsman)
-	;)
+	(defrule
+		(goal COUNTER-UNIT scout-cavalry-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-husbandry)
+	=>
+		(set-goal NEXT-RESEARCH ri-husbandry)
+		(chat-to-player my-player-number "Want to research: Husbandry")
+	)
 
-	;(defrule
-	;	(goal MILITIA YES)
-	;	(can-research-with-escrow ri-two-handed-swordsman)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-two-handed-swordsman)
-	;)
+	(defrule
+		(goal COUNTER-UNIT knight-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-cavalier)
+	=>
+		(set-goal NEXT-RESEARCH ri-cavalier)
+		(chat-to-player my-player-number "Want to research: Cavalier")
+	)
 
-	;(defrule
-	;	(goal MILITIA YES)
-	;	(can-research-with-escrow ri-champion)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-champion)
-	;)
+	(defrule
+		(goal COUNTER-UNIT knight-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-paladin)
+	=>
+		(set-goal NEXT-RESEARCH ri-paladin)
+		(chat-to-player my-player-number "Want to research: Paladin")
+	)
 
-	;(defrule
-	;	(goal SKIRMISHERS YES)
-	;	(can-research-with-escrow ri-elite-skirmisher)
-	;=>
-	;	(release-escrow wood)
-	;	(release-escrow gold)
-	;	(research ri-elite-skirmisher)
-	;)
+	(defrule
+		(goal COUNTER-UNIT camel-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-heavy-camel)
+	=>
+		(set-goal NEXT-RESEARCH ri-heavy-camel)
+		(chat-to-player my-player-number "Want to research: Heavy Camel")
+	)
 
-	;(defrule
-	;	(goal ARCHERS YES)
-	;	(can-research-with-escrow ri-crossbow)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-crossbow)
-	;)
+	(defrule
+		(goal COUNTER-UNIT hand-cannoneer)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-hand-cannon)
+	=>
+		(set-goal NEXT-RESEARCH ri-hand-cannon)
+		(chat-to-player my-player-number "Want to research: Hand Cannon")
+	)
 
-	;(defrule
-	;	(goal ARCHERS YES)
-	;	(can-research-with-escrow ri-arbalest)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-arbalest)
-	;)
+	(defrule
+		(goal COUNTER-UNIT cavalry-archer-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-heavy-cavalry-archer)
+	=>
+		(set-goal NEXT-RESEARCH ri-heavy-cavalry-archer)
+		(chat-to-player my-player-number "Want to research: Heavy Cavalry Archer")
+	)
 
-	;(defrule
-	;	(goal SCOUTS YES)
-	;	(can-research-with-escrow ri-light-cavalry)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-light-cavalry)
-	;)
+	(defrule
+		(goal SIEGE-UNIT mangonel-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-onager)
+	=>
+		(set-goal NEXT-RESEARCH ri-onager)
+		(chat-to-player my-player-number "Want to research: Onager")
+	)
 
-	;(defrule
-	;	(goal SCOUTS YES)
-	;	(can-research-with-escrow ri-husbandry)
-	;=>
-	;	(release-escrow food)
-	;	(research ri-husbandry)
-	;)
+	(defrule
+		(goal SIEGE-UNIT mangonel-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-siege-onager)
+	=>
+		(set-goal NEXT-RESEARCH ri-siege-onager)
+		(chat-to-player my-player-number "Want to research: Siege Onager")
+	)
 
-	;(defrule
-	;	(goal KNIGHTS YES)
-	;	(can-research-with-escrow ri-cavalier)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-cavalier)
-	;)
+	(defrule
+		(goal SIEGE-UNIT scorpion-line)
+		(goal NEXT-RESEARCH 0)
+		(research-available ri-heavy-scorpion)
+	=>
+		(set-goal NEXT-RESEARCH ri-heavy-scorpion)
+		(chat-to-player my-player-number "Want to research: Heavy Scorpion")
+	)
 
-	;(defrule
-	;	(goal KNIGHTS YES)
-	;	(can-research-with-escrow ri-paladin)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-paladin)
-	;)
+	;Blacksmith upgrades
 
-	;(defrule
-	;	(goal CAMELS YES)
-	;	(can-research-with-escrow ri-heavy-camel)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-heavy-camel)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (goal COUNTER-UNIT militiaman-line) (goal COUNTER-UNIT spearman-line))
+		(research-available ri-scale-mail)
+	=>
+		(set-goal NEXT-RESEARCH ri-scale-mail)
+		(chat-to-player my-player-number "Want to research: Scale mail")
+	)
 
-	;(defrule
-	;	(goal HAND-CANNONEER YES)
-	;	(can-research-with-escrow ri-hand-cannon)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-hand-cannon)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (goal COUNTER-UNIT militiaman-line) (goal COUNTER-UNIT spearman-line))
+		(research-available ri-chain-mail)
+	=>
+		(set-goal NEXT-RESEARCH ri-chain-mail)
+		(chat-to-player my-player-number "Want to research: Chain mail")
+	)
 
-	;(defrule
-	;	(goal CAV-ARCHER YES)
-	;	(can-research-with-escrow ri-heavy-cavalry-archer)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-heavy-cavalry-archer)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (goal COUNTER-UNIT militiaman-line) (goal COUNTER-UNIT spearman-line))
+		(research-available ri-plate-mail)
+	=>
+		(set-goal NEXT-RESEARCH ri-plate-mail)
+		(chat-to-player my-player-number "Want to research: Plate mail")
+	)
 
-	;(defrule
-	;	(goal MANGONEL YES)
-	;	(can-research-with-escrow ri-onager)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-onager)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT scout-cavalry-line) (goal COUNTER-UNIT knight-line)) (goal COUNTER-UNIT camel-line))
+		(research-available ri-scale-barding)
+	=>
+		(set-goal NEXT-RESEARCH ri-scale-barding)
+		(chat-to-player my-player-number "Want to research: Scale barding")
+	)
 
-	;(defrule
-	;	(goal MANGONEL YES)
-	;	(can-research-with-escrow ri-siege-onager)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-siege-onager)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT scout-cavalry-line) (goal COUNTER-UNIT knight-line)) (goal COUNTER-UNIT camel-line))
+		(research-available ri-chain-barding)
+	=>
+		(set-goal NEXT-RESEARCH ri-chain-barding)
+		(chat-to-player my-player-number "Want to research: Chain barding")
+	)
 
-	;(defrule
-	;	(goal SCORPION YES)
-	;	(can-research-with-escrow ri-heavy-scorpion)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow wood)
-	;	(research ri-heavy-scorpion)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT scout-cavalry-line) (goal COUNTER-UNIT knight-line)) (goal COUNTER-UNIT camel-line))
+		(research-available ri-plate-barding)
+	=>
+		(set-goal NEXT-RESEARCH ri-plate-barding)
+		(chat-to-player my-player-number "Want to research: Plate barding")
+	)
 
-	;;Blacksmith upgrades
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (or (or (goal COUNTER-UNIT militiaman-line) (goal COUNTER-UNIT spearman-line)) (goal COUNTER-UNIT scout-cavalry-line)) (goal COUNTER-UNIT knight-line))(goal COUNTER-UNIT camel-line))
+		(research-available ri-forging)
+	=>
+		(set-goal NEXT-RESEARCH ri-forging)
+		(chat-to-player my-player-number "Want to research: Forging")
+	)
 
-	;(defrule
-	;	(or (goal MILITIA YES) (goal PIKEMEN YES))
-	;	(can-research-with-escrow ri-scale-mail)
-	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
-	;=>
-	;	(release-escrow food)
-	;	(research ri-scale-mail)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (or (or (goal COUNTER-UNIT militiaman-line) (goal COUNTER-UNIT spearman-line)) (goal COUNTER-UNIT scout-cavalry-line)) (goal COUNTER-UNIT knight-line))(goal COUNTER-UNIT camel-line))
+		(research-available ri-iron-casting)
+	=>
+		(set-goal NEXT-RESEARCH ri-iron-casting)
+		(chat-to-player my-player-number "Want to research: Iron casting")
+	)
 
-	;(defrule
-	;	(or (goal MILITIA YES) (goal PIKEMEN YES))
-	;	(can-research-with-escrow ri-chain-mail)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-chain-mail)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (or (or (goal COUNTER-UNIT militiaman-line) (goal COUNTER-UNIT spearman-line)) (goal COUNTER-UNIT scout-cavalry-line)) (goal COUNTER-UNIT knight-line))(goal COUNTER-UNIT camel-line))
+		(research-available ri-blast-furnace)
+	=>
+		(set-goal NEXT-RESEARCH ri-blast-furnace)
+		(chat-to-player my-player-number "Want to research: Blast furnace")
+	)
 
-	;(defrule
-	;	(or (goal MILITIA YES) (goal PIKEMEN YES))
-	;	(can-research-with-escrow ri-plate-mail)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-plate-mail)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line))
+		(research-available ri-fletching)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(set-goal NEXT-RESEARCH ri-fletching)
+		(chat-to-player my-player-number "Want to research: Fletching")
+	)
 
-	;(defrule
-	;	(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
-	;	(can-research-with-escrow ri-scale-barding)
-	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
-	;=>
-	;	(release-escrow food)
-	;	(research ri-scale-barding)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line))
+		(research-available ri-bodkin-arrow)
+	=>
+		(set-goal NEXT-RESEARCH ri-bodkin-arrow)
+		(chat-to-player my-player-number "Want to research: Bodkin Arrow")
+	)
 
-	;(defrule
-	;	(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
-	;	(can-research-with-escrow ri-chain-barding)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-chain-barding)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line))
+		(research-available ri-bracer)
+	=>
+		(set-goal NEXT-RESEARCH ri-bracer)
+		(chat-to-player my-player-number "Want to research: Bracer")
+	)
 
-	;(defrule
-	;	(or (or (goal SCOUTS YES) (goal KNIGHTS YES)) (goal CAMELS YES))
-	;	(can-research-with-escrow ri-plate-barding)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-plate-barding)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line))
+		(research-available ri-ballistics)
+	=>
+		(set-goal NEXT-RESEARCH ri-ballistics)
+		(chat-to-player my-player-number "Want to research: Ballistics")
+	)
 
-	;(defrule
-	;	(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
-	;	(can-research-with-escrow ri-forging)
-	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
-	;=>
-	;	(release-escrow food)
-	;	(research ri-forging)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line))
+		(research-available ri-chemistry)
+	=>
+		(set-goal NEXT-RESEARCH ri-chemistry)
+		(chat-to-player my-player-number "Want to research: Chemistry")
+	)
 
-	;(defrule
-	;	(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
-	;	(can-research-with-escrow ri-iron-casting)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-iron-casting)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line)) (goal COUNTER-UNIT hand-cannoneer))
+		(research-available ri-padded-archer-armor)
+		(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
+	=>
+		(set-goal NEXT-RESEARCH ri-padded-archer-armor)
+		(chat-to-player my-player-number "Want to research: Padded Archer Armor")
+	)
 
-	;(defrule
-	;	(or (or (or (or (goal MILITIA YES) (goal PIKEMEN YES)) (goal SCOUTS YES)) (goal KNIGHTS YES))(goal CAMELS YES))
-	;	(can-research-with-escrow ri-blast-furnace)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-blast-furnace)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line)) (goal COUNTER-UNIT hand-cannoneer))
+		(research-available ri-leather-archer-armor)
+	=>
+		(set-goal NEXT-RESEARCH ri-leather-archer-armor)
+		(chat-to-player my-player-number "Want to research: Leather Archer Armor")
+	)
 
-	;(defrule
-	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
-	;	(can-research-with-escrow ri-fletching)
-	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-fletching)
-	;)
-
-	;(defrule
-	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
-	;	(can-research-with-escrow ri-bodkin-arrow)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-bodkin-arrow)
-	;)
-
-	;(defrule
-	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
-	;	(can-research-with-escrow ri-bracer)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-bracer)
-	;)
-
-	;(defrule
-	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
-	;	(can-research-with-escrow ri-ballistics)
-	;=>
-	;	(release-escrow wood)
-	;	(release-escrow gold)
-	;	(research ri-ballistics)
-	;)
-
-	;(defrule
-	;	(or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES))
-	;	(can-research-with-escrow ri-chemistry)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-chemistry)
-	;)
-
-	;(defrule
-	;	(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
-	;	(can-research-with-escrow ri-padded-archer-armor)
-	;	(or (goal NO-STRATEGY NO) (goal TO-CASTLE YES))
-	;=>
-	;	(release-escrow food)
-	;	(research ri-padded-archer-armor)
-	;)
-
-	;(defrule
-	;	(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
-	;	(can-research-with-escrow ri-leather-archer-armor)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-leather-archer-armor)
-	;)
-
-	;(defrule
-	;	(or (or (or (goal ARCHERS YES) (goal SKIRMISHERS YES)) (goal CAV-ARCHER YES)) (goal HAND-CANNONEER YES))
-	;	(can-research-with-escrow ri-ring-archer-armor)
-	;=>
-	;	(release-escrow food)
-	;	(release-escrow gold)
-	;	(research ri-ring-archer-armor)
-	;)
+	(defrule
+		(goal NEXT-RESEARCH 0)
+		(or (or (or (goal COUNTER-UNIT archer-line) (goal COUNTER-UNIT skirmisher-line)) (goal COUNTER-UNIT cavalry-archer-line)) (goal COUNTER-UNIT hand-cannoneer))
+		(research-available ri-ring-archer-armor)
+	=>
+		(set-goal NEXT-RESEARCH ri-ring-archer-armor)
+		(chat-to-player my-player-number "Want to research: Ring Archer Armor")
+	)

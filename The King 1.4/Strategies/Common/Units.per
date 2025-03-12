@@ -109,6 +109,14 @@
     )
 
     (defrule
+        (goal TRAIN-UNITS YES)
+        (goal SIEGE-UNIT mangonel-line)
+        (can-train mangonel-line)
+    =>
+        (train mangonel-line)
+    )
+
+    (defrule
         (game-time > 3600)
     =>
         (set-goal TRASH-WAR 1)

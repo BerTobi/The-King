@@ -1,0 +1,1099 @@
+;; =============================================
+;; ECONOMIC TECHS (LUMBER CAMP)
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-double-bit-axe)
+    (can-research-with-escrow ri-double-bit-axe)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-double-bit-axe)
+    (chat-to-player my-player-number "Researching: Double bit axe")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-bow-saw)
+    (can-research-with-escrow ri-bow-saw)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-bow-saw)
+    (chat-to-player my-player-number "Researching: Bow saw")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-two-man-saw)
+    (can-research-with-escrow ri-two-man-saw)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-two-man-saw)
+    (chat-to-player my-player-number "Researching: Two man saw")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; ECONOMIC TECHS (MILL)
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-horse-collar)
+    (can-research-with-escrow ri-horse-collar)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-horse-collar)
+    (chat-to-player my-player-number "Researching: Horse collar")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-heavy-plow)
+    (can-research-with-escrow ri-heavy-plow)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-heavy-plow)
+    (chat-to-player my-player-number "Researching: Heavy plow")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-crop-rotation)
+    (can-research-with-escrow ri-crop-rotation)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-crop-rotation)
+    (chat-to-player my-player-number "Researching: Crop rotation")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; ECONOMIC TECHS (MINING CAMP)
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-gold-mining)
+    (can-research-with-escrow ri-gold-mining)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-gold-mining)
+    (chat-to-player my-player-number "Researching: Gold mining")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-gold-shaft-mining)
+    (can-research-with-escrow ri-gold-shaft-mining)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-gold-shaft-mining)
+    (chat-to-player my-player-number "Researching: Gold shaft mining")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-stone-mining)
+    (can-research-with-escrow ri-stone-mining)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-stone-mining)
+    (chat-to-player my-player-number "Researching: Stone mining")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-stone-shaft-mining)
+    (can-research-with-escrow ri-stone-shaft-mining)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-stone-shaft-mining)
+    (chat-to-player my-player-number "Researching: Stone shaft mining")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; ECONOMIC TECHS (TOWN CENTER)
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-wheel-barrow)
+    (can-research-with-escrow ri-wheel-barrow)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-wheel-barrow)
+    (chat-to-player my-player-number "Researching: Wheel barrow")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-hand-cart)
+    (can-research-with-escrow ri-hand-cart)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-hand-cart)
+    (chat-to-player my-player-number "Researching: Hand cart")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-loom)
+    (can-research-with-escrow ri-loom)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-loom)
+    (chat-to-player my-player-number "Researching: Loom")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; BLACKSMITH TECHS (INFANTRY)
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-forging)
+    (can-research-with-escrow ri-forging)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-forging)
+    (chat-to-player my-player-number "Researching: Forging")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-iron-casting)
+    (can-research-with-escrow ri-iron-casting)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-iron-casting)
+    (chat-to-player my-player-number "Researching: Iron casting")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-blast-furnace)
+    (can-research-with-escrow ri-blast-furnace)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-blast-furnace)
+    (chat-to-player my-player-number "Researching: Blast furnace")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-scale-mail)
+    (can-research-with-escrow ri-scale-mail)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-scale-mail)
+    (chat-to-player my-player-number "Researching: Scale mail")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-chain-mail)
+    (can-research-with-escrow ri-chain-mail)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-chain-mail)
+    (chat-to-player my-player-number "Researching: Chain mail")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-plate-mail)
+    (can-research-with-escrow ri-plate-mail)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-plate-mail)
+    (chat-to-player my-player-number "Researching: Plate mail")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; BLACKSMITH TECHS (CAVALRY)
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-scale-barding)
+    (can-research-with-escrow ri-scale-barding)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-scale-barding)
+    (chat-to-player my-player-number "Researching: Scale barding")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-chain-barding)
+    (can-research-with-escrow ri-chain-barding)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-chain-barding)
+    (chat-to-player my-player-number "Researching: Chain barding")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-plate-barding)
+    (can-research-with-escrow ri-plate-barding)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-plate-barding)
+    (chat-to-player my-player-number "Researching: Plate barding")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; BLACKSMITH TECHS (ARCHERY)
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-padded-archer-armor)
+    (can-research-with-escrow ri-padded-archer-armor)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-padded-archer-armor)
+    (chat-to-player my-player-number "Researching: Padded archer armor")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-leather-archer-armor)
+    (can-research-with-escrow ri-leather-archer-armor)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-leather-archer-armor)
+    (chat-to-player my-player-number "Researching: Leather archer armor")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-ring-archer-armor)
+    (can-research-with-escrow ri-ring-archer-armor)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-ring-archer-armor)
+    (chat-to-player my-player-number "Researching: Ring archer armor")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-fletching)
+    (can-research-with-escrow ri-fletching)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-fletching)
+    (chat-to-player my-player-number "Researching: Fletching")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-bodkin-arrow)
+    (can-research-with-escrow ri-bodkin-arrow)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-bodkin-arrow)
+    (chat-to-player my-player-number "Researching: Bodkin arrow")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-bracer)
+    (can-research-with-escrow ri-bracer)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-bracer)
+    (chat-to-player my-player-number "Researching: Bracer")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; STABLE TECHS
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-husbandry)
+    (can-research-with-escrow ri-husbandry)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-husbandry)
+    (chat-to-player my-player-number "Researching: Husbandry")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; UNIVERSITY TECHS
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-masonry)
+    (can-research-with-escrow ri-masonry)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-masonry)
+    (chat-to-player my-player-number "Researching: Masonry")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-architecture)
+    (can-research-with-escrow ri-architecture)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-architecture)
+    (chat-to-player my-player-number "Researching: Architecture")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-ballistics)
+    (can-research-with-escrow ri-ballistics)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-ballistics)
+    (chat-to-player my-player-number "Researching: Ballistics")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-chemistry)
+    (can-research-with-escrow ri-chemistry)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-chemistry)
+    (chat-to-player my-player-number "Researching: Chemistry")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-siege-engineers)
+    (can-research-with-escrow ri-siege-engineers)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-siege-engineers)
+    (chat-to-player my-player-number "Researching: Siege Engineers")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-murder-holes)
+    (can-research-with-escrow ri-murder-holes)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-murder-holes)
+    (chat-to-player my-player-number "Researching: Murder Holes")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-heated-shot)
+    (can-research-with-escrow ri-heated-shot)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-heated-shot)
+    (chat-to-player my-player-number "Researching: Heated Shot")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-fortified-wall)
+    (can-research-with-escrow ri-fortified-wall)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-fortified-wall)
+    (chat-to-player my-player-number "Researching: Fortified Wall")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-keep)
+    (can-research-with-escrow ri-keep)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-keep)
+    (chat-to-player my-player-number "Researching: Keep")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-bombard-tower)
+    (can-research-with-escrow ri-bombard-tower)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-bombard-tower)
+    (chat-to-player my-player-number "Researching: Bombard Tower")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-treadmill-crane)
+    (can-research-with-escrow ri-treadmill-crane)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-treadmill-crane)
+    (chat-to-player my-player-number "Researching: Treadmill Crane")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; DOCK TECHS
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-careening)
+    (can-research-with-escrow ri-careening)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-careening)
+    (chat-to-player my-player-number "Researching: Careening")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-dry-dock)
+    (can-research-with-escrow ri-dry-dock)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-dry-dock)
+    (chat-to-player my-player-number "Researching: Dry dock")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-shipwright)
+    (can-research-with-escrow ri-shipwright)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-shipwright)
+    (chat-to-player my-player-number "Researching: Shipwright")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-gillnets)
+    (can-research-with-escrow ri-gillnets)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-gillnets)
+    (chat-to-player my-player-number "Researching: Gillnets")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; MONASTERY TECHS
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-redemption)
+    (can-research-with-escrow ri-redemption)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-redemption)
+    (chat-to-player my-player-number "Researching: Redemption")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-atonement)
+    (can-research-with-escrow ri-atonement)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-atonement)
+    (chat-to-player my-player-number "Researching: Atonement")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-herbal-medicine)
+    (can-research-with-escrow ri-herbal-medicine)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-herbal-medicine)
+    (chat-to-player my-player-number "Researching: Herbal Medicine")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-heresy)
+    (can-research-with-escrow ri-heresy)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-heresy)
+    (chat-to-player my-player-number "Researching: Heresy")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-sanctity)
+    (can-research-with-escrow ri-sanctity)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-sanctity)
+    (chat-to-player my-player-number "Researching: Sanctity")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-fervor)
+    (can-research-with-escrow ri-fervor)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-fervor)
+    (chat-to-player my-player-number "Researching: Fervor")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-faith)
+    (can-research-with-escrow ri-faith)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-faith)
+    (chat-to-player my-player-number "Researching: Faith")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-illumination)
+    (can-research-with-escrow ri-illumination)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-illumination)
+    (chat-to-player my-player-number "Researching: Illumination")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-block-printing)
+    (can-research-with-escrow ri-block-printing)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-block-printing)
+    (chat-to-player my-player-number "Researching: Block Printing")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-theocracy)
+    (can-research-with-escrow ri-theocracy)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-theocracy)
+    (chat-to-player my-player-number "Researching: Theocracy")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; MARKET TECHS
+;; =============================================
+
+(defrule
+    (goal NEXT-RESEARCH ri-coinage)
+    (can-research-with-escrow ri-coinage)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-coinage)
+    (chat-to-player my-player-number "Researching: Coinage")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-banking)
+    (can-research-with-escrow ri-banking)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-banking)
+    (chat-to-player my-player-number "Researching: Banking")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-caravan)
+    (can-research-with-escrow ri-caravan)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-caravan)
+    (chat-to-player my-player-number "Researching: Caravan")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-guilds)
+    (can-research-with-escrow ri-guilds)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-guilds)
+    (chat-to-player my-player-number "Researching: Guilds")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; BARRACKS UNIT UPGRADES
+;; =============================================
+
+;; Militia Line
+(defrule
+    (goal NEXT-RESEARCH ri-man-at-arms)
+    (can-research-with-escrow ri-man-at-arms)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-man-at-arms)
+    (chat-to-player my-player-number "Upgrading: Militia → Man-at-Arms")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-long-swordsman)
+    (can-research-with-escrow ri-long-swordsman)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-long-swordsman)
+    (chat-to-player my-player-number "Upgrading: Man-at-Arms → Long Swordsman")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-two-handed-swordsman)
+    (can-research-with-escrow ri-two-handed-swordsman)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-two-handed-swordsman)
+    (chat-to-player my-player-number "Upgrading: Long Swordsman → Two-Handed Swordsman")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-champion)
+    (can-research-with-escrow ri-champion)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-champion)
+    (chat-to-player my-player-number "Upgrading: Two-Handed Swordsman → Champion")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Spearman Line
+(defrule
+    (goal NEXT-RESEARCH ri-pikeman)
+    (can-research-with-escrow ri-pikeman)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-pikeman)
+    (chat-to-player my-player-number "Upgrading: Spearman → Pikeman")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; ARCHERY RANGE UNIT UPGRADES
+;; =============================================
+
+;; Archer Line
+(defrule
+    (goal NEXT-RESEARCH ri-crossbowman)
+    (can-research-with-escrow ri-crossbowman)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-crossbowman)
+    (chat-to-player my-player-number "Upgrading: Archer → Crossbowman")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-arbalest)
+    (can-research-with-escrow ri-arbalest)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-arbalest)
+    (chat-to-player my-player-number "Upgrading: Crossbowman → Arbalest")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Skirmisher Line
+(defrule
+    (goal NEXT-RESEARCH ri-elite-skirmisher)
+    (can-research-with-escrow ri-elite-skirmisher)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-elite-skirmisher)
+    (chat-to-player my-player-number "Upgrading: Skirmisher → Elite Skirmisher")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Cavalry Archer Line
+(defrule
+    (goal NEXT-RESEARCH ri-heavy-cavalry-archer)
+    (can-research-with-escrow ri-heavy-cavalry-archer)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-heavy-cavalry-archer)
+    (chat-to-player my-player-number "Upgrading: Cavalry Archer → Heavy Cavalry Archer")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Hand Cannoneer (no upgrades)
+
+;; =============================================
+;; STABLE UNIT UPGRADES
+;; =============================================
+
+;; Scout Line
+(defrule
+    (goal NEXT-RESEARCH ri-light-cavalry)
+    (can-research-with-escrow ri-light-cavalry)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-light-cavalry)
+    (chat-to-player my-player-number "Upgrading: Scout Cavalry → Light Cavalry")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Knight Line
+(defrule
+    (goal NEXT-RESEARCH ri-cavalier)
+    (can-research-with-escrow ri-cavalier)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-cavalier)
+    (chat-to-player my-player-number "Upgrading: Knight → Cavalier")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-paladin)
+    (can-research-with-escrow ri-paladin)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-paladin)
+    (chat-to-player my-player-number "Upgrading: Cavalier → Paladin")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Camel Line
+(defrule
+    (goal NEXT-RESEARCH ri-heavy-camel)
+    (can-research-with-escrow ri-heavy-camel)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-heavy-camel)
+    (chat-to-player my-player-number "Upgrading: Camel → Heavy Camel")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; SIEGE WORKSHOP UNIT UPGRADES
+;; =============================================
+
+;; Battering Ram Line
+(defrule
+    (goal NEXT-RESEARCH ri-capped-ram)
+    (can-research-with-escrow ri-capped-ram)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-capped-ram)
+    (chat-to-player my-player-number "Upgrading: Battering Ram → Capped Ram")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-siege-ram)
+    (can-research-with-escrow ri-siege-ram)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-siege-ram)
+    (chat-to-player my-player-number "Upgrading: Capped Ram → Siege Ram")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Mangonel Line
+(defrule
+    (goal NEXT-RESEARCH ri-onager)
+    (can-research-with-escrow ri-onager)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-onager)
+    (chat-to-player my-player-number "Upgrading: Mangonel → Onager")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-siege-onager)
+    (can-research-with-escrow ri-siege-onager)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-siege-onager)
+    (chat-to-player my-player-number "Upgrading: Onager → Siege Onager")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Scorpion Line
+(defrule
+    (goal NEXT-RESEARCH ri-heavy-scorpion)
+    (can-research-with-escrow ri-heavy-scorpion)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-heavy-scorpion)
+    (chat-to-player my-player-number "Upgrading: Scorpion → Heavy Scorpion")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; DOCK UNIT UPGRADES
+;; =============================================
+
+;; Galley Line
+(defrule
+    (goal NEXT-RESEARCH ri-war-galley)
+    (can-research-with-escrow ri-war-galley)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-war-galley)
+    (chat-to-player my-player-number "Upgrading: Galley → War Galley")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-galleon)
+    (can-research-with-escrow ri-galleon)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-galleon)
+    (chat-to-player my-player-number "Upgrading: War Galley → Galleon")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Fire Ship Line
+(defrule
+    (goal NEXT-RESEARCH ri-fast-fire-ship)
+    (can-research-with-escrow ri-fast-fire-ship)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-fast-fire-ship)
+    (chat-to-player my-player-number "Upgrading: Fire Ship → Fast Fire Ship")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Demolition Ship Line
+(defrule
+    (goal NEXT-RESEARCH ri-heavy-demolition-ship)
+    (can-research-with-escrow ri-heavy-demolition-ship)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-heavy-demolition-ship)
+    (chat-to-player my-player-number "Upgrading: Demolition Ship → Heavy Demolition Ship")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Cannon Galleon Line
+(defrule
+    (goal NEXT-RESEARCH ri-elite-cannon-galleon)
+    (can-research-with-escrow ri-elite-cannon-galleon)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-elite-cannon-galleon)
+    (chat-to-player my-player-number "Upgrading: Cannon Galleon → Elite Cannon Galleon")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; =============================================
+;; CASTLE UNIT UPGRADES
+;; =============================================
+
+;; Unique Units
+(defrule
+    (goal NEXT-RESEARCH my-unique-unit-upgrade)
+    (can-research-with-escrow my-unique-unit-upgrade)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research my-unique-unit-upgrade)
+    (chat-to-player my-player-number "Upgrading: Elite Unique Unit")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+;; Watch Tower Line
+(defrule
+    (goal NEXT-RESEARCH ri-guard-tower)
+    (can-research-with-escrow ri-guard-tower)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-guard-tower)
+    (chat-to-player my-player-number "Upgrading: Watch Tower → Guard Tower")
+    (set-goal NEXT-RESEARCH 0)
+)
+
+(defrule
+    (goal NEXT-RESEARCH ri-keep)
+    (can-research-with-escrow ri-keep)
+=>
+    (release-escrow food)
+    (release-escrow gold)
+    (release-escrow wood)
+    (research ri-keep)
+    (chat-to-player my-player-number "Upgrading: Guard Tower → Keep")
+    (set-goal NEXT-RESEARCH 0)
+)
+

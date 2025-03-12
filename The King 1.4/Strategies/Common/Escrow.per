@@ -1,4 +1,4 @@
-;Safety
+; Safety
 
     (defrule
         (current-age >= castle-age)
@@ -9,3 +9,134 @@
         (release-escrow gold)
         (release-escrow stone)
     )
+
+    (defrule
+        (escrow-amount food > 1000)
+    =>
+        (chat-to-player my-player-number "We have more than 1000 escrowed food: Safety release")
+        (release-escrow food)
+    )
+
+    (defrule
+        (escrow-amount wood > 1000)
+    =>
+        (chat-to-player my-player-number "We have more than 1000 escrowed wood: Safety release")
+        (release-escrow wood)
+    )
+
+    (defrule
+        (escrow-amount gold > 1000)
+    =>
+        (chat-to-player my-player-number "We have more than 1000 escrowed gold: Safety release")
+        (release-escrow gold)
+    )
+
+; Basic Escrow
+
+(defrule
+    (goal TECH-PRIORITY IMPORTANT)
+    (current-age == feudal-age)
+=>
+    (set-escrow-percentage food 20)
+    (set-escrow-percentage wood 20)
+    (set-escrow-percentage gold 20)
+    (chat-to-player my-player-number "Escrow percentage: 20")
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY SEMI-IMPORTANT)
+    (current-age == feudal-age)
+=>
+    (set-escrow-percentage food 10)
+    (set-escrow-percentage wood 10)
+    (set-escrow-percentage gold 10)
+    (chat-to-player my-player-number "Escrow percentage: 10")
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY NON-IMPORTANT)
+    (current-age == feudal-age)
+=>
+    (set-escrow-percentage food 0)
+    (set-escrow-percentage wood 0)
+    (set-escrow-percentage gold 0)
+    (chat-to-player my-player-number "Escrow percentage: 0")
+    (release-escrow food)
+    (release-escrow wood)
+    (release-escrow gold)
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY IMPORTANT)
+    (current-age == castle-age)
+=>
+    (set-escrow-percentage food 20)
+    (set-escrow-percentage wood 20)
+    (set-escrow-percentage gold 20)
+    (chat-to-player my-player-number "Escrow percentage: 20")
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY SEMI-IMPORTANT)
+    (current-age == castle-age)
+=>
+    (set-escrow-percentage food 10)
+    (set-escrow-percentage wood 10)
+    (set-escrow-percentage gold 10)
+    (chat-to-player my-player-number "Escrow percentage: 10")
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY NON-IMPORTANT)
+    (current-age == castle-age)
+=>
+    (set-escrow-percentage food 0)
+    (set-escrow-percentage wood 0)
+    (set-escrow-percentage gold 0)
+    (chat-to-player my-player-number "Escrow percentage: 0")
+    (release-escrow food)
+    (release-escrow wood)
+    (release-escrow gold)
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY IMPORTANT)
+    (current-age == imperial-age)
+=>
+    (set-escrow-percentage food 20)
+    (set-escrow-percentage wood 20)
+    (set-escrow-percentage gold 20)
+    (chat-to-player my-player-number "Escrow percentage: 20")
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY SEMI-IMPORTANT)
+    (current-age == imperial-age)
+=>
+    (set-escrow-percentage food 10)
+    (set-escrow-percentage wood 10)
+    (set-escrow-percentage gold 10)
+    (chat-to-player my-player-number "Escrow percentage: 10")
+    (disable-self)
+)
+
+(defrule
+    (goal TECH-PRIORITY NON-IMPORTANT)
+    (current-age == imperial-age)
+=>
+    (set-escrow-percentage food 0)
+    (set-escrow-percentage wood 0)
+    (set-escrow-percentage gold 0)
+    (chat-to-player my-player-number "Escrow percentage: 0")
+    (release-escrow food)
+    (release-escrow wood)
+    (release-escrow gold)
+    (disable-self)
+)

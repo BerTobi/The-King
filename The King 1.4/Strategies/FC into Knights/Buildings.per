@@ -2,20 +2,6 @@
 
 	;Economic Buildings
 
-        ;Lumber camps
-        
-        (defrule
-            (goal NEXT-BUILDING 0)
-            (building-type-count-total town-center >= 1)
-            (building-type-count-total lumber-camp < 2)
-            (building-type-count-total market >= 1)
-			(current-age >= feudal-age)
-			(can-build lumber-camp)
-		=>
-			(set-goal NEXT-BUILDING lumber-camp)
-            (chat-to-player my-player-number "Want to build: Lumber camp")
-		)
-
         ;Mining camps
 
         (defrule
@@ -53,7 +39,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         (defrule
@@ -67,7 +53,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         (defrule
@@ -80,7 +66,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         (defrule
@@ -93,7 +79,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         (defrule
@@ -107,7 +93,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         (defrule
@@ -119,7 +105,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         (defrule
@@ -132,7 +118,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         (defrule
@@ -143,7 +129,7 @@
             (can-build farm)
 		=>
 			(set-goal NEXT-BUILDING farm)
-            (chat-to-player my-player-number "Want to build: Farm")
+            ;(chat-to-player my-player-number "Want to build: Farm")
 		)
 
         ;Blacksmiths
@@ -215,7 +201,20 @@
             (goal NEXT-BUILDING 0)
             (building-type-count-total town-center >= 1)
             (building-type-count-total siege-workshop >= 1)
+            (building-type-count-total stable < 2)
+            (building-type-count-total farm > 12)
+            (current-age >= castle-age)
+        =>
+            (set-goal NEXT-BUILDING stable)
+            (chat-to-player my-player-number "Want to build: Stable")
+        )
+
+        (defrule
+            (goal NEXT-BUILDING 0)
+            (building-type-count-total town-center >= 1)
+            (building-type-count-total siege-workshop >= 1)
             (building-type-count-total stable < 3)
+            (building-type-count-total farm > 18)
             (current-age >= castle-age)
         =>
             (set-goal NEXT-BUILDING stable)
